@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">YAWA</string>
+    <string name="choose_city">Choose the city</string>
+    <string name="five_day">Five days weather</string>
+
+    <string name="city_name">City name: </string>
+    <string name="lon">Longitude: </string>
+    <string name="lat">Latitude: </string>
+    <string name="weather_desc">Weather description: </string>
+    <string name="curr_temp">Current temperature: </string>
+    <string name="curr_pressure">Current pressure: </string>
+    <string name="curr_hum">Current humidity: </string>
+    <string name="temp_min">Minimum temperature: </string>
+    <string name="temp_max">Maximum temperature: </string>
+    <string name="wind_speed">Wind speed: </string>
+    <string name="wind_deg">Wind degrees: </string>
+    <string name="clouds">Clouds: </string>
+    <string name="rain">Rain: </string>
+    <string name="snow">Snow: </string>
+    <string name="date">Date: </string>
+    <string name="sunrise">Sunrise: </string>
+    <string name="sunset">Sunset: </string>
+
+
+
+</resources>

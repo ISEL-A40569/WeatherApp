@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="choose_city">Escolha a cidade</string>
+    <string name="five_day">Previsão de 5 dias</string>
+    <string name="city_name">Cidade: </string>
+    <string name="lon">Longitude: </string>
+    <string name="lat">Latitude: </string>
+    <string name="weather_desc">Descrição do clima: </string>
+    <string name="curr_temp">Temperatura actual: </string>
+    <string name="curr_pressure">Pressão: </string>
+    <string name="curr_hum">Humidade: </string>
+    <string name="temp_min">Temperatura minima: </string>
+    <string name="temp_max">Temperatura máxima: </string>
+    <string name="wind_speed">Velocidade do vento: </string>
+    <string name="wind_deg">Graus do vento: </string>
+    <string name="clouds">Neblusidade: </string>
+    <string name="rain">Chuva: </string>
+    <string name="snow">Neve: </string>
+    <string name="date">Data: </string>
+    <string name="sunrise">Nascer do sol: </string>
+    <string name="sunset">Pôr do sol: </string>
+
+</resources>
