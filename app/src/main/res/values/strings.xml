@@ -1,26 +1,35 @@
 <resources>
+
+    <!--STRINGS OF BUTTONS-->
     <string name="app_name">YAWA</string>
-    <string name="choose_city">Choose the city</string>
-    <string name="five_day">Five days weather</string>
+    <string name="choose_city">City ?</string>
+    <string name="more">More...</string>
+    <string name="detail">Details</string>
 
-    <string name="city_name">City name: </string>
-    <string name="lon">Longitude: </string>
-    <string name="lat">Latitude: </string>
-    <string name="weather_desc">Weather description: </string>
-    <string name="curr_temp">Current temperature: </string>
-    <string name="curr_pressure">Current pressure: </string>
-    <string name="curr_hum">Current humidity: </string>
-    <string name="temp_min">Minimum temperature: </string>
-    <string name="temp_max">Maximum temperature: </string>
-    <string name="wind_speed">Wind speed: </string>
-    <string name="wind_deg">Wind degrees: </string>
-    <string name="clouds">Clouds: </string>
-    <string name="rain">Rain: </string>
-    <string name="snow">Snow: </string>
-    <string name="date">Date: </string>
-    <string name="sunrise">Sunrise: </string>
-    <string name="sunset">Sunset: </string>
+    <!--STRINGS OF DETAIL-->
+    <string name="detail_city_name">City name</string>
+    <string name="detail_lon">Longitude</string>
+    <string name="detail_lat">Latitude</string>
+    <string name="detail_weather_desc">Weather description</string>
+    <string name="detail_curr_temp">Current temperature</string>
+    <string name="detail_curr_pressure">Current pressure</string>
+    <string name="detail_curr_hum">Current humidity</string>
+    <string name="detail_temp_min">Minimum temperature</string>
+    <string name="detail_temp_max">Maximum temperature</string>
+    <string name="detail_wind_speed">Wind speed</string>
+    <string name="detail_wind_deg">Wind degrees</string>
+    <string name="detail_clouds">Clouds</string>
+    <string name="detail_rain">Rain</string>
+    <string name="detail_snow">Snow</string>
+    <string name="detail_date">Date</string>
+    <string name="detail_sunrise">Sunrise</string>
+    <string name="detail_sunset">Sunset</string>
 
+    <!--STRINGS OF FIRST ACTIVITY-->
+    <string name="main_city">City</string>
+    <string name="main_country">Country</string>
+    <string name="main_date">Date</string>
+    <string name="main_temp">Temperature</string>
 
 
 </resources>

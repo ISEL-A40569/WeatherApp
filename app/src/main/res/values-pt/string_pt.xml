@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="choose_city">Escolha a cidade</string>
-    <string name="five_day">Previsão de 5 dias</string>
-    <string name="city_name">Cidade: </string>
-    <string name="lon">Longitude: </string>
-    <string name="lat">Latitude: </string>
-    <string name="weather_desc">Descrição do clima: </string>
-    <string name="curr_temp">Temperatura actual: </string>
-    <string name="curr_pressure">Pressão: </string>
-    <string name="curr_hum">Humidade: </string>
-    <string name="temp_min">Temperatura minima: </string>
-    <string name="temp_max">Temperatura máxima: </string>
-    <string name="wind_speed">Velocidade do vento: </string>
-    <string name="wind_deg">Graus do vento: </string>
-    <string name="clouds">Neblusidade: </string>
-    <string name="rain">Chuva: </string>
-    <string name="snow">Neve: </string>
-    <string name="date">Data: </string>
-    <string name="sunrise">Nascer do sol: </string>
-    <string name="sunset">Pôr do sol: </string>
+    <!--STRINGS OF BUTTONS-->
+    <string name="choose_city">Cidade ?</string>
+    <string name="more">Mais...</string>
+    <string name="detail">Detalhes</string>
+
+    <!--STRINGS OF DETAIL-->
+    <string name="detail_city_name">Cidade</string>
+    <string name="detail_lon">Longitude</string>
+    <string name="detail_lat">Latitude</string>
+    <string name="detail_weather_desc">Descrição do clima</string>
+    <string name="detail_curr_temp">Temperatura actual</string>
+    <string name="detail_curr_pressure">Pressão</string>
+    <string name="detail_curr_hum">Humidade</string>
+    <string name="detail_temp_min">Temperatura minima</string>
+    <string name="detail_temp_max">Temperatura máxima</string>
+    <string name="detail_wind_speed">Velocidade do vento</string>
+    <string name="detail_wind_deg">Graus do vento</string>
+    <string name="detail_clouds">Neblusidade</string>
+    <string name="detail_rain">Chuva</string>
+    <string name="detail_snow">Neve</string>
+    <string name="detail_date">Data</string>
+    <string name="detail_sunrise">Nascer do sol</string>
+    <string name="detail_sunset">Pôr do sol</string>
+
+    <!--STRINGS OF FIRST ACTIVITY-->
+    <string name="main_city">Cidade</string>
+    <string name="main_country">País</string>
+    <string name="main_date">Data</string>
+    <string name="main_temp">Temperature</string>
 
 </resources>
