@@ -8,14 +8,53 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
-import pdm.isel.yawa.R.id.imageView
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonObjectRequest
+import org.json.JSONObject
+import pdm.isel.yawa.json.JsonToDtoMapper
+import pdm.isel.yawa.model.DtoToDomainMapper
+import pdm.isel.yawa.model.WeatherInfo
+import pdm.isel.yawa.uri.RequestUriFactory
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
+    val LOCATION = "Lisboa" //TODO: GET DEVICE LOCATION
+    val LANGUAGE = Locale.getDefault().getDisplayLanguage()
+
+    val request: JsonObjectRequest = JsonObjectRequest(Request.Method.GET,
+            RequestUriFactory().getNowWeather(LOCATION, LANGUAGE), null,
+            object : Response.Listener<JSONObject> {
+                override fun onResponse(response: JSONObject?) {
+                    Log.d("RESPONSE ", "URL " + RequestUriFactory().getNowWeather(LOCATION, LANGUAGE)
+                    )
+                    if (response != null) {
+                        val weatherInfo: WeatherInfo = DtoToDomainMapper().mapWeatherInfoDto(
+                                JsonToDtoMapper().mapWeatherInfoJson(response.toString()))
+
+                        if (weatherInfo != null) {
+                            Log.d("RESPONSE ", weatherInfo.name + " " + weatherInfo.temp + " " + weatherInfo.description)
+
+                            //TODO: SET VIEWS VALUES
+                        }
+                    } else {
+                        //TODO
+                    }
+                }
+            }, object : Response.ErrorListener {
+        override fun onErrorResponse(error: VolleyError) {
+            Log.d("ERROR: ", error.toString())
+        }
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.d("YAWA_TAG", "onCreate")
+
+        application.requestQueue.add(request) //TODO: onde é que encaixa com a AsyncTask!!???
 
         //val imageView = ImageView(this)
         //imageView.setImageResource(R.drawable.slb)
@@ -23,11 +62,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun onCity(view: View){
+    fun onCity(view: View) {
 
         Log.d("YAWA_TAG", "onCity")
-       // Toast.makeText(this, "GO TO LIST", Toast.LENGTH_LONG).show()
-        
+        // Toast.makeText(this, "GO TO LIST", Toast.LENGTH_LONG).show()
+
         val intent = Intent(this, Country_List::class.java)
         startActivity(intent)
     }
