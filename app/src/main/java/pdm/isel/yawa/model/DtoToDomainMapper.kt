@@ -33,11 +33,13 @@ class DtoToDomainMapper {
         var i = 0
         forecastDto.list.asList().forEach {
             InfoElements[i++] = mapBasicWeatherInfoDto(forecastDto.list[i++])
-
         }
 
         return Forecast(forecastDto.city.name,
                 forecastDto.city.country,
+                forecastDto.city.coords.lon,
+                forecastDto.city.coords.lat,
+                InfoElements[0].dateTime, //Forecast date is the date of the first BasicWeatherInfo element of the forecast list
                 InfoElements
         )
     }
@@ -53,7 +55,7 @@ class DtoToDomainMapper {
                 basicWeatherInfoDto.weather[0].icon)
     }
 
-    private fun formatDateValue (dateValue: Long) : Date {
-        return Date(dateValue * 1000)
+    private fun formatDateValue (dateValue: Long) : String {
+        return Date(dateValue * 1000).toString()
     }
 }

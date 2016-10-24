@@ -1,17 +1,10 @@
 package pdm.isel.yawa.model
 
 /**
- * Created by Dani on 21-10-2016.
+ * Created by Dani on 25-10-2016.
  */
-open class Iconnable {
-    val URL = "http://openweathermap.org/img/w/%s.png"
-    val iconID: String
+abstract interface Iconnable {
 
-    constructor(iconID: String) {
-        this.iconID = iconID
-    }
+    abstract fun getIconUrl() : String
 
-    public fun getIconUrl() : String {
-        return String.format(URL, iconID)
-    }
 }

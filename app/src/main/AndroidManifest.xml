@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pdm.isel.yawa">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".WeatherApp"
@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Country_List" />
-        <activity android:name=".Details"></activity>
+        <activity android:name=".Details" />
+        <activity android:name=".SearchCity"></activity>
     </application>
 
 </manifest>

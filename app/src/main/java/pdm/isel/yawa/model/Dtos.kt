@@ -17,7 +17,7 @@ data class Sys (val country: String, val sunrise: Long, val sunset: Long)
 
 data class ForecastDto (val city: City, val list: Array<BasicWeatherInfoDto>) {}
 
-data class City (val name: String, val country: String) {}
+data class City (val name: String, val country: String, val coords: Coords) {}
 
 data class BasicWeatherInfoDto (val dt: Long, val temp: Temp, val pressure: Float, val humidity: Float, val weather: Array<Weather>) {}
 

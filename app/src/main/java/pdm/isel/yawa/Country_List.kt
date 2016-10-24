@@ -23,7 +23,6 @@ class Country_List : ListActivity() {
         //val listView = findViewById(android.R.id.list) as ListView    // tmb funciona
         listView.setAdapter(adapter)
 
-
     }
 
 

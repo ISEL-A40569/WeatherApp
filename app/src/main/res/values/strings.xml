@@ -31,5 +31,8 @@
     <string name="main_date">Date</string>
     <string name="main_temp">Temperature</string>
 
+    <!--STRINGS OF SEARCH ACTIVITY-->
+    <string name="search_city">Search City</string>
+    <string name="search">Search</string>
 
 </resources>

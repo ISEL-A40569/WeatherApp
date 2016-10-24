@@ -31,4 +31,9 @@
     <string name="main_date">Data</string>
     <string name="main_temp">Temperature</string>
 
+
+    <!--STRINGS OF SEARCH ACTIVITY-->
+    <string name="search_city">Procurar Cidade</string>
+    <string name="search">Procurar</string>
+
 </resources>
