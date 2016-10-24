@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/dialog_frame"
-                android:id="@+id/imageView"
+                android:id="@+id/main_view"
                 android:layout_weight="0.31" />
 
         </LinearLayout>
@@ -77,14 +77,15 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_button"
                 android:layout_weight="1"
-                android:onClick="onDetail"/>
+                android:onClick="onDetails"/>
 
             <Button
-                android:text="@string/more"
+                android:text="@string/next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/more_button"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:onClick="onNext"/>
 
             <Button
                 android:text="@string/choose_city"

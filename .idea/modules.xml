@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/YAWA.iml" filepath="$PROJECT_DIR$/YAWA.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pdm1617.iml" filepath="$PROJECT_DIR$/pdm1617.iml" />
     </modules>
   </component>
 </project>

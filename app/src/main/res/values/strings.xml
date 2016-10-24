@@ -3,7 +3,7 @@
     <!--STRINGS OF BUTTONS-->
     <string name="app_name">YAWA</string>
     <string name="choose_city">City ?</string>
-    <string name="more">More...</string>
+    <string name="next">Next days</string>
     <string name="detail">Details</string>
 
     <!--STRINGS OF DETAIL-->
