@@ -21,6 +21,12 @@ import pdm.isel.yawa.model.WeatherInfo
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
+<<<<<<< HEAD
+var LOCATION = "Lisboa" //TODO: GET DEVICE LOCATION
+var LANGUAGE = Locale.getDefault().getDisplayLanguage()
+
+class MainActivity : AppCompatActivity() {
+=======
 
 var LOCATION = "Porto" //TODO: GET DEVICE LOCATION
 val LANGUAGE = Locale.getDefault().getDisplayLanguage()
@@ -38,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     var weather: WeatherInfo? = null
 
+>>>>>>> 291af4d656731d84a330d495a773c76ea251a3f5
 
     val request: JsonObjectRequest = JsonObjectRequest(Request.Method.GET,
             RequestUriFactory().getNowWeather(LOCATION, LANGUAGE), null,
@@ -49,6 +56,12 @@ class MainActivity : AppCompatActivity() {
                         var weatherInfo: WeatherInfo = DtoToDomainMapper().mapWeatherInfoDto(
                                 JsonToDtoMapper().mapWeatherInfoJson(response.toString()))
 
+<<<<<<< HEAD
+                        Log.d("RESPONSE ", weatherInfo.name + " " + weatherInfo.temp + " " + weatherInfo.description + " " + weatherInfo.getIconUrl())
+
+                        //TODO: SET VIEWS VALUES
+
+=======
                         weather = weatherInfo
 
                         if (weatherInfo != null) {
@@ -68,6 +81,7 @@ class MainActivity : AppCompatActivity() {
                             changes=false
 
                         }
+>>>>>>> 291af4d656731d84a330d495a773c76ea251a3f5
                     } else {
                         //TODO
                     }
@@ -170,7 +184,10 @@ class MainActivity : AppCompatActivity() {
         Log.d("YAWA_TAG", "onCity")
         // Toast.makeText(this, "GO TO LIST", Toast.LENGTH_LONG).show()
 
-        val intent = Intent(this, Country_List::class.java)
+        //val intent = Intent(this, Country_List::class.java)
+
+        val intent = Intent(this, SearchCity::class.java)
+
         startActivity(intent)
     }
 

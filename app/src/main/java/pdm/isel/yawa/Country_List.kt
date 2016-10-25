@@ -1,6 +1,7 @@
 package pdm.isel.yawa
 
 import android.app.ListActivity
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -28,7 +29,11 @@ class Country_List : ListActivity() {
 
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
 
-        Toast.makeText(this, citys[position], Toast.LENGTH_LONG).show()
+        Toast.makeText(this, citys[position], Toast.LENGTH_SHORT).show()
+        LOCATION = citys[position]
+        changes = true
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
 }
