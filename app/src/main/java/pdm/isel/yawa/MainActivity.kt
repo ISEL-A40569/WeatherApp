@@ -24,6 +24,9 @@ import java.util.*
 
 var LOCATION = "Porto" //TODO: GET DEVICE LOCATION
 val LANGUAGE = Locale.getDefault().getDisplayLanguage()
+val uriFactory = RequestUriFactory()
+val dtoMapper = DtoToDomainMapper()
+val jsonMapper = JsonToDtoMapper()
 var changes = false     // Make changes ?
 
 
@@ -43,16 +46,16 @@ class MainActivity : AppCompatActivity() {
             RequestUriFactory().getNowWeather(LOCATION, LANGUAGE), null,
             object : Response.Listener<JSONObject> {
                 override fun onResponse(response: JSONObject?) {
-                    Log.d("RESPONSE ", "URL " + RequestUriFactory().getNowWeather(LOCATION, LANGUAGE)
+                    Log.d("RESPONSE ", "URL " + uriFactory.getNowWeather(LOCATION, LANGUAGE)
                     )
                     if (response != null) {
-                        var weatherInfo: WeatherInfo = DtoToDomainMapper().mapWeatherInfoDto(
-                                JsonToDtoMapper().mapWeatherInfoJson(response.toString()))
+                        var weatherInfo: WeatherInfo = dtoMapper.mapWeatherInfoDto(
+                                jsonMapper.mapWeatherInfoJson(response.toString()))
 
                         weather = weatherInfo
 
                         if (weatherInfo != null) {
-                            Log.d("RESPONSE ", weatherInfo.name + " " + weatherInfo.temp + " " + weatherInfo.description)
+                            Log.d("RESPONSE ", weatherInfo.name + " " + weatherInfo.temp + " " + uriFactory.getIcon(weatherInfo.icon))
 
                             temp = (findViewById(R.id.main_temp) as TextView?)!!
                             temp?.setText("" + (weatherInfo.temp.toInt()) + "º")
@@ -98,7 +101,7 @@ class MainActivity : AppCompatActivity() {
             changes = false
         }
 
-        Toast.makeText(this, "URL = " + weather?.getIconUrl(), Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "URL = " + uriFactory.getIcon(weather?.icon), Toast.LENGTH_LONG).show()
     }
 
 

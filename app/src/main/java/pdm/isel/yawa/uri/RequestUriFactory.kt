@@ -6,7 +6,8 @@ import java.util.*
  */
 class RequestUriFactory {
 
-    private val URL: String = "http://api.openweathermap.org/data/2.5/%s?q=%s&units=metric&appid=3653dafe6dfbcaec795a87592caa3cb6"
+    private val WEATHERINFO_REQUEST_BASE_URL = "http://api.openweathermap.org/data/2.5/%s?q=%s&units=metric&appid=3653dafe6dfbcaec795a87592caa3cb6"
+    private val ICON_REQUEST_BASE_URL = "http://openweathermap.org/img/w/%s.png"
     private val LANGUAGES: HashMap<String, String> = HashMap<String, String>()
 
     constructor(){
@@ -19,11 +20,19 @@ class RequestUriFactory {
     }
 
     public fun getNowWeather(locationName: String, language: String): String{
-       return String.format(URL, "weather", locationName + LANGUAGES.get(language))
+       return String.format(WEATHERINFO_REQUEST_BASE_URL, "weather", prepareLocationName(locationName) + LANGUAGES.get(language))
     }
 
     public fun getFutureWeather(locationName: String, language: String, count: Int): String{
-        return String.format(URL, "forecast/daily", locationName + LANGUAGES.get(language) + "&cnt=" + count )
+        return String.format(WEATHERINFO_REQUEST_BASE_URL, "forecast/daily", prepareLocationName(locationName) + LANGUAGES.get(language) + "&cnt=" + count )
+    }
+
+    private fun prepareLocationName(locationName: String): String {
+        return locationName.replace(" ", "+", false)
+    }
+
+    public fun getIcon(iconId: String): String {
+        return String.format(ICON_REQUEST_BASE_URL, iconId)
     }
 
 
