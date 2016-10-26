@@ -18,9 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Country_List" />
-        <activity android:name=".Details" />
-        <activity android:name=".SearchCity"></activity>
+        <activity android:name=".CityListActivity" />
+        <activity android:name=".DetailedWeatherInfoActivity" />
+        <activity android:name=".CityBrowserActivity" />
+        <activity android:name=".ForecastActivity" />
+        <activity android:name=".BasicWeatherInfoActivity" />
+        <activity android:name=".CreditsActivity"></activity>
     </application>
 
 </manifest>

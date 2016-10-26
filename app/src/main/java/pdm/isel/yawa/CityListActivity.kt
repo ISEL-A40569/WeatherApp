@@ -10,9 +10,10 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
 
-class Country_List : ListActivity() {
+class CityListActivity : ListActivity() {
 
-    private val citys = arrayOf("Lisbon", "Porto", "London", "Rome")
+    private val cities = arrayOf("Lisboa", "Porto", "Coimbra", "Faro", "Funchal", "Ponta Delgada",
+            "Madrid", "London", "Roma", "Paris", "New York", "Moscow")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,7 @@ class Country_List : ListActivity() {
 
         Log.d("YAWA_TAG", "COUNTRY_onCreate")
 
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, citys)
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, cities)
         //val listView = findViewById(android.R.id.list) as ListView    // tmb funciona
         listView.setAdapter(adapter)
 
@@ -28,9 +29,8 @@ class Country_List : ListActivity() {
 
 
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
-
-        Toast.makeText(this, citys[position], Toast.LENGTH_SHORT).show()
-        LOCATION = citys[position]
+        weather = null
+        LOCATION = cities[position]
         changes = true
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)

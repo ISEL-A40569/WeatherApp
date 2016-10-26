@@ -25,20 +25,22 @@ class DtoToDomainMapper {
                 weatherInfoDto.sys.sunset)
     }
 
-    var j = 0
+
     public fun mapForecastDto(forecastDto: ForecastDto) : Forecast {
 
-        val InfoElements = arrayOfNulls<BasicWeatherInfo>(forecastDto.list.size) as Array<BasicWeatherInfo>
+        var InfoElements = arrayOfNulls<BasicWeatherInfo>(forecastDto.list.size) as Array<BasicWeatherInfo>
 
-        var i = 0
-        forecastDto.list.asList().forEach {
-            InfoElements[i++] = mapBasicWeatherInfoDto(forecastDto.list[i++])
+
+
+        for(i in forecastDto.list.indices){
+            InfoElements[i] = mapBasicWeatherInfoDto(forecastDto.list[i])
         }
+
 
         return Forecast(forecastDto.city.name,
                 forecastDto.city.country,
-                forecastDto.city.coords.lon,
-                forecastDto.city.coords.lat,
+                forecastDto.city.coord.lon,
+                forecastDto.city.coord.lat,
                 InfoElements[0].dateTime, //Forecast date is the date of the first BasicWeatherInfo element of the forecast list
                 InfoElements
         )

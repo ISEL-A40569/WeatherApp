@@ -31,7 +31,6 @@
             android:layout_weight="1.10">
 
             <TextView
-                android:text="set city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom|center"
@@ -40,7 +39,6 @@
                 android:layout_weight="0.24" />
 
             <TextView
-                android:text="to set country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -48,7 +46,13 @@
                 android:id="@+id/main_country" />
 
             <TextView
-                android:text="15º"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:id="@+id/main_description" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -92,11 +96,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/city_button"
-                android:onClick="onCity"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@+id/textView"
-                android:layout_toEndOf="@+id/textView"
-                android:layout_weight="0.36" />
+                android:layout_weight="1"
+                android:onClick="onCity"/>
+
         </LinearLayout>
 
     </LinearLayout>

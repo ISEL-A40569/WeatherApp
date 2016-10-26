@@ -22,14 +22,13 @@ import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
 
-var LOCATION = "Porto" //TODO: GET DEVICE LOCATION
+var LOCATION = "Lisboa" //TODO: GET DEVICE LOCATION
 val LANGUAGE = Locale.getDefault().getDisplayLanguage()
 val uriFactory = RequestUriFactory()
 val dtoMapper = DtoToDomainMapper()
 val jsonMapper = JsonToDtoMapper()
 var changes = false     // Make changes ?
-
-
+var weather: WeatherInfo? = null
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,10 +36,8 @@ class MainActivity : AppCompatActivity() {
     var temp: TextView? = null
     var city: TextView? = null
     var country: TextView? = null
+    var description: TextView? = null
     var image: ImageView? = null
-
-    var weather: WeatherInfo? = null
-
 
     val request: JsonObjectRequest = JsonObjectRequest(Request.Method.GET,
             RequestUriFactory().getNowWeather(LOCATION, LANGUAGE), null,
@@ -57,16 +54,16 @@ class MainActivity : AppCompatActivity() {
                         if (weatherInfo != null) {
                             Log.d("RESPONSE ", weatherInfo.name + " " + weatherInfo.temp + " " + uriFactory.getIcon(weatherInfo.icon))
 
-                            temp = (findViewById(R.id.main_temp) as TextView?)!!
+
                             temp?.setText("" + (weatherInfo.temp.toInt()) + "º")
 
-                            city = findViewById(R.id.main_city) as TextView?
+
                             city?.setText("" + weatherInfo.name)
 
-                            country = findViewById(R.id.main_country) as TextView?
                             country?.setText("" + weatherInfo.country)
 
-                            //image = findViewById(R.id.main_view) as ImageView
+                            description?.setText(weatherInfo.description)
+
                             //image!!.setImageResource(R.drawable.slb)
                             changes=false
 
@@ -86,54 +83,43 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.d("YAWA_TAG", "MAIN_onCreate")
 
-        application.requestQueue.add(request) //TODO: onde é que encaixa com a AsyncTask!!???
+        temp = findViewById(R.id.main_temp) as TextView?
+        city = findViewById(R.id.main_city) as TextView?
+        country = findViewById(R.id.main_country) as TextView?
+        description = findViewById(R.id.main_description) as TextView?
 
-        if(changes) {
-            temp = findViewById(R.id.main_temp) as TextView?
-            temp?.setText("" + (weather?.temp?.toInt()) + "º")
-            city = findViewById(R.id.main_city) as TextView?
-            city?.setText("" + weather?.name)
-            country = findViewById(R.id.main_country) as TextView?
-            country?.setText("" + weather?.country)
+        image = findViewById(R.id.main_view) as ImageView?
 
-            //image = findViewById(R.id.main_view) as ImageView
-            //image!!.setImageResource(R.drawable.slb)
-            changes = false
+        if(weather==null){
+            application.requestQueue.add(request) //TODO: onde é que encaixa com a AsyncTask!!???
+        }else{
+            if (savedInstanceState != null) {
+                val value = savedInstanceState.getInt("temp")
+                temp?.setText("" + value + "º")
+                country?.setText(savedInstanceState.getString("country"))
+                city?.setText(savedInstanceState.getString("city"))
+                description?.setText(savedInstanceState.getString("description"))
+//            image = findViewById(R.id.main_view) as ImageView
+//            image!!.setImageResource(R.drawable.slb)
+
+            }
         }
 
-        //Toast.makeText(this, "URL = " + uriFactory.getIcon(weather?.icon), Toast.LENGTH_LONG).show()
+
+//        if(changes) {
+//            temp = findViewById(R.id.main_temp) as TextView?
+//            temp?.setText("" + (weather?.temp?.toInt()) + "º")
+//            city = findViewById(R.id.main_city) as TextView?
+//            city?.setText("" + weather?.name)
+//            country = findViewById(R.id.main_country) as TextView?
+//            country?.setText("" + weather?.country)
+//
+//            //image = findViewById(R.id.main_view) as ImageView
+//            //image!!.setImageResource(R.drawable.slb)
+//            changes = false
+//        }
+
     }
-
-
-
-
-    override fun onStart(){
-        super.onStart()
-        Log.d("YAWA_TAG", "MAIN_onStart")
-    }
-
-    override fun onResume(){
-        super.onResume()
-        Log.d("YAWA_TAG", "MAIN_onResume")
-    }
-
-    override fun onPause(){
-        super.onPause()
-        Log.d("YAWA_TAG", "MAIN_onPause")
-    }
-
-    override fun onStop(){
-        super.onStop()
-        Log.d("YAWA_TAG", "MAIN_onStop")
-    }
-
-    override fun onDestroy(){
-        super.onDestroy()
-        Log.d("YAWA_TAG", "MAIN_onDestroy")
-    }
-
-
-
 
 
     //SAVING INFORMATION
@@ -143,27 +129,12 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
 
         if (outState != null) {
-            //outState.putInt("temp", weather!!.temp.toInt())
-            //outState.putString("city", weather!!.name)
-            //outState.putString("country", weather!!.country)
+            outState.putInt("temp", weather!!.temp.toInt())
+            outState.putString("city", weather!!.name)
+            outState.putString("country", weather!!.country)
+            outState.putString("description", weather!!.description)
         }
     }
-
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
-        if (savedInstanceState != null) {
-            /*
-            val value = savedInstanceState.getInt("temp")
-            temp?.setText("" + value + "º")
-            country?.setText(savedInstanceState.getString("country"))
-            city?.setText(savedInstanceState.getString("city"))
-            image = findViewById(R.id.main_view) as ImageView
-            image!!.setImageResource(R.drawable.slb)
-            */
-        }
-    }
-
 
     //INTENTS
     // #############################################################################################
@@ -173,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("YAWA_TAG", "onCity")
         // Toast.makeText(this, "GO TO LIST", Toast.LENGTH_LONG).show()
 
-        val intent = Intent(this, Country_List::class.java)
+        val intent = Intent(this, CityListActivity::class.java)
         startActivity(intent)
     }
 
@@ -181,17 +152,17 @@ class MainActivity : AppCompatActivity() {
     fun onDetails(view: View) {
 
         Log.d("YAWA_TAG", "onDetails")
-        val intent = Intent(this, Details::class.java)
+        val intent = Intent(this, DetailedWeatherInfoActivity::class.java)
         startActivity(intent)
-        Toast.makeText(this, "Detalhes do dia", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Detalhes do dia", Toast.LENGTH_LONG).show()
     }
 
 
     fun onNext(view: View) {
 
         Log.d("YAWA_TAG", "onNext")
-        val intent = Intent(this, Details::class.java)
+        val intent = Intent(this, ForecastActivity::class.java)
         startActivity(intent)
-        Toast.makeText(this, "Next days", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Next days", Toast.LENGTH_LONG).show()
     }
 }

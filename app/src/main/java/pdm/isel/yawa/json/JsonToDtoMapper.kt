@@ -19,8 +19,8 @@ class JsonToDtoMapper {
     }
 
     public fun mapForecastJson(forecastJsonString: String): ForecastDto {
-        val wiToken = object : TypeToken<WeatherInfoDto>() {}.type
-        return gson.fromJson<ForecastDto>(forecastJsonString, wiToken)
+        val fcToken = object : TypeToken<ForecastDto>() {}.type
+        return gson.fromJson<ForecastDto>(forecastJsonString, fcToken)
     }
 
 }
