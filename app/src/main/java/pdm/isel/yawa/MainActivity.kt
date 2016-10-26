@@ -1,6 +1,7 @@
 package pdm.isel.yawa
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
+import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
@@ -57,14 +59,14 @@ class MainActivity : AppCompatActivity() {
 
                             temp?.setText("" + (weatherInfo.temp.toInt()) + "º")
 
-
                             city?.setText("" + weatherInfo.name)
 
                             country?.setText("" + weatherInfo.country)
 
                             description?.setText(weatherInfo.description)
 
-                            //image!!.setImageResource(R.drawable.slb)
+                            application.requestQueue.add(getIconView(uriFactory.getIcon(weatherInfo.icon)))
+
                             changes=false
 
                         }
@@ -78,6 +80,19 @@ class MainActivity : AppCompatActivity() {
         }
     })
 
+    private fun getIconView(url: String): ImageRequest {
+        return ImageRequest(url,
+                object : Response.Listener<Bitmap> {
+                    override fun onResponse(bitmap: Bitmap) {
+                        image?.setImageBitmap(bitmap)
+                    }
+                }, 0, 0, null,
+                object : Response.ErrorListener {
+                    override fun onErrorResponse(error: VolleyError) {
+                        //TODO
+                    }
+                })
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
