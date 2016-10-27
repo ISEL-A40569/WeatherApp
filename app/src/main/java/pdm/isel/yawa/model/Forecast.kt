@@ -5,4 +5,4 @@ package pdm.isel.yawa.model
  */
 class Forecast (val name: String, val country: String, val lon: Float, val lat: Float, val dateTime: String,
                 val list: Array<FutureWeatherInfo>, val _dt: Long) : CityInfo(
-        name, country, lon, lat, list[0].dateTime, _dt){}
+        name, country, lon, lat, list[0].dateTime){}

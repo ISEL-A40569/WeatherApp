@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_details"
     android:layout_width="match_parent"
@@ -10,4 +11,200 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="pdm.isel.yawa.DetailedCurrentWeatherInfoActivity">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="@string/detail_city_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/detail_name"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView14"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/detail_country"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView16"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView18"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/detail_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView17"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView15"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/detail_lat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView10"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView13"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/detail_lon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView12"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView11"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/detail_temperature"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView8"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView9"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/alert_light_frame"
+                android:id="@+id/imageView" />
+
+            <TextView
+                android:text="@string/detail_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView33"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView32"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/detail_curr_pressure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView27"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView30"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/detail_curr_hum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView31"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView29"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/detail_wind_speed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView28"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView25"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/detail_sunrise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView26"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView19"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/detail_sunset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView24"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView23"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
