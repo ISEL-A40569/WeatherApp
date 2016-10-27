@@ -24,6 +24,9 @@
     <string name="detail_date">Data</string>
     <string name="detail_sunrise">Nascer do sol</string>
     <string name="detail_sunset">Pôr do sol</string>
+    <string name="detail_country">País</string>
+    <string name="detail_description">Descrição</string>
+    <string name="detail_temperature">Temperatura</string>
 
     <!--STRINGS OF FIRST ACTIVITY-->
     <string name="main_city">Cidade</string>
