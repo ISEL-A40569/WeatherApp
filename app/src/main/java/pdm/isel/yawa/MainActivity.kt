@@ -115,8 +115,8 @@ class MainActivity : AppCompatActivity() {
 //                country?.setText(savedInstanceState.getString("country"))
 //                cityName?.setText(savedInstanceState.getString("cityName"))
 //                description?.setText(savedInstanceState.getString("description"))
-////            image = findViewById(R.id.main_view) as ImageView
-////            image!!.setImageResource(R.drawable.slb)
+///               image = findViewById(R.id.main_view) as ImageView
+//                image!!.setImageResource(R.drawable.slb)
 //            }
 //        }
 //     }
@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun refresh(view: View) {
-        makeRequest()
+        makeRequest()//TODO: REFRESH BUTTON
     }
 //SAVING INFORMATION
 // #############################################################################################
@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun credits(view: View) {
-        val intent = Intent(this, CreditsActivity::class.java)
+        val intent = Intent(this, CreditsActivity::class.java)//TODO: OPEN CREDITS ACTIVITY BUTTON
         startActivity(intent)
     }
 }
