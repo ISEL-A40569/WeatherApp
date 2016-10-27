@@ -5,6 +5,6 @@ package pdm.isel.yawa.model
  */
 class FutureWeatherInfo(val dateTime: String, val tempMin: Float, val tempMax: Float,
                         val pressure: Float, val humidity: Float,
-                        val main: String, val description: String, val icon: String, val _dt: Long) {
+                        val main: String, val description: String, val icon: String) {
 
 }

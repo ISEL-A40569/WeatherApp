@@ -31,7 +31,7 @@ class DtoToDomainMapper {
         var InfoElements = arrayOfNulls<FutureWeatherInfo>(forecastDto.list.size) as Array<FutureWeatherInfo>
 
         for(i in forecastDto.list.indices){
-            InfoElements[i] = mapBasicWeatherInfoDto(forecastDto.list[i])
+            InfoElements[i] = mapFutureWeatherInfoDto(forecastDto.list[i])
         }
 
 
@@ -40,11 +40,11 @@ class DtoToDomainMapper {
                 forecastDto.city.coord.lon,
                 forecastDto.city.coord.lat,
                 InfoElements[0].dateTime, //Forecast date is the date of the first FutureWeatherInfo element of the forecast list
-                InfoElements,
-                InfoElements[0]._dt)
+                InfoElements
+                )
     }
 
-    public fun mapBasicWeatherInfoDto(futureWeatherInfoDto: FutureWeatherInfoDto) : FutureWeatherInfo {
+    private fun mapFutureWeatherInfoDto(futureWeatherInfoDto: FutureWeatherInfoDto) : FutureWeatherInfo {
         return FutureWeatherInfo(formatDateValue(futureWeatherInfoDto.dt),
                 futureWeatherInfoDto.temp.min,
                 futureWeatherInfoDto.temp.max,
@@ -52,8 +52,8 @@ class DtoToDomainMapper {
                 futureWeatherInfoDto.pressure,
                 futureWeatherInfoDto.weather[0].main,
                 futureWeatherInfoDto.weather[0].description,
-                futureWeatherInfoDto.weather[0].icon,
-                futureWeatherInfoDto.dt)
+                futureWeatherInfoDto.weather[0].icon
+                )
     }
 
     private fun formatDateValue (dateValue: Long) : String {
