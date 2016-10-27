@@ -7,30 +7,28 @@ import java.util.*
  */
 class DtoToDomainMapper {
 
-    public fun mapWeatherInfoDto(weatherInfoDto: WeatherInfoDto) : WeatherInfo{
-        return WeatherInfo(weatherInfoDto.name,
-                weatherInfoDto.sys.country,
-                weatherInfoDto.coord.lon,
-                weatherInfoDto.coord.lat,
-                formatDateValue(weatherInfoDto.dt),
-                weatherInfoDto.weather[0].main,
-                weatherInfoDto.weather[0].description,
-                weatherInfoDto.weather[0].icon,
-                weatherInfoDto.main.temp,
-                weatherInfoDto.main.pressure,
-                weatherInfoDto.main.humidity,
-                weatherInfoDto.wind.speed,
-                weatherInfoDto.wind.deg,
-                weatherInfoDto.sys.sunrise,
-                weatherInfoDto.sys.sunset)
+    public fun mapWeatherInfoDto(currentWeatherInfoDto: CurrentWeatherInfoDto) : CurrentWeatherInfo {
+        return CurrentWeatherInfo(currentWeatherInfoDto.name,
+                currentWeatherInfoDto.sys.country,
+                currentWeatherInfoDto.coord.lon,
+                currentWeatherInfoDto.coord.lat,
+                formatDateValue(currentWeatherInfoDto.dt),
+                currentWeatherInfoDto.weather[0].main,
+                currentWeatherInfoDto.weather[0].description,
+                currentWeatherInfoDto.weather[0].icon,
+                currentWeatherInfoDto.main.temp,
+                currentWeatherInfoDto.main.pressure,
+                currentWeatherInfoDto.main.humidity,
+                currentWeatherInfoDto.wind.speed,
+                currentWeatherInfoDto.sys.sunrise,
+                currentWeatherInfoDto.sys.sunset,
+                currentWeatherInfoDto.dt)
     }
 
 
     public fun mapForecastDto(forecastDto: ForecastDto) : Forecast {
 
-        var InfoElements = arrayOfNulls<BasicWeatherInfo>(forecastDto.list.size) as Array<BasicWeatherInfo>
-
-
+        var InfoElements = arrayOfNulls<FutureWeatherInfo>(forecastDto.list.size) as Array<FutureWeatherInfo>
 
         for(i in forecastDto.list.indices){
             InfoElements[i] = mapBasicWeatherInfoDto(forecastDto.list[i])
@@ -41,20 +39,21 @@ class DtoToDomainMapper {
                 forecastDto.city.country,
                 forecastDto.city.coord.lon,
                 forecastDto.city.coord.lat,
-                InfoElements[0].dateTime, //Forecast date is the date of the first BasicWeatherInfo element of the forecast list
-                InfoElements
-        )
+                InfoElements[0].dateTime, //Forecast date is the date of the first FutureWeatherInfo element of the forecast list
+                InfoElements,
+                InfoElements[0]._dt)
     }
 
-    public fun mapBasicWeatherInfoDto(basicWeatherInfoDto: BasicWeatherInfoDto) : BasicWeatherInfo{
-        return BasicWeatherInfo(formatDateValue(basicWeatherInfoDto.dt),
-                basicWeatherInfoDto.temp.min,
-                basicWeatherInfoDto.temp.max,
-                basicWeatherInfoDto.pressure,
-                basicWeatherInfoDto.pressure,
-                basicWeatherInfoDto.weather[0].main,
-                basicWeatherInfoDto.weather[0].description,
-                basicWeatherInfoDto.weather[0].icon)
+    public fun mapBasicWeatherInfoDto(futureWeatherInfoDto: FutureWeatherInfoDto) : FutureWeatherInfo {
+        return FutureWeatherInfo(formatDateValue(futureWeatherInfoDto.dt),
+                futureWeatherInfoDto.temp.min,
+                futureWeatherInfoDto.temp.max,
+                futureWeatherInfoDto.pressure,
+                futureWeatherInfoDto.pressure,
+                futureWeatherInfoDto.weather[0].main,
+                futureWeatherInfoDto.weather[0].description,
+                futureWeatherInfoDto.weather[0].icon,
+                futureWeatherInfoDto.dt)
     }
 
     private fun formatDateValue (dateValue: Long) : String {

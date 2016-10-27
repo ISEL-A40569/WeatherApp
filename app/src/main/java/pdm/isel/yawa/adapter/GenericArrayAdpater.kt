@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import java.util.*
 
 abstract class GenericArrayAdapter<T>(context: Context, objects: Array<T>) : ArrayAdapter<T>(context, 0, objects) {
 
