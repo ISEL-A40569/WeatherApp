@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CityListActivity" />
-        <activity android:name=".DetailedWeatherInfoActivity" />
+        <activity android:name=".DetailedCurrentWeatherInfoActivity" />
         <activity android:name=".CityBrowserActivity" />
         <activity android:name=".ForecastActivity" />
         <activity android:name=".BasicWeatherInfoActivity" />
