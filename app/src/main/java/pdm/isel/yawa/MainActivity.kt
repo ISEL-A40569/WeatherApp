@@ -97,15 +97,6 @@ class MainActivity : AppCompatActivity() {
 
         image = findViewById(R.id.main_view) as ImageView?
 
-        currentWeather = cache.pop(location + language + "current") as CurrentWeatherInfo?
-
-        if (currentWeather != null) {
-            Log.d("RESPONSE", "LOAD FROM CACHE")
-            setViews()
-        } else {
-            Log.d("RESPONSE", "LOAD FROM REQUEST")
-            makeRequest() //TODO: onde é que encaixa com a AsyncTask!!???
-        }
     }
 //    else {
 //            if (savedInstanceState != null) {
@@ -120,6 +111,20 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 //     }
+
+    override fun onStart(){
+        super.onStart()
+
+        currentWeather = cache.pop(location + language + "current") as CurrentWeatherInfo?
+
+        if (currentWeather != null) {
+            Log.d("RESPONSE", "LOAD FROM CACHE")
+            setViews()
+        } else {
+            Log.d("RESPONSE", "LOAD FROM REQUEST")
+            makeRequest()
+        }
+    }
 
     private fun setViews() {
         cityName?.setText(currentWeather?.name)

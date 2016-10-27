@@ -28,8 +28,7 @@ class CityListActivity : ListActivity() {
 
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
         location = cities[position]
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+
     }
 
 }

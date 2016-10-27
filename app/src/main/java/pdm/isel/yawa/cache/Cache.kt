@@ -9,16 +9,22 @@ import java.util.*
  * Created by Dani on 24-10-2016.
  */
 class Cache(val size: Int) {
-    val map = HashMap<String, CacheEntry>(size)
-    val list = LinkedList<String>();
+    private val map = HashMap<String, CacheEntry>(size)
+    private val list = LinkedList<String>();
 
 
     fun pop(key: String): CityInfo? {
-        Log.d("RESPONSE", "POP, SIZE = " + map.size)
+
         if (list.contains(key)) {
-            list.remove(key)
-            list.addFirst(key)
-            return map.get(key)?.cityInfo
+            if((System.currentTimeMillis() - map.get(key)?.timeStamp!!) > 3600000){
+                list.remove(key)
+                map.remove(key)
+                return null
+            }else{
+                list.remove(key)
+                list.addFirst(key)
+                return map.get(key)?.cityInfo
+            }
         }
         return null
     }
@@ -37,4 +43,4 @@ class Cache(val size: Int) {
 
 }
 
-data class CacheEntry(val cityInfo: CityInfo, val timeStamp: Long)
+private data class CacheEntry(val cityInfo: CityInfo, val timeStamp: Long)
