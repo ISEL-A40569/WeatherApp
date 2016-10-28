@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.Toast
 
 class CityListActivity : ListActivity() {
 
@@ -27,6 +28,9 @@ class CityListActivity : ListActivity() {
 
 
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
+        currentWeather = null
+        location = cities[position]
+        Toast.makeText(this, "You choose: " + location, Toast.LENGTH_SHORT).show()
         location = cities[position]
 
     }

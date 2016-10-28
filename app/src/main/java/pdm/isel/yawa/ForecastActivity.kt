@@ -21,34 +21,15 @@ class ForecastActivity : ListActivity() {
     var forecast: Forecast? = null
     var list: Array<FutureWeatherInfo>? = null
 
-    val request: JsonObjectRequest = JsonObjectRequest(Request.Method.GET,
-            RequestUriFactory().getFutureWeather(location, language, 7), null,
-            object : Response.Listener<JSONObject> {
-                override fun onResponse(response: JSONObject?) {
-
-                    if (response != null) {
-                        forecast = DTO_MAPPER.mapForecastDto(
-                                JSON_MAPPER.mapForecastJson(response.toString()))
-
-                        cache.push(forecast!!, "forecast")
-
-                        list = forecast!!.list
-
-                        setView()
-
-                    } else {
-                        //TODO
-                    }
-                }
-            }, object : Response.ErrorListener {
-        override fun onErrorResponse(error: VolleyError) {
-            Log.d("ERROR: ", error.toString())
-        }
-    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast)
+
+    }
+
+    override fun onStart(){
+        super.onStart()
 
         forecast = cache.pop(location + language + "forecast") as Forecast?
 
@@ -57,9 +38,35 @@ class ForecastActivity : ListActivity() {
             setView()
         }else{
             Log.d("RESPONSE", "LOAD FROM REQUEST")
-            application.requestQueue.add(request)
+            makeRequest()
         }
+    }
 
+    private fun makeRequest(){
+        application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
+                RequestUriFactory().getFutureWeather(location, language, 7), null,
+                object : Response.Listener<JSONObject> {
+                    override fun onResponse(response: JSONObject?) {
+
+                        if (response != null) {
+                            forecast = DTO_MAPPER.mapForecastDto(
+                                    JSON_MAPPER.mapForecastJson(response.toString()))
+
+                            cache.push(forecast!!, "forecast")
+
+                            list = forecast!!.list
+
+                            setView()
+
+                        } else {
+                            //TODO
+                        }
+                    }
+                }, object : Response.ErrorListener {
+            override fun onErrorResponse(error: VolleyError) {
+                Log.d("ERROR: ", error.toString())
+            }
+        }))
     }
 
     private fun setView() {
@@ -68,6 +75,7 @@ class ForecastActivity : ListActivity() {
 
     override fun onListItemClick(l: ListView?, v: View?, position: Int, id: Long) {
         super.onListItemClick(l, v, position, id)
+
         if (list != null) {
             futureWeatherInfo = list!![position]
 

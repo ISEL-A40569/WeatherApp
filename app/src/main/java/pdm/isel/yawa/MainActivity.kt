@@ -42,34 +42,6 @@ class MainActivity : AppCompatActivity() {
     var description: TextView? = null
     var image: ImageView? = null
 
-    val request: JsonObjectRequest = JsonObjectRequest(Request.Method.GET,
-            RequestUriFactory().getNowWeather(location, language), null,
-            object : Response.Listener<JSONObject> {
-                override fun onResponse(response: JSONObject?) {
-                    Log.d("RESPONSE ", "URL " + URI_FACTORY.getNowWeather(location, language)
-                    )
-                    if (response != null) {
-
-                        currentWeather = DTO_MAPPER.mapWeatherInfoDto(
-                                JSON_MAPPER.mapWeatherInfoJson(response.toString()))
-
-
-                        if (currentWeather != null) {
-                            Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.temp + " " + URI_FACTORY.getIcon(currentWeather!!.icon))
-                            cache.push(currentWeather!!, "current")
-
-                            setViews()
-
-                        }
-                    } else {
-                        //TODO
-                    }
-                }
-            }, object : Response.ErrorListener {
-        override fun onErrorResponse(error: VolleyError) {
-            Log.d("ERROR: ", error.toString())
-        }
-    })
 
     private fun getIconView(url: String): ImageRequest {
         return ImageRequest(url,
@@ -94,7 +66,6 @@ class MainActivity : AppCompatActivity() {
         cityName = findViewById(R.id.main_city) as TextView?
         country = findViewById(R.id.main_country) as TextView?
         description = findViewById(R.id.main_description) as TextView?
-
         image = findViewById(R.id.main_view) as ImageView?
 
     }
@@ -114,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart(){
         super.onStart()
-
+        Log.d("RESPONSE", "ON START, location = " + location)
         currentWeather = cache.pop(location + language + "current") as CurrentWeatherInfo?
 
         if (currentWeather != null) {
@@ -136,7 +107,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeRequest() {
-        application.requestQueue.add(request)
+        application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
+                RequestUriFactory().getNowWeather(location, language), null,
+                object : Response.Listener<JSONObject> {
+                    override fun onResponse(response: JSONObject?) {
+                        Log.d("RESPONSE ", "URL " + URI_FACTORY.getNowWeather(location, language)
+                        )
+                        if (response != null) {
+
+                            currentWeather = DTO_MAPPER.mapWeatherInfoDto(
+                                    JSON_MAPPER.mapWeatherInfoJson(response.toString()))
+
+
+                            if (currentWeather != null) {
+                                Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.temp + " " + URI_FACTORY.getIcon(currentWeather!!.icon))
+                                cache.push(currentWeather!!, "current")
+
+                                setViews()
+
+                            }
+                        } else {
+                            //TODO
+                        }
+                    }
+                }, object : Response.ErrorListener {
+            override fun onErrorResponse(error: VolleyError) {
+                Log.d("ERROR: ", error.toString())
+            }
+        }))
     }
 
     fun refresh(view: View) {
