@@ -8,21 +8,39 @@ import java.util.*
 /**
  * Created by Dani on 24-10-2016.
  */
-class Cache (size: Int){
-    private val map = HashMap<String, CacheEntry> (size)
+class Cache(val size: Int) {
+    private val map = HashMap<String, CacheEntry>(size)
+    private val list = LinkedList<String>();
 
-    //TODO LRU IMPLEMENTATION
 
     fun pop(key: String): CityInfo? {
-        Log.d("RESPONSE", "POP, SIZE = " + map.size)
-        return map.get(key)?.cityInfo
+
+        if (list.contains(key)) {
+            if((System.currentTimeMillis() - map.get(key)?.timeStamp!!) > 3600000){
+                list.remove(key)
+                map.remove(key)
+                return null
+            }else{
+                list.remove(key)
+                list.addFirst(key)
+                return map.get(key)?.cityInfo
+            }
+        }
+        return null
     }
 
     fun push(cityInfo: CityInfo, type: String) {
-        Log.d("RESPONSE", cityInfo.cityName + language + type)
-        map.put(cityInfo.cityName + language + type, CacheEntry(cityInfo, 1000))
+        val key = cityInfo.cityName + language + type
+
+        if (list.size == size) {
+            map.remove(list.getLast());
+            list.removeLast();
+        }
+
+        list.addFirst(key)
+        map.put(key, CacheEntry(cityInfo, System.currentTimeMillis()))
     }
-    
+
 }
 
 private data class CacheEntry(val cityInfo: CityInfo, val timeStamp: Long)

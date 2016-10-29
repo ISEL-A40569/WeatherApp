@@ -11,5 +11,4 @@ abstract class CityInfo (val cityName: String,
                          val lt: Float,
                          val infoDateTime: String){
 
-
 }
