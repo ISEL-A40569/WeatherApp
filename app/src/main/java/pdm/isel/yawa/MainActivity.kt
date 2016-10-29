@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         }
     })
 
-    private fun getIconView(url: String): ImageRequest {
+    public fun getIconView(url: String): ImageRequest {
         return ImageRequest(url,
                 object : Response.Listener<Bitmap> {
                     override fun onResponse(bitmap: Bitmap) {
