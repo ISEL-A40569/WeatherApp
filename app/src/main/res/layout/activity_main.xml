@@ -59,14 +59,14 @@
                 android:id="@+id/main_temp"
                 android:elevation="1dp"
                 android:textSize="100dp"
-                android:layout_weight="0.40" />
+                android:layout_weight="0.24" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/dialog_frame"
                 android:id="@+id/main_view"
-                android:layout_weight="0.31" />
+                android:layout_weight="0.43" />
 
         </LinearLayout>
 

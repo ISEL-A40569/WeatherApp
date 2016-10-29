@@ -13,7 +13,7 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_future_weather_info)
 
-        Log.d("RESPONSE", "futureWeatherInfo FOR: " + futureWeatherInfo!!.dateTime)
+        Log.d("RESPONSE", "futureWeatherInfo FOR: " + futureWeatherInfo!!.getDate())
 
         //TODO
     }

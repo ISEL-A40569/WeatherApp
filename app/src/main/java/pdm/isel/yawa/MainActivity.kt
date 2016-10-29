@@ -41,13 +41,14 @@ class MainActivity : AppCompatActivity() {
     var country: TextView? = null
     var description: TextView? = null
     var image: ImageView? = null
-
+    var img:Bitmap? = null
 
     public fun getIconView(url: String): ImageRequest {
         return ImageRequest(url,
                 object : Response.Listener<Bitmap> {
                     override fun onResponse(bitmap: Bitmap) {
                         image?.setImageBitmap(bitmap)
+                        img = bitmap
                     }
                 }, 0, 0, null,
                 object : Response.ErrorListener {
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         country = findViewById(R.id.main_country) as TextView?
         description = findViewById(R.id.main_description) as TextView?
         image = findViewById(R.id.main_view) as ImageView?
+
 
     }
 //    else {
@@ -99,7 +101,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setViews() {
         cityName?.setText(currentWeather?.name)
-        temp?.setText(currentWeather?.temp.toString())
+        if(currentWeather?.temp!!.toInt() != 0) {
+            temp?.setText(currentWeather?.temp!!.toInt().toString() + "º")
+        }else temp?.setText("0º")           //fix "-0" bug
         country?.setText(currentWeather?.country)
         description?.setText(currentWeather?.description)
 
@@ -151,6 +155,15 @@ class MainActivity : AppCompatActivity() {
             outState.putString("cityName", currentWeather!!.name)
             outState.putString("country", currentWeather!!.country)
             outState.putString("description", currentWeather!!.description)
+            outState.putParcelable("bitmap", img);
+        }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?){
+
+        if(savedInstanceState != null) {    //TODO imagem
+            img = savedInstanceState!!.getParcelable("bitmap")
+            image?.setImageBitmap(img)
         }
     }
 

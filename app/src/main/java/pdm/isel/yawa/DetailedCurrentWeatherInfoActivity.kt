@@ -49,14 +49,14 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
 
         city!!.setText(currentWeather!!.cityName)
         country!!.setText(currentWeather!!.country)
-        date!!.setText(currentWeather!!.dateTime)
+        date!!.setText(currentWeather!!.getDate())
         lat!!.setText(currentWeather!!.lat.toString())
         lon!!.setText(currentWeather!!.lon.toString())
         desc!!.setText(currentWeather!!.description)
         hum!!.setText(currentWeather!!.humidity.toString())
         wind!!.setText(currentWeather!!.windSpeed.toString())
-        sunrise!!.setText(currentWeather!!.sunrise.toString())
-        sunset!!.setText(currentWeather!!.sunset.toString())
+        sunrise!!.setText(currentWeather!!.getSunrise())
+        sunset!!.setText(currentWeather!!.getSunset())
         temp!!.setText(currentWeather!!.temp.toInt().toString()+"º")
         press!!.setText(currentWeather!!.pressure.toString())
 
