@@ -101,8 +101,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setViews() {
         cityName?.setText(currentWeather?.name)
-        if(currentWeather?.temp!!.toInt() != 0) {
-            temp?.setText(currentWeather?.temp!!.toInt().toString() + "º")
+        if(Math.round(currentWeather?.temp!!) != 0) {
+            temp?.setText(Math.round(currentWeather?.temp!!).toString() + "º")
+            Log.d("RESPONSE", Math.round(currentWeather?.temp!!).toString())
         }else temp?.setText("0º")           //fix "-0" bug
         country?.setText(currentWeather?.country)
         description?.setText(currentWeather?.description)
@@ -115,8 +116,8 @@ class MainActivity : AppCompatActivity() {
                 RequestUriFactory().getNowWeather(location, language), null,
                 object : Response.Listener<JSONObject> {
                     override fun onResponse(response: JSONObject?) {
-                        Log.d("RESPONSE ", "URL " + URI_FACTORY.getNowWeather(location, language)
-                        )
+//                        Log.d("RESPONSE ", "URL " + URI_FACTORY.getNowWeather(location, language))
+
                         if (response != null) {
 
                             currentWeather = DTO_MAPPER.mapWeatherInfoDto(
@@ -124,7 +125,7 @@ class MainActivity : AppCompatActivity() {
 
 
                             if (currentWeather != null) {
-                                Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.temp + " " + URI_FACTORY.getIcon(currentWeather!!.icon))
+//                                Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.temp + " " + URI_FACTORY.getIcon(currentWeather!!.icon))
                                 cache.push(currentWeather!!, "current")
 
                                 setViews()
@@ -141,8 +142,8 @@ class MainActivity : AppCompatActivity() {
         }))
     }
 
-    fun refresh(view: View) {
-        makeRequest()//TODO: REFRESH BUTTON
+    fun onRefresh(view: View) {
+        makeRequest()
     }
 //SAVING INFORMATION
 // #############################################################################################
@@ -198,8 +199,8 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun credits(view: View) {
-        val intent = Intent(this, CreditsActivity::class.java)//TODO: OPEN CREDITS ACTIVITY BUTTON
+    fun onCredits(view: View) {
+        val intent = Intent(this, CreditsActivity::class.java)
         startActivity(intent)
     }
 }

@@ -5,6 +5,8 @@
     <string name="choose_city">City ?</string>
     <string name="next">Next days</string>
     <string name="detail">Details</string>
+    <string name="seeCredits">Credits</string>
+    <string name="refresh">Refresh</string>
 
     <!--STRINGS OF DETAIL-->
     <string name="detail_city_name">City name</string>
@@ -37,5 +39,12 @@
     <!--STRINGS OF SEARCH ACTIVITY-->
     <string name="search_city">Search City</string>
     <string name="search">Search</string>
+
+    <!--STRINGS OF CREDITS ACTIVITY-->
+    <string name="developedBy">Developed by: </string>
+    <string name="dataSource">Weather Data Source: </string>
+    <string name="fabio">Fabio Parreirinha</string>
+    <string name="dani">Daniel Cabral</string>
+    <string name="weathermap">OpenWeatherMap: https://openweathermap.org/</string>
 
 </resources>

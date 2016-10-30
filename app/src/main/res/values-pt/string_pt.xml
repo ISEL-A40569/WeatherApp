@@ -5,6 +5,8 @@
     <string name="choose_city">Cidade ?</string>
     <string name="next">Próximos dias</string>
     <string name="detail">Detalhes</string>
+    <string name="seeCredits">Creditos</string>
+    <string name="refresh">Actualizar</string>
 
     <!--STRINGS OF DETAIL-->
     <string name="detail_city_name">Cidade</string>
@@ -38,5 +40,11 @@
     <!--STRINGS OF SEARCH ACTIVITY-->
     <string name="search_city">Procurar Cidade</string>
     <string name="search">Procurar</string>
+
+
+    <!--STRINGS OF CREDITS ACTIVITY-->
+    <string name="developedBy">Desenvolvido por: </string>
+    <string name="dataSource">Fonte de Dados Meteorológicos: </string>
+
 
 </resources>

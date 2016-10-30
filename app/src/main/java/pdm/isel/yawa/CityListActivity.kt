@@ -30,7 +30,7 @@ class CityListActivity : ListActivity() {
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
         currentWeather = null
         location = cities[position]
-        Toast.makeText(this, "You choose: " + location, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, location, Toast.LENGTH_SHORT).show()
         location = cities[position]
 
     }
