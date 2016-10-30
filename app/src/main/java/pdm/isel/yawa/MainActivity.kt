@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity() {
 
 
                             if (currentWeather != null) {
-//                                Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.temp + " " + URI_FACTORY.getIcon(currentWeather!!.icon))
+                                Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.temp + " " + URI_FACTORY.getIcon(currentWeather!!.icon))
                                 cache.push(currentWeather!!, "current")
 
                                 setViews()
@@ -144,6 +144,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onRefresh(view: View) {
         makeRequest()
+        setViews()
     }
 //SAVING INFORMATION
 // #############################################################################################

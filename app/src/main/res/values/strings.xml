@@ -45,6 +45,6 @@
     <string name="dataSource">Weather Data Source: </string>
     <string name="fabio">Fabio Parreirinha</string>
     <string name="dani">Daniel Cabral</string>
-    <string name="weathermap">OpenWeatherMap: https://openweathermap.org/</string>
+    <string name="weathermap">https://openweathermap.org/</string>
 
 </resources>

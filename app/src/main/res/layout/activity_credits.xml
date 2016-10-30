@@ -16,7 +16,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="@string/developedBy"
-        android:id="@+id/developedByTextView"/>
+        android:id="@+id/developedByTextView"
+        android:textStyle="normal|bold" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,13 +45,16 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_below="@id/daniText"
-        android:text="@string/dataSource"/>
+        android:id="@+id/datasourcetext"
+        android:text="@string/dataSource"
+        android:textStyle="normal|bold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_below="@id/datasourcetext"
         android:text="@string/weathermap"
         />
 
