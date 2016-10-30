@@ -16,6 +16,6 @@ class BasicWeatherInfoArrayAdapter(context: Context, futureWeatherInfos: Array<F
         textView.setText(futureWeatherInfo.getDate() + ":\n" +
                 Math.round(futureWeatherInfo.tempMin) + "ºC - " +
                 Math.round(futureWeatherInfo.tempMax) + "ºC - " +
-        futureWeatherInfo.main)
+        futureWeatherInfo.description)
     }
 }

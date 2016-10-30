@@ -104,7 +104,7 @@ g
                 android:id="@+id/detail_button"
                 android:layout_weight="1"
                 android:onClick="onDetails"
-                style="@style/ButtonStyle"/>
+                />
 
             <Button
                 android:text="@string/next"

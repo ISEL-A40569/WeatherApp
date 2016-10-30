@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ListView
+import android.widget.TextView
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -17,10 +18,11 @@ import pdm.isel.yawa.model.FutureWeatherInfo
 import pdm.isel.yawa.uri.RequestUriFactory
 
 class ForecastActivity : ListActivity() {
+    val NUMBER_OF_FORECAST_DAYS = 10
 
     var forecast: Forecast? = null
     var list: Array<FutureWeatherInfo>? = null
-
+    var label: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +46,7 @@ class ForecastActivity : ListActivity() {
 
     private fun makeRequest(){
         application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
-                RequestUriFactory().getFutureWeather(location, language, 7), null,
+                RequestUriFactory().getFutureWeather(location, language, NUMBER_OF_FORECAST_DAYS), null,
                 object : Response.Listener<JSONObject> {
                     override fun onResponse(response: JSONObject?) {
 
@@ -70,6 +72,7 @@ class ForecastActivity : ListActivity() {
     }
 
     private fun setView() {
+
         listView.setAdapter(BasicWeatherInfoArrayAdapter(applicationContext, forecast!!.list))
     }
 
