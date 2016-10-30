@@ -62,14 +62,16 @@
                 android:layout_height="41dp"
                 android:textSize="40dp"
                 android:gravity="center"
-                android:id="@+id/main_city" />
+                android:id="@+id/main_city"
+                style="@style/MainInfo"/>
 
             <TextView
                 android:text="country"
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
                 android:gravity="center"
-                android:id="@+id/main_country" />
+                android:id="@+id/main_country"
+                style="@style/MainInfo"/>
 
         </LinearLayout>
 
@@ -84,7 +86,8 @@
                 android:layout_height="match_parent"
                 android:textSize="100dp"
                 android:gravity="center"
-                android:id="@+id/main_temp" />
+                android:id="@+id/main_temp"
+                style="@style/MainInfo"/>
         </LinearLayout>
 
         <LinearLayout

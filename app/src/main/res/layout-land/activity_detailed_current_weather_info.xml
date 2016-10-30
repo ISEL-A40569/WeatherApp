@@ -12,31 +12,31 @@
     tools:context="pdm.isel.yawa.DetailedCurrentWeatherInfoActivity">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:weightSum="1"
-        android:baselineAligned="true">
+        android:baselineAligned="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
 
             android:layout_height="89dp"
-            android:id="@+id/layout_det_top">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="105dp"
-                app:srcCompat="@android:drawable/alert_light_frame"
-                android:id="@+id/detail_image" />
+            android:id="@+id/layout_det_top"
+            android:weightSum="1"
+            android:layout_weight="1.48">
 
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="362dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="299dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:baselineAligned="true"
@@ -48,7 +48,7 @@
                 android:orientation="vertical"
                 android:layout_width="162dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.88">
+                android:layout_weight="0.64">
 
                 <TextView
                     android:text="@string/detail_temperature"
@@ -105,6 +105,24 @@
                     style="@style/MainInfo"/>
 
                 <TextView
+                    android:text="@string/detail_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView33"
+                    android:textSize="15dp"
+                    android:textAlignment="center"
+                    style="@style/Titles"/>
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/d_desc"
+                    android:textSize="25dp"
+                    android:textAlignment="center"
+                    style="@style/MainInfo"/>
+
+                <TextView
                     android:text="@string/detail_date"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -118,6 +136,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/d_date"
+                    android:textSize="25dp"
+                    android:textAlignment="center"
+                    style="@style/MainInfo"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="183dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.28">
+
+                <TextView
+                    android:text="@string/detail_lon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView12"
+                    android:textSize="15dp"
+                    android:textAlignment="center"
+                    style="@style/Titles"/>
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/d_lon"
                     android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
@@ -141,49 +185,6 @@
                     style="@style/MainInfo"/>
 
                 <TextView
-                    android:text="@string/detail_lon"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/textView12"
-                    android:textSize="15dp"
-                    android:textAlignment="center"
-                    style="@style/Titles"/>
-
-                <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/d_lon"
-                    android:textSize="25dp"
-                    android:textAlignment="center"
-                    style="@style/MainInfo"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="183dp"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="@string/detail_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView33"
-                    android:textSize="15dp"
-                    android:textAlignment="center"
-                    style="@style/Titles"/>
-
-                <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/d_desc"
-                    android:textSize="25dp"
-                    android:textAlignment="center"
-                    style="@style/MainInfo"/>
-
-                <TextView
                     android:text="@string/detail_curr_pressure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -197,24 +198,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/d_press"
-                    android:textSize="25dp"
-                    android:textAlignment="center"
-                    style="@style/MainInfo"/>
-
-                <TextView
-                    android:text="@string/detail_curr_hum"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView31"
-                    android:textSize="15dp"
-                    android:textAlignment="center"
-                    style="@style/Titles"/>
-
-                <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/d_hum"
                     android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
@@ -238,10 +221,10 @@
                     style="@style/MainInfo"/>
 
                 <TextView
-                    android:text="@string/detail_sunrise"
+                    android:text="@string/detail_curr_hum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView26"
+                    android:id="@+id/textView31"
                     android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
@@ -250,10 +233,25 @@
                     android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/d_sunrise"
+                    android:id="@+id/d_hum"
                     android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="155dp"
+                android:layout_height="match_parent"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="83dp"
+                    app:srcCompat="@android:drawable/alert_light_frame"
+                    android:id="@+id/detail_image"
+                    android:layout_weight="0.50" />
 
                 <TextView
                     android:text="@string/detail_sunset"
@@ -269,6 +267,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/d_sunset"
+                    android:textSize="25dp"
+                    android:textAlignment="center"
+                    style="@style/MainInfo"/>
+
+                <TextView
+                    android:text="@string/detail_sunrise"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView26"
+                    android:textSize="15dp"
+                    android:textAlignment="center"
+                    style="@style/Titles"/>
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/d_sunrise"
                     android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
