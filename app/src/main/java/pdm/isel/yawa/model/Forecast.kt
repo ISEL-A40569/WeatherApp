@@ -9,5 +9,12 @@ class Forecast (val name: String,
                 val lat: Float,
                 val dateTime: String,
                 val list: Array<FutureWeatherInfo>) :
-        CityInfo(
-            name, country, lon, lat, list[0].dateTime){}
+        CityInfo(name, country, lon, lat, list[0].dateTime){
+
+
+    public fun getDate():String{
+
+        var d = dateTime.split(" ")
+        return d[2] + " " + d[1] + " "+ d[5]
+    }
+}

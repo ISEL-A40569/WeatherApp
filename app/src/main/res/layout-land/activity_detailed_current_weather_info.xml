@@ -105,24 +105,6 @@
                     style="@style/MainInfo"/>
 
                 <TextView
-                    android:text="@string/detail_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView33"
-                    android:textSize="15dp"
-                    android:textAlignment="center"
-                    style="@style/Titles"/>
-
-                <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/d_desc"
-                    android:textSize="25dp"
-                    android:textAlignment="center"
-                    style="@style/MainInfo"/>
-
-                <TextView
                     android:text="@string/detail_date"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -136,6 +118,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/d_date"
+                    android:textSize="25dp"
+                    android:textAlignment="center"
+                    style="@style/MainInfo"/>
+
+                <TextView
+                    android:text="@string/detail_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView33"
+                    android:textSize="15dp"
+                    android:textAlignment="center"
+                    style="@style/Titles"/>
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/d_desc"
                     android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
