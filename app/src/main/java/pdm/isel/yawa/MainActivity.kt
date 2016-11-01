@@ -16,8 +16,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
 import pdm.isel.yawa.cache.Cache
 import pdm.isel.yawa.json.JsonToDtoMapper
+import pdm.isel.yawa.model.Current
 import pdm.isel.yawa.model.DtoToDomainMapper
-import pdm.isel.yawa.model.CurrentWeatherInfo
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
@@ -31,7 +31,7 @@ val cache: Cache = Cache(100)
 var language = Locale.getDefault().getDisplayLanguage()
 var location = "Lisbon" //TODO: GET DEVICE location
 
-var currentWeather: CurrentWeatherInfo? = null
+var currentWeather: Current? = null
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     var country: TextView? = null
     var description: TextView? = null
     var image: ImageView? = null
-    var img:Bitmap? = null
+    var img: Bitmap? = null
 
     public fun getIconView(url: String): ImageRequest {
         return ImageRequest(url,
@@ -85,10 +85,10 @@ class MainActivity : AppCompatActivity() {
 //        }
 //     }
 
-    override fun onStart(){
+    override fun onStart() {
         super.onStart()
         Log.d("RESPONSE", "ON START, location = " + location)
-        currentWeather = cache.pop(location + language + "current") as CurrentWeatherInfo?
+        currentWeather = cache.pop(location + language + "current") as Current?
 
         if (currentWeather != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
@@ -101,14 +101,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setViews() {
         cityName?.setText(currentWeather?.name)
-        if(Math.round(currentWeather?.temp!!) != 0) {
-            temp?.setText(Math.round(currentWeather?.temp!!).toString() + "º")
-            Log.d("RESPONSE", Math.round(currentWeather?.temp!!).toString())
-        }else temp?.setText("0º")           //fix "-0" bug
+        temp?.setText(currentWeather?.currentInfo?.temp)
         country?.setText(currentWeather?.country)
-        description?.setText(currentWeather?.description)
+        description?.setText(currentWeather?.currentInfo?.description)
 
-        application.requestQueue.add(getIconView(URI_FACTORY.getIcon(currentWeather!!.icon)))//TODO: IMAGE IS NOT BEING SAVED
+        application.requestQueue.add(getIconView(URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon)))//TODO: IMAGE IS NOT BEING SAVED
     }
 
     private fun makeRequest() {
@@ -120,12 +117,12 @@ class MainActivity : AppCompatActivity() {
 
                         if (response != null) {
 
-                            currentWeather = DTO_MAPPER.mapWeatherInfoDto(
+                            currentWeather = DTO_MAPPER.mapCurrentDto(
                                     JSON_MAPPER.mapWeatherInfoJson(response.toString()))
 
 
                             if (currentWeather != null) {
-                                Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.temp + " " + URI_FACTORY.getIcon(currentWeather!!.icon))
+                                Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.currentInfo?.temp)
                                 cache.push(currentWeather!!, "current")
 
                                 setViews()
@@ -149,21 +146,21 @@ class MainActivity : AppCompatActivity() {
 //SAVING INFORMATION
 // #############################################################################################
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
+//    override fun onSaveInstanceState(outState: Bundle?) {
+//        super.onSaveInstanceState(outState)
+//
+//        if (outState != null) {
+//            outState.putInt("temp", currentWeather!!.temp.toInt())
+//            outState.putString("cityName", currentWeather!!.name)
+//            outState.putString("country", currentWeather!!.country)
+//            outState.putString("description", currentWeather!!.description)
+//            outState.putParcelable("bitmap", img);
+//        }
+//    }
 
-        if (outState != null) {
-            outState.putInt("temp", currentWeather!!.temp.toInt())
-            outState.putString("cityName", currentWeather!!.name)
-            outState.putString("country", currentWeather!!.country)
-            outState.putString("description", currentWeather!!.description)
-            outState.putParcelable("bitmap", img);
-        }
-    }
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?){
-
-        if(savedInstanceState != null) {    //TODO imagem
+        if (savedInstanceState != null) {    //TODO imagem
             img = savedInstanceState!!.getParcelable("bitmap")
             image?.setImageBitmap(img)
         }

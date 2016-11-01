@@ -49,16 +49,16 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
 
         city!!.setText(currentWeather!!.cityName)
         country!!.setText(currentWeather!!.country)
-        date!!.setText(currentWeather!!.getDate())
+        date!!.setText(currentWeather!!.currentInfo._date)
         lat!!.setText(currentWeather!!.lat.toString())
         lon!!.setText(currentWeather!!.lon.toString())
-        desc!!.setText(currentWeather!!.description)
-        hum!!.setText(currentWeather!!.humidity.toString())
-        wind!!.setText(currentWeather!!.windSpeed.toString())
-        sunrise!!.setText(currentWeather!!.getSunrise())
-        sunset!!.setText(currentWeather!!.getSunset())
-        temp!!.setText(currentWeather!!.temp.toInt().toString()+"º")
-        press!!.setText(currentWeather!!.pressure.toString())
+        desc!!.setText(currentWeather!!.currentInfo.description)
+        hum!!.setText(currentWeather!!.currentInfo.humidity)
+        wind!!.setText(currentWeather!!.currentInfo.windSpeed)
+        sunrise!!.setText(currentWeather!!.currentInfo.sunrise)
+        sunset!!.setText(currentWeather!!.currentInfo.sunset)
+        temp!!.setText(currentWeather!!.currentInfo.temp)
+        press!!.setText(currentWeather!!.currentInfo._pressure)
 
         image = findViewById(R.id.detail_image) as ImageView?
 
