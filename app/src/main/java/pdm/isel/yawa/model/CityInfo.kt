@@ -7,8 +7,8 @@ import java.util.*
  */
 abstract class CityInfo (val cityName: String,
                          val cityCountry: String,
-                         val ln: Float,
-                         val lt: Float,
-                         val infoDateTime: String){
+                         val ln: String,
+                         val lt: String
+                         ){
 
 }

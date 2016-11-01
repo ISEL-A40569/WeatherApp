@@ -13,9 +13,9 @@ class BasicWeatherInfoArrayAdapter(context: Context, futureWeatherInfos: Array<F
 
     override fun drawText(textView: TextView, futureWeatherInfo: FutureWeatherInfo) {
         textView.setTextColor(Color.BLUE)
-        textView.setText(futureWeatherInfo.getDate() + ":\n" +
-                Math.round(futureWeatherInfo.tempMin) + "ºC - " +
-                Math.round(futureWeatherInfo.tempMax) + "ºC - " +
+        textView.setText(futureWeatherInfo._date + "\n" +
+                futureWeatherInfo.tempMin + " / " +
+                futureWeatherInfo.tempMax + "\n" +
         futureWeatherInfo.description)
     }
 }

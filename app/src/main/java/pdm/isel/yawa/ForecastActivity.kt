@@ -21,30 +21,29 @@ class ForecastActivity : ListActivity() {
     val NUMBER_OF_FORECAST_DAYS = 10
 
     var forecast: Forecast? = null
-    var list: Array<FutureWeatherInfo>? = null
-    var label: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast)
-
     }
 
-    override fun onStart(){
+    override fun onStart() {
         super.onStart()
 
         forecast = cache.pop(location + language + "forecast") as Forecast?
 
-        if(forecast != null){
+        if (forecast != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
             setView()
-        }else{
+        } else {
             Log.d("RESPONSE", "LOAD FROM REQUEST")
             makeRequest()
+
         }
+
     }
 
-    private fun makeRequest(){
+    private fun makeRequest() {
         application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
                 RequestUriFactory().getFutureWeather(location, language, NUMBER_OF_FORECAST_DAYS), null,
                 object : Response.Listener<JSONObject> {
@@ -56,7 +55,6 @@ class ForecastActivity : ListActivity() {
 
                             cache.push(forecast!!, "forecast")
 
-                            list = forecast!!.list
 
                             setView()
 
@@ -72,18 +70,18 @@ class ForecastActivity : ListActivity() {
     }
 
     private fun setView() {
-
-        listView.setAdapter(BasicWeatherInfoArrayAdapter(applicationContext, forecast!!.list))
+        listView.setAdapter(BasicWeatherInfoArrayAdapter(applicationContext, forecast?.list!!))
     }
 
     override fun onListItemClick(l: ListView?, v: View?, position: Int, id: Long) {
         super.onListItemClick(l, v, position, id)
+        Log.d("RESPONSE", "CLICKING " + position)
 
-        if (list != null) {
-            futureWeatherInfo = list!![position]
+        futureWeatherInfo = forecast!!.list[position]
+        Log.d("RESPONSE", "HERE!")
 
-            val intent = Intent(this, BasicWeatherInfoActivity::class.java)
-            startActivity(intent)
-        }
+        val intent = Intent(this, BasicWeatherInfoActivity::class.java)
+        startActivity(intent)
     }
 }
+

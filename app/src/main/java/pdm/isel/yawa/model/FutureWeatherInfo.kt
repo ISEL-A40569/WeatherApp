@@ -1,27 +1,19 @@
 package pdm.isel.yawa.model
 
+import android.graphics.Bitmap
 import java.util.*
 
 /**
  * Created by Dani on 21-10-2016.
  */
-class FutureWeatherInfo(val dateTime: String,
-                        val tempMin: Float,
-                        val tempMax: Float,
-                        val pressure: Float,
-                        val humidity: Float,
-                        val main: String,
-                        val description: String,
-                        val icon: String) {
-
-
-    public fun getDate():String{
-
-        var d = dateTime.split(" ")
-        return d[2] + " " + d[1] + " "+ d[5]
-    }
-
-
+class FutureWeatherInfo(val _date: String,
+                        val _pressure: String,
+                        val _humidity: String,
+                        val _description: String,
+                        val _icon: String,
+                        val tempMin: String,
+                        val tempMax: String
+                        ) : BaseWeatherInfo(_date, _description, _pressure, _humidity, _icon) {
 
 }
 
