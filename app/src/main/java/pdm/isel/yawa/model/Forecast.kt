@@ -5,15 +5,9 @@ package pdm.isel.yawa.model
  */
 class Forecast (val name: String,
                 val country: String,
-                val lon: Float,
-                val lat: Float,
+                val lon: String,
+                val lat: String,
                 val list: Array<FutureWeatherInfo>) :
-        CityInfo(name, country, lon, lat, list[0].dateTime){
-            name, country, lon, lat){}
+        CityInfo(name, country, lon, lat){
 
-    public fun getDate():String{
-
-        var d = dateTime.split(" ")
-        return d[2] + " " + d[1] + " "+ d[5]
-    }
 }

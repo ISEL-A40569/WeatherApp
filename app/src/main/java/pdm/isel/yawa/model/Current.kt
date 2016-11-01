@@ -7,8 +7,8 @@ import java.util.*
  */
 class Current(val name: String,
               val country: String,
-              val lon: Float,
-              val lat: Float,
+              val lon: String,
+              val lat: String,
               val currentInfo: CurrentWeatherInfo
               ) : CityInfo(name, country, lon, lat) {
 

@@ -143,7 +143,7 @@
                 android:layout_width="177sp"
                 android:layout_height="118sp"
                 app:srcCompat="@android:drawable/alert_light_frame"
-                android:id="@+id/imageView2" />
+                android:id="@+id/future_image" />
         </LinearLayout>
 
     </LinearLayout>

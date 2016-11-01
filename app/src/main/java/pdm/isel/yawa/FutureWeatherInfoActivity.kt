@@ -28,14 +28,14 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_future_weather_info)
 
-        date = findViewById(R.id.dateView) as TextView
-        tmin = findViewById(R.id.tMinView) as TextView
-        tmax = findViewById(R.id.tMaxView) as TextView
-        pressure = findViewById(R.id.pressureView) as TextView
-        humidity = findViewById(R.id.humidityView) as TextView
-        description = findViewById(R.id.descriptionView) as TextView
+        date = findViewById(R.id.future_date) as TextView
+        tmin = findViewById(R.id.future_temp_min) as TextView
+        tmax = findViewById(R.id.future_temp_max) as TextView
+        pressure = findViewById(R.id.future_pressure) as TextView
+        humidity = findViewById(R.id.future_hum) as TextView
+        description = findViewById(R.id.future_description) as TextView
 
-        image = findViewById(R.id.iconView) as ImageView
+        image = findViewById(R.id.future_image) as ImageView
 
     }
 

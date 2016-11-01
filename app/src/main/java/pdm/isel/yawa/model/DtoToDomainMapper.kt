@@ -10,18 +10,18 @@ class DtoToDomainMapper(){
     public fun mapCurrentDto(currentInfo: CurrentWeatherInfoDto): Current{
         return Current(currentInfo.name,
                 currentInfo.sys.country,
-                currentInfo.coord.lon,
-                currentInfo.coord.lat,
+                currentInfo.coord.lon.toString(),
+                currentInfo.coord.lat.toString(),
                 CurrentWeatherInfo(
                 getDate(currentInfo.dt),
-                        currentInfo.main.pressure.toString() + "hPA",
-                        currentInfo.main.humidity.toString() + "%",
+                        currentInfo.main.pressure.toString() + " hPA",
+                        currentInfo.main.humidity.toString() + " %",
                         currentInfo.weather[0].description,
                         currentInfo.weather[0].icon,
                         getRoundTempString(currentInfo.main.temp),
                         getSunriseOrSunsetString(currentInfo.sys.sunrise),
-                        getSunriseOrSunsetString(currentInfo.sys.sunrise),
-                        getRoundTempString(currentInfo.wind.speed) + "m/s"
+                        getSunriseOrSunsetString(currentInfo.sys.sunset),
+                        currentInfo.wind.speed.toString() + " m/s"
                 ))
     }
 
@@ -33,16 +33,16 @@ class DtoToDomainMapper(){
         }
         return Forecast(forecastDto.city.name,
                 forecastDto.city.country,
-                forecastDto.city.coord.lon,
-                forecastDto.city.coord.lat,
+                forecastDto.city.coord.lon.toString(),
+                forecastDto.city.coord.lat.toString(),
                 infoElements
                 )
     }
 
     private fun mapFutureWeatherInfoDto(futureWeatherInfoDto: FutureWeatherInfoDto): FutureWeatherInfo {
         return FutureWeatherInfo(getDate(futureWeatherInfoDto.dt),
-                futureWeatherInfoDto.pressure.toString() + "hPA",
-                futureWeatherInfoDto.humidity.toString() + "%",
+                futureWeatherInfoDto.pressure.toString() + " hPA",
+                futureWeatherInfoDto.humidity.toString() + " %",
                 futureWeatherInfoDto.weather[0].description,
                 futureWeatherInfoDto.weather[0].icon,
                 getRoundTempString(futureWeatherInfoDto.temp.min),
