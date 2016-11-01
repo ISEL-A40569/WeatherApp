@@ -11,7 +11,7 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_future_weather_info)
+        setContentView(R.layout.future_weather_info)
 
         Log.d("RESPONSE", "futureWeatherInfo FOR: " + futureWeatherInfo!!.getDate())
 

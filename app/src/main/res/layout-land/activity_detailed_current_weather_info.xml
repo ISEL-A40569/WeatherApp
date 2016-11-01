@@ -231,7 +231,9 @@
                     android:layout_height="83dp"
                     app:srcCompat="@android:drawable/alert_light_frame"
                     android:id="@+id/detail_image"
-                    android:layout_weight="0.50" />
+                    android:layout_weight="0.50"
+
+                    />
 
                 <TextView
                     android:text="@string/detail_sunset"

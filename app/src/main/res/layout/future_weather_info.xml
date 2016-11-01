@@ -23,7 +23,6 @@
             android:text="@string/detail_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView14"
             android:textAlignment="center"
             style="@style/Titles"/>
 
@@ -39,7 +38,6 @@
             android:text="@string/detail_temp_max"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView18"
             android:textAlignment="center"
             style="@style/Titles"/>
 

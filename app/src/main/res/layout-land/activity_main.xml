@@ -33,19 +33,39 @@
                 android:text="@string/detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/detail_button" />
+                android:id="@+id/detail_button"
+                android:onClick="onDetails"/>
 
             <Button
                 android:text="@string/next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/more_button" />
+                android:id="@+id/more_button"
+                android:onClick="onNext"/>
 
             <Button
                 android:text="@string/choose_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/city_button" />
+                android:id="@+id/city_button"
+                android:onClick="onCity"/>
+
+            <Button
+                android:text="@string/refresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/refresh_button"
+
+                android:onClick="onRefresh"/>
+
+            <Button
+                android:text="@string/seeCredits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/credits_button"
+                android:onClick="onCredits"/>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -55,6 +75,15 @@
             android:gravity="center"
             android:layout_weight="0.67"
             android:weightSum="1">
+
+            <TextView
+                android:text="15º"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="100dp"
+                android:gravity="center"
+                android:id="@+id/main_temp"
+                style="@style/MainInfo"/>
 
             <TextView
                 android:text="city"
@@ -73,21 +102,6 @@
                 android:id="@+id/main_country"
                 style="@style/MainInfo"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:text="15º"
-                android:layout_width="240dp"
-                android:layout_height="match_parent"
-                android:textSize="100dp"
-                android:gravity="center"
-                android:id="@+id/main_temp"
-                style="@style/MainInfo"/>
         </LinearLayout>
 
         <LinearLayout
