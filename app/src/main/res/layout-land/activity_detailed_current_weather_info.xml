@@ -55,7 +55,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/textView8"
-                    android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
 
@@ -64,7 +63,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/d_temp"
-                    android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
 
@@ -73,7 +71,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/detail_name"
-                    android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
 
@@ -82,7 +79,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/d_city"
-                    android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
 
@@ -91,7 +87,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/textView16"
-                    android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
 
@@ -100,25 +95,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/d_country"
-                    android:textSize="25dp"
-                    android:textAlignment="center"
-                    style="@style/MainInfo"/>
-
-                <TextView
-                    android:text="@string/detail_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView33"
-                    android:textSize="15dp"
-                    android:textAlignment="center"
-                    style="@style/Titles"/>
-
-                <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/d_desc"
-                    android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
 
@@ -127,7 +103,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/textView17"
-                    android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
 
@@ -136,7 +111,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/d_date"
-                    android:textSize="25dp"
+                    android:textAlignment="center"
+                    style="@style/MainInfo"/>
+
+                <TextView
+                    android:text="@string/detail_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView33"
+                    android:textAlignment="center"
+                    style="@style/Titles"/>
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/d_desc"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
 
@@ -153,7 +143,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/textView12"
-                    android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
 
@@ -162,7 +151,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/d_lon"
-                    android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
 
@@ -171,7 +159,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/textView10"
-                    android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
 
@@ -180,7 +167,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/d_lat"
-                    android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
 
@@ -189,7 +175,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView27"
-                    android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
 
@@ -198,7 +183,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/d_press"
-                    android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
 
@@ -207,7 +191,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView28"
-                    android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
 
@@ -216,7 +199,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/d_wind"
-                    android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
 
@@ -225,7 +207,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView31"
-                    android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
 
@@ -234,7 +215,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/d_hum"
-                    android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
 
@@ -258,7 +238,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView24"
-                    android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
 
@@ -267,7 +246,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/d_sunset"
-                    android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
 
@@ -276,7 +254,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView26"
-                    android:textSize="15dp"
                     android:textAlignment="center"
                     style="@style/Titles"/>
 
@@ -285,7 +262,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/d_sunrise"
-                    android:textSize="25dp"
                     android:textAlignment="center"
                     style="@style/MainInfo"/>
 
