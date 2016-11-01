@@ -41,14 +41,16 @@ class MainActivity : AppCompatActivity() {
     var country: TextView? = null
     var description: TextView? = null
     var image: ImageView? = null
-    var img: Bitmap? = null
 
     public fun getIconView(url: String): ImageRequest {
         return ImageRequest(url,
                 object : Response.Listener<Bitmap> {
                     override fun onResponse(bitmap: Bitmap) {
-                        image?.setImageBitmap(bitmap)
-                        img = bitmap
+                        Log.d("RESPONSE", "GOT ICON")
+
+                        currentWeather?.currentInfo?.image = bitmap
+                        cache.push(currentWeather!!, "current")
+                        image?.setImageBitmap(currentWeather?.currentInfo?.image)
                     }
                 }, 0, 0, null,
                 object : Response.ErrorListener {
@@ -105,7 +107,12 @@ class MainActivity : AppCompatActivity() {
         country?.setText(currentWeather?.country)
         description?.setText(currentWeather?.currentInfo?.description)
 
-        application.requestQueue.add(getIconView(URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon)))//TODO: IMAGE IS NOT BEING SAVED
+        if(currentWeather?.currentInfo?.image != null){
+            Log.d("RESPONSE", "SETTING IMAGE")
+            image?.setImageBitmap(currentWeather?.currentInfo?.image!!)
+        }
+
+
     }
 
     private fun makeRequest() {
@@ -123,7 +130,8 @@ class MainActivity : AppCompatActivity() {
 
                             if (currentWeather != null) {
                                 Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.currentInfo?.temp)
-                                cache.push(currentWeather!!, "current")
+
+                                application.requestQueue.add(getIconView(URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon)))//TODO: IMAGE IS NOT BEING SAVED
 
                                 setViews()
 
@@ -158,13 +166,13 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-
-        if (savedInstanceState != null) {    //TODO imagem
-            img = savedInstanceState!!.getParcelable("bitmap")
-            image?.setImageBitmap(img)
-        }
-    }
+//    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+//
+//        if (savedInstanceState != null) {    //TODO imagem
+//            img = savedInstanceState!!.getParcelable("bitmap")
+//            image?.setImageBitmap(img)
+//        }
+//    }
 
 //INTENTS
 // #############################################################################################

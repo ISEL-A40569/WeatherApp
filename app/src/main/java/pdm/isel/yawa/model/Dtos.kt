@@ -7,7 +7,7 @@ data class CurrentWeatherInfoDto(val name: String, val coord: Coords, val weathe
 
 data class Coords (val lon: Float, val lat: Float){}
 
-data class Weather (val id: Int, val main: String, val description: String, val icon: String) {}
+data class Weather (val description: String, val icon: String) {}
 
 data class Main(val temp: Float, val pressure: Float, val humidity: Float)
 
