@@ -59,7 +59,7 @@ class DtoToDomainMapper(){
         return d[2] + " " + d[1] + " "+ d[5]
     }
 
-    public fun getSunriseOrSunsetString(riseOrSetDateValue: Long): String{
+    private fun getSunriseOrSunsetString(riseOrSetDateValue: Long): String{
         var date:String = formatDateValue(riseOrSetDateValue)
         var d = date.split(" ")
         return d[3]

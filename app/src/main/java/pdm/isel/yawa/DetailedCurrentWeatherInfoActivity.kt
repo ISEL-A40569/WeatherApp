@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import java.util.Date;
 
 class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
 
@@ -22,10 +21,8 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
     var sunset: TextView? = null
     var temp: TextView? = null
     var press: TextView? = null
-
     var image: ImageView? = null
 
-    var bitMap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +30,10 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
 
         Log.d("RESPONSE", "WEATHER INFO FOR: " + currentWeather!!.name)
 
+        initViews()
+    }
+
+    private fun initViews() {
         city = findViewById(R.id.d_city) as TextView?
         country = findViewById(R.id.d_country) as TextView?
         date = findViewById(R.id.d_date) as TextView?
@@ -45,8 +46,15 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
         sunset = findViewById(R.id.d_sunset) as TextView?
         temp = findViewById(R.id.d_temp) as TextView?
         press = findViewById(R.id.d_press) as TextView?
+        image = findViewById(R.id.detail_image) as ImageView?
+    }
 
+    override fun onStart(){
+        super.onStart()
+        setViews()
+    }
 
+    private fun setViews() {
         city!!.setText(currentWeather!!.cityName)
         country!!.setText(currentWeather!!.country)
         date!!.setText(currentWeather!!.currentInfo._date)
@@ -59,9 +67,8 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
         sunset!!.setText(currentWeather!!.currentInfo.sunset)
         temp!!.setText(currentWeather!!.currentInfo.temp)
         press!!.setText(currentWeather!!.currentInfo._pressure)
-
-        image = findViewById(R.id.detail_image) as ImageView?
-
-
+        image!!.setImageBitmap(currentWeather!!.currentInfo.image)
     }
+
+
 }

@@ -1,7 +1,5 @@
 package pdm.isel.yawa.model
 
-import java.util.*
-
 /**
  * Created by Dani on 24-10-2016.
  */

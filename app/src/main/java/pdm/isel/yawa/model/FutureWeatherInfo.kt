@@ -1,8 +1,5 @@
 package pdm.isel.yawa.model
 
-import android.graphics.Bitmap
-import java.util.*
-
 /**
  * Created by Dani on 21-10-2016.
  */

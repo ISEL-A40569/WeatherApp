@@ -41,22 +41,7 @@ class MainActivity : AppCompatActivity() {
     var country: TextView? = null
     var description: TextView? = null
     var image: ImageView? = null
-    var img: Bitmap? = null
 
-    public fun getIconView(url: String): ImageRequest {
-        return ImageRequest(url,
-                object : Response.Listener<Bitmap> {
-                    override fun onResponse(bitmap: Bitmap) {
-                        image?.setImageBitmap(bitmap)
-                        img = bitmap
-                    }
-                }, 0, 0, null,
-                object : Response.ErrorListener {
-                    override fun onErrorResponse(error: VolleyError) {
-                        Log.d("ERROR: ", error.toString())
-                    }
-                })
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,21 +54,7 @@ class MainActivity : AppCompatActivity() {
         description = findViewById(R.id.main_description) as TextView?
         image = findViewById(R.id.main_view) as ImageView?
 
-
     }
-//    else {
-//            if (savedInstanceState != null) {
-//                Log.d("RESPONSE", "LOAD FROM BUNDLE")
-//                val value = savedInstanceState.getInt("temp")
-//                temp?.setText("" + value + "º")
-//                country?.setText(savedInstanceState.getString("country"))
-//                cityName?.setText(savedInstanceState.getString("cityName"))
-//                description?.setText(savedInstanceState.getString("description"))
-///               image = findViewById(R.id.main_view) as ImageView
-//                image!!.setImageResource(R.drawable.slb)
-//            }
-//        }
-//     }
 
     override fun onStart() {
         super.onStart()
@@ -105,7 +76,10 @@ class MainActivity : AppCompatActivity() {
         country?.setText(currentWeather?.country)
         description?.setText(currentWeather?.currentInfo?.description)
 
-        application.requestQueue.add(getIconView(URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon)))//TODO: IMAGE IS NOT BEING SAVED
+        if(currentWeather?.currentInfo?.image != null){
+            Log.d("RESPONSE", "SETTING IMAGE")
+            image?.setImageBitmap(currentWeather?.currentInfo?.image!!)
+        }
     }
 
     private fun makeRequest() {
@@ -120,13 +94,10 @@ class MainActivity : AppCompatActivity() {
                             currentWeather = DTO_MAPPER.mapCurrentDto(
                                     JSON_MAPPER.mapWeatherInfoJson(response.toString()))
 
-
                             if (currentWeather != null) {
                                 Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.currentInfo?.temp)
-                                cache.push(currentWeather!!, "current")
-
+                                application.requestQueue.add(getIconView(URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon)))
                                 setViews()
-
                             }
                         } else {
                             //TODO
@@ -139,32 +110,28 @@ class MainActivity : AppCompatActivity() {
         }))
     }
 
+    private fun getIconView(url: String): ImageRequest {
+        return ImageRequest(url,
+                object : Response.Listener<Bitmap> {
+                    override fun onResponse(bitmap: Bitmap) {
+                        Log.d("RESPONSE", "GOT ICON")
+                        currentWeather?.currentInfo?.image = bitmap
+                        cache.push(currentWeather!!, "current")
+                        image?.setImageBitmap(currentWeather?.currentInfo?.image)
+                    }
+                }, 0, 0, null,
+                object : Response.ErrorListener {
+                    override fun onErrorResponse(error: VolleyError) {
+                        Log.d("ERROR: ", error.toString())
+                    }
+                })
+    }
+
     fun onRefresh(view: View) {
         makeRequest()
         setViews()
     }
-//SAVING INFORMATION
-// #############################################################################################
 
-//    override fun onSaveInstanceState(outState: Bundle?) {
-//        super.onSaveInstanceState(outState)
-//
-//        if (outState != null) {
-//            outState.putInt("temp", currentWeather!!.temp.toInt())
-//            outState.putString("cityName", currentWeather!!.name)
-//            outState.putString("country", currentWeather!!.country)
-//            outState.putString("description", currentWeather!!.description)
-//            outState.putParcelable("bitmap", img);
-//        }
-//    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-
-        if (savedInstanceState != null) {    //TODO imagem
-            img = savedInstanceState!!.getParcelable("bitmap")
-            image?.setImageBitmap(img)
-        }
-    }
 
 //INTENTS
 // #############################################################################################
@@ -172,7 +139,6 @@ class MainActivity : AppCompatActivity() {
     fun onCity(view: View) {
 
         Log.d("YAWA_TAG", "onCity")
-        // Toast.makeText(this, "GO TO LIST", Toast.LENGTH_LONG).show()
 
         val intent = Intent(this, CityListActivity::class.java)
         startActivity(intent)
@@ -184,7 +150,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("YAWA_TAG", "onDetails")
         val intent = Intent(this, DetailedCurrentWeatherInfoActivity::class.java)
         startActivity(intent)
-        //Toast.makeText(this, "Detalhes do dia", Toast.LENGTH_LONG).show()
     }
 
 
@@ -193,7 +158,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("YAWA_TAG", "onNext")
         val intent = Intent(this, ForecastActivity::class.java)
         startActivity(intent)
-        //Toast.makeText(this, "Next days", Toast.LENGTH_LONG).show()
     }
 
 
