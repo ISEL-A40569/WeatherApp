@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
                 object : Response.Listener<Bitmap> {
                     override fun onResponse(bitmap: Bitmap) {
                         Log.d("RESPONSE", "GOT ICON")
-
                         currentWeather?.currentInfo?.image = bitmap
                         cache.push(currentWeather!!, "current")
                         image?.setImageBitmap(currentWeather?.currentInfo?.image)
@@ -111,7 +110,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("RESPONSE", "SETTING IMAGE")
             image?.setImageBitmap(currentWeather?.currentInfo?.image!!)
         }
-
 
     }
 

@@ -48,8 +48,8 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
         pressure?.setText(futureWeatherInfo?._pressure)
         humidity?.setText(futureWeatherInfo?._humidity)
         description?.setText(futureWeatherInfo?.description)
-
-        application.requestQueue.add(getIconView(URI_FACTORY.getIcon(futureWeatherInfo!!.icon)))//TODO: IMAGE IS NOT BEING SAVED
+        image?.setImageBitmap(futureWeatherInfo?.image)
+        //application.requestQueue.add(getIconView(URI_FACTORY.getIcon(futureWeatherInfo!!.icon)))//TODO: IMAGE IS NOT BEING SAVED
     }
 
     public fun getIconView(url: String): ImageRequest {

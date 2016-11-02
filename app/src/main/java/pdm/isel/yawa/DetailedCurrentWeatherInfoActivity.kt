@@ -45,7 +45,7 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
         sunset = findViewById(R.id.d_sunset) as TextView?
         temp = findViewById(R.id.d_temp) as TextView?
         press = findViewById(R.id.d_press) as TextView?
-
+        image = findViewById(R.id.detail_image) as ImageView?
 
         city!!.setText(currentWeather!!.cityName)
         country!!.setText(currentWeather!!.country)
@@ -59,8 +59,8 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
         sunset!!.setText(currentWeather!!.currentInfo.sunset)
         temp!!.setText(currentWeather!!.currentInfo.temp)
         press!!.setText(currentWeather!!.currentInfo._pressure)
+        image!!.setImageBitmap(currentWeather!!.currentInfo.image)
 
-        image = findViewById(R.id.detail_image) as ImageView?
 
 
     }

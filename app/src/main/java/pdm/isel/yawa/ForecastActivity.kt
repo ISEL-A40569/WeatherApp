@@ -2,6 +2,7 @@ package pdm.isel.yawa
 
 import android.app.ListActivity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,15 +11,16 @@ import android.widget.TextView
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
+import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
-import pdm.isel.yawa.adapter.BasicWeatherInfoArrayAdapter
+import pdm.isel.yawa.adapter.FutureWeatherInfoArrayAdapter
 import pdm.isel.yawa.model.Forecast
 import pdm.isel.yawa.model.FutureWeatherInfo
 import pdm.isel.yawa.uri.RequestUriFactory
 
 class ForecastActivity : ListActivity() {
-    val NUMBER_OF_FORECAST_DAYS = 10
+    val NUMBER_OF_FORECAST_DAYS = 16
 
     var forecast: Forecast? = null
 
@@ -40,7 +42,6 @@ class ForecastActivity : ListActivity() {
             makeRequest()
 
         }
-
     }
 
     private fun makeRequest() {
@@ -53,10 +54,26 @@ class ForecastActivity : ListActivity() {
                             forecast = DTO_MAPPER.mapForecastDto(
                                     JSON_MAPPER.mapForecastJson(response.toString()))
 
-                            cache.push(forecast!!, "forecast")
+                            for(i in forecast?.list!!.indices){
+                                var futureWI = forecast?.list!![i]
+                                application.requestQueue.add(ImageRequest(URI_FACTORY.getIcon(futureWI.icon),
+                                        object : Response.Listener<Bitmap> {
+                                            override fun onResponse(bitmap: Bitmap) {
+                                                Log.d("RESPONSE", "GOT ICON")
+                                                futureWI.image = bitmap
 
-
-                            setView()
+                                                if(i == forecast?.list!!.size -1){
+                                                    cache.push(forecast!!, "forecast")
+                                                    setView()
+                                                }
+                                            }
+                                        }, 0, 0, null,
+                                        object : Response.ErrorListener {
+                                            override fun onErrorResponse(error: VolleyError) {
+                                                Log.d("ERROR: ", error.toString())
+                                            }
+                                        }))
+                            }
 
                         } else {
                             //TODO
@@ -69,8 +86,9 @@ class ForecastActivity : ListActivity() {
         }))
     }
 
+
     private fun setView() {
-        listView.setAdapter(BasicWeatherInfoArrayAdapter(applicationContext, forecast?.list!!))
+        listView.setAdapter(FutureWeatherInfoArrayAdapter(applicationContext, forecast?.list!!))
     }
 
     override fun onListItemClick(l: ListView?, v: View?, position: Int, id: Long) {
