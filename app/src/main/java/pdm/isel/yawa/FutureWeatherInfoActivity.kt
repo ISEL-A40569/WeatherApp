@@ -19,29 +19,32 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
     var tmax: TextView? = null
     var pressure: TextView? = null
     var humidity: TextView? = null
-    var main: TextView? = null
     var description: TextView? = null
-
     var image: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_future_weather_info)
 
+        initViews()
+    }
+
+    private fun initViews() {
         date = findViewById(R.id.future_date) as TextView
         tmin = findViewById(R.id.future_temp_min) as TextView
         tmax = findViewById(R.id.future_temp_max) as TextView
         pressure = findViewById(R.id.future_pressure) as TextView
         humidity = findViewById(R.id.future_hum) as TextView
         description = findViewById(R.id.future_description) as TextView
-
         image = findViewById(R.id.future_image) as ImageView
-
     }
 
     override fun onStart(){
         super.onStart()
+        setViews()
+    }
 
+    private fun setViews() {
         date?.setText(futureWeatherInfo?._date)
         tmin?.setText(futureWeatherInfo?.tempMin)
         tmax?.setText(futureWeatherInfo?.tempMax)
@@ -49,20 +52,6 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
         humidity?.setText(futureWeatherInfo?._humidity)
         description?.setText(futureWeatherInfo?.description)
         image?.setImageBitmap(futureWeatherInfo?.image)
-        //application.requestQueue.add(getIconView(URI_FACTORY.getIcon(futureWeatherInfo!!.icon)))//TODO: IMAGE IS NOT BEING SAVED
     }
 
-    public fun getIconView(url: String): ImageRequest {
-        return ImageRequest(url,
-                object : Response.Listener<Bitmap> {
-                    override fun onResponse(bitmap: Bitmap) {
-                        image?.setImageBitmap(bitmap)
-                    }
-                }, 0, 0, null,
-                object : Response.ErrorListener {
-                    override fun onErrorResponse(error: VolleyError) {
-                        Log.d("ERROR: ", error.toString())
-                    }
-                })
-    }
 }

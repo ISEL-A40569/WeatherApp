@@ -1,6 +1,5 @@
 package pdm.isel.yawa.cache
 
-import android.util.Log
 import pdm.isel.yawa.language
 import pdm.isel.yawa.model.CityInfo
 import java.util.*

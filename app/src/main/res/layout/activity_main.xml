@@ -88,8 +88,7 @@ g
                 app:srcCompat="@android:drawable/dialog_frame"
                 android:id="@+id/main_view"
                 android:layout_weight="0.43"
-                android:scaleX="2"
-                android:scaleY="2"/>
+                />
 
         </LinearLayout>
 
