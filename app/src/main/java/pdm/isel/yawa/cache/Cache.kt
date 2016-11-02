@@ -10,12 +10,13 @@ import java.util.*
 class Cache(val size: Int) {
     private val map = HashMap<String, CacheEntry>(size)
     private val list = LinkedList<String>();
+    private val TIME_TO_LIVE = 3600000  // one hour
 
 
     fun pop(key: String): CityInfo? {
 
         if (list.contains(key)) {
-            if((System.currentTimeMillis() - map.get(key)?.timeStamp!!) > 3600000){
+            if((System.currentTimeMillis() - map.get(key)?.timeStamp!!) > TIME_TO_LIVE){
                 list.remove(key)
                 map.remove(key)
                 return null
