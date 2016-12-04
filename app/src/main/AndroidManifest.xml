@@ -20,10 +20,16 @@
         </activity>
         <activity android:name=".CityListActivity" />
         <activity android:name=".DetailedCurrentWeatherInfoActivity" />
-        <activity android:name=".CityBrowserActivity" />
         <activity android:name=".ForecastActivity" />
         <activity android:name=".BasicWeatherInfoActivity" />
         <activity android:name=".CreditsActivity"></activity>
+
+        <provider
+            android:name=".provider.WeatherProvider"
+            android:authorities="pdm.isel.yawa.provider"
+            android:exported="false" />
     </application>
+
+
 
 </manifest>
