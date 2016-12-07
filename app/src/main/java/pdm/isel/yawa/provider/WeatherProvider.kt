@@ -8,6 +8,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
 import android.text.TextUtils
+import android.util.Log
 
 
 class WeatherProvider : ContentProvider() {
@@ -66,12 +67,14 @@ class WeatherProvider : ContentProvider() {
     private var dbHelper: DbOpenHelper? = null
 
     override fun onCreate(): Boolean {
+        Log.d("YAWA_TAG", "WeatherProvider - onCreate")
         dbHelper = DbOpenHelper(context)
         return true
     }
 
 
     override fun getType(uri: Uri?): String {
+        Log.d("YAWA_TAG", "WeatherProvider - getType")
         when (URI_MATCHER.match(uri)) {
             CURRENT_LST -> return WeatherContract.Current.CONTENT_TYPE
             CURRENT_OBJ -> return WeatherContract.Current.CONTENT_ITEM_TYPE
@@ -86,8 +89,8 @@ class WeatherProvider : ContentProvider() {
     }
 
     override fun query(uri: Uri?, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor {
+        Log.d("YAWA_TAG", "WeatherProvider - query method")
         var sortOrder = sortOrder
-
         val qbuilder = SQLiteQueryBuilder()
         when (URI_MATCHER.match(uri)) {
 
@@ -150,6 +153,7 @@ class WeatherProvider : ContentProvider() {
 
 
     override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
+        Log.d("YAWA_TAG", "WeatherProvider - update")
         val table: String
         if (selection != null) throw IllegalArgumentException("selection not supported")
         when (URI_MATCHER.match(uri)) {
@@ -169,6 +173,7 @@ class WeatherProvider : ContentProvider() {
     }
 
     override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int {
+        Log.d("YAWA_TAG", "WeatherProvider - delete method")
         val table: String
         // posso deixar o IF aqui fora?
         if (selection != null) throw IllegalArgumentException("selection not supported")
@@ -202,6 +207,7 @@ class WeatherProvider : ContentProvider() {
 
 
     override fun insert(uri: Uri?, values: ContentValues?): Uri {
+        Log.d("YAWA_TAG", "WeatherProvider - insert method")
         val table: String
         when (URI_MATCHER.match(uri)) {
             CURRENT_LST -> table = DbSchema.Current.TBL_NAME
@@ -219,6 +225,7 @@ class WeatherProvider : ContentProvider() {
     }
 
     private fun badUri(uri: Uri): Exception {
+        Log.d("YAWA_TAG", "WeatherProvider - badUri method")
         throw IllegalArgumentException("Unsupported URI: " + uri)
     }
 }

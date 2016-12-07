@@ -16,8 +16,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
 import pdm.isel.yawa.cache.Cache
 import pdm.isel.yawa.json.JsonToDtoMapper
-import pdm.isel.yawa.model.Current
-import pdm.isel.yawa.model.DtoToDomainMapper
+import pdm.isel.yawa.model.*
+import pdm.isel.yawa.provider.WeatherContract
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.d("YAWA_TAG", "MAIN_onCreate")
 
-        temp = findViewById(R.id.main_temp) as TextView?
+
         cityName = findViewById(R.id.main_city) as TextView?
         country = findViewById(R.id.main_country) as TextView?
         description = findViewById(R.id.main_description) as TextView?
@@ -164,5 +164,24 @@ class MainActivity : AppCompatActivity() {
     fun onCredits(view: View) {
         val intent = Intent(this, CreditsActivity::class.java)
         startActivity(intent)
+    }
+
+    fun onDbTest(view: View){
+        val intent = Intent(this, DbTestActivity::class.java)
+        startActivity(intent)
+    }
+
+
+    private fun insertIntoTableCurrent(curr: Current) {
+        //TODO
+    }
+    private fun insertIntoTableForescast(forecast: Forecast) {
+        //TODO
+    }
+    private fun insertIntoTableCurrent(curr: CurrentWeatherInfo) {
+        //TODO
+    }
+    private fun insertIntoTableCurrent(curr: FutureWeatherInfo) {
+        //TODO
     }
 }

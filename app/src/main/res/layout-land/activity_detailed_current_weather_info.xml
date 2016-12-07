@@ -48,7 +48,8 @@
                 android:orientation="vertical"
                 android:layout_width="162dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.64">
+                android:layout_weight="0.64"
+                >
 
                 <TextView
                     android:text="@string/detail_temperature"

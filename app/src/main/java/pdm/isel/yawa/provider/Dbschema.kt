@@ -2,15 +2,12 @@ package pdm.isel.yawa.provider
 
 import android.provider.BaseColumns
 
-    val DB_NAME = "profs.db"
-    val DB_VERSION = 1
-    val COL_ID = BaseColumns._ID
 
 
 object DbSchema {
 
     val DB_NAME = "yawa.db"
-    val DB_VERSION = 1
+    val DB_VERSION = 3
     val COL_ID = BaseColumns._ID
 
 
@@ -22,19 +19,20 @@ object DbSchema {
         val COL_LAT = "lat"
 
         val DDL_CREATE_TABLE =
-                "CREATE TABLE " + TBL_NAME + "(" +
+                "CREATE TABLE " + TBL_NAME + " ( " +
                         COL_ID + " INTEGER PRIMARY KEY, " +
                         COL_NAME + " TEXT UNIQUE, " +
                         COL_COUNTRY + " TEXT, " +
                         COL_LON + " TEXT, " +
                         COL_LAT + " TEXT" +
-                        ")"
+                        ");"
 
-        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME
+        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME +";"
     }
 
 
     object Current {
+        //val COL_ID = BaseColumns._ID
         val TBL_NAME = "current"
         val COL_NAME = "name"
         val COL_COUNTRY = "country"
@@ -42,16 +40,18 @@ object DbSchema {
         val COL_LAT = "lat"
 
         val DDL_CREATE_TABLE =
-                "CREATE TABLE " + TBL_NAME + "( " +
+                "CREATE TABLE " + TBL_NAME + " ( " +
+                        COL_ID + " INTEGER PRIMARY KEY, " +
                         COL_NAME + " TEXT UNIQUE, " +
                         COL_COUNTRY + " TEXT, " +
                         COL_LON + " TEXT, " +
-                        COL_LAT + " TEXT, " +
+                        COL_LAT + " TEXT " +
                         ")"
-        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME
+        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME +";"
     }
 
     object FutureWeatherInfo {
+        //val COL_ID = BaseColumns._ID
         val TBL_NAME = "futureweatherinfo"
         val COL_FORECAST_ID = "forecastId"
         val COL_DATE = "date"
@@ -62,7 +62,7 @@ object DbSchema {
         val COL_TEMP_MAX = "tempMax"
 
         val DDL_CREATE_TABLE =
-                "CREATE TABLE " + TBL_NAME + "( " +
+                "CREATE TABLE " + TBL_NAME + " ( " +
                             COL_ID + " INTEGER, " +
                             COL_FORECAST_ID + " INTEGER, " +
                             COL_DATE + " TEXT, " +
@@ -71,13 +71,14 @@ object DbSchema {
                             COL_DESC + " TEXT, " +
                             COL_TEMP_MIN + " TEXT, " +
                             COL_TEMP_MAX + " TEXT, " +
-                            "PRIMARY KEY ("+COL_ID+","+ COL_FORECAST_ID+"), " +
-                            "FOREIGN KEY ("+COL_FORECAST_ID+") REFERENCES forecast(id)" +
-                            ")"
-        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME
+                            "PRIMARY KEY ("+COL_ID+", "+ COL_FORECAST_ID+"), " +
+                            "FOREIGN KEY ("+COL_FORECAST_ID+") REFERENCES forecast(id) " +
+                            " );"
+        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME + ";"
     }
 
     object CurrentWeatherInfo {
+        //val COL_ID = BaseColumns._ID
         val TBL_NAME = "currentweatherinfo"
         val COL_CURR_ID = "currentid"
         val COL_DATE = "date"
@@ -91,9 +92,9 @@ object DbSchema {
 
 
         val DDL_CREATE_TABLE =
-                "CREATE TABLE " + TBL_NAME + "( " +
+                "CREATE TABLE " + TBL_NAME + " ( " +
                         COL_ID + " INTEGER, " +
-                        COL_CURR_ID + "INTEGER, " +
+                        COL_CURR_ID + " INTEGER, " +
                         COL_DATE + " TEXT, " +
                         COL_PRESS + " TEXT, " +
                         COL_HUM + " TEXT, " +
@@ -103,9 +104,9 @@ object DbSchema {
                         COL_SUNSET + " TEXT, " +
                         COL_WINDSPEED + " TEXT, " +
                         "PRIMARY KEY ("+COL_ID+","+ COL_CURR_ID+"), " +
-                        "FOREIGN KEY ("+ COL_CURR_ID+") REFERENCES current(id)" +
-                        ")"
-        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME
+                        "FOREIGN KEY ("+ COL_CURR_ID+") REFERENCES current(id) " +
+                        ");"
+        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME + ";"
     }
 
 

@@ -16,6 +16,12 @@
         android:weightSum="1">
 
         <TextView
+            android:text="\n\n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView" />
+
+        <TextView
             android:text="@string/detail_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,6 +114,12 @@
             android:id="@+id/future_description"
             android:textAlignment="center"
             style="@style/MainInfo"/>
+
+        <TextView
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2" />
 
         <ImageView
             android:layout_width="match_parent"

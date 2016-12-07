@@ -67,6 +67,7 @@ object WeatherContract{
 
         val SELECT_ALL = arrayOf(BaseColumns._ID, CURR_ID, DATE, PRESS, HUM, DESCRIPTION, TEMP, SUNRISE, SUNSET, WINDSPEED)
         val DEFAULT_SORT_ORDER = BaseColumns._ID + " ASC"
+        val SELECT_TEST = arrayOf(BaseColumns._ID, CURR_ID, DESCRIPTION)
     }
 
     object Current : BaseColumns{
