@@ -29,7 +29,8 @@
             android:authorities="pdm.isel.yawa.provider"
             android:exported="false" />
 
-        <activity android:name=".DbTestActivity"></activity>
+        <activity android:name=".DbTestActivity" />
+        <activity android:name=".PreferencesActivity"></activity>
     </application>
 
 </manifest>

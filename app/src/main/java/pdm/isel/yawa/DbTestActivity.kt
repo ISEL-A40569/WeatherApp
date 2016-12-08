@@ -70,7 +70,6 @@ class DbTestActivity : ListActivity(), LoaderManager.LoaderCallbacks<Cursor> {
     }
 
 
-
     fun onInsert(view: View) {
         Log.d("DbTest", "onInsert")
 
