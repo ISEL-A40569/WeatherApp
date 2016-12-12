@@ -89,7 +89,7 @@ class WeatherService() : IntentService("WeatherService") {
                                             }
                                         }))
                             }
-                            Log.d("OnService", "Updating " + current!!.name + " forecast info")
+                            Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
                             //TODO: INSERT FORECAST HERE
 
                         } else {
