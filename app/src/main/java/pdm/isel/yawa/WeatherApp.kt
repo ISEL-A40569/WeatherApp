@@ -21,7 +21,6 @@ class WeatherApp : Application() {
         super.onCreate()
         Log.d("Weather/App", "WeatherApp onCreate")
 
-
         val alarmIntent = Intent(this, WeatherBroadcastReceiver::class.java)
 
         if (PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_NO_CREATE) == null)

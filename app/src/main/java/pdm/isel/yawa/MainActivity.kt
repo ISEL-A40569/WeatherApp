@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         Log.d("RESPONSE", "ON START, location = " + location)
         currentWeather = cache.pop(location + language + "current") as Current?
+
         if (currentWeather != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
             setViews()
