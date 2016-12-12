@@ -1,7 +1,9 @@
 package pdm.isel.yawa
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -54,6 +56,13 @@ class MainActivity : AppCompatActivity() {
         description = findViewById(R.id.main_description) as TextView?
         image = findViewById(R.id.main_view) as ImageView?
 
+        var connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected){
+            Log.d("OnCreate", "Network Available")
+        }else{
+            Log.d("OnCreate", "Network Not Available")
+        }
     }
 
     override fun onStart() {

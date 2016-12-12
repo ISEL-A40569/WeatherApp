@@ -15,6 +15,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
 import pdm.isel.yawa.adapter.FutureWeatherInfoArrayAdapter
 import pdm.isel.yawa.model.Forecast
+import pdm.isel.yawa.provider.WeatherContract
 import pdm.isel.yawa.uri.RequestUriFactory
 
 class ForecastActivity : ListActivity() {
@@ -31,6 +32,8 @@ class ForecastActivity : ListActivity() {
         super.onStart()
 
         forecast = cache.pop(location + language + "forecast") as Forecast?
+
+        //val cursor = contentResolver.query(WeatherContract.Forecast.CONTENT_URI, null, null, null, null);TODO
 
         if (forecast != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
