@@ -27,9 +27,11 @@ class WeatherService() : IntentService("WeatherService") {
     val NUMBER_OF_FORECAST_DAYS = 16
 
     override fun onHandleIntent(intent: Intent?) {
-        Log.d("OnService", "onHandleIntent")
+        Log.d("OnService", "onHandleIntent start")
         makeCurrentRequest()
         makeForecastRequest()
+        Log.d("OnService", "onHandleIntent end")
+
     }
 
     private fun makeCurrentRequest() {
@@ -37,14 +39,13 @@ class WeatherService() : IntentService("WeatherService") {
                 RequestUriFactory().getNowWeather(location, language), null,
                 object : Response.Listener<JSONObject> {
                     override fun onResponse(response: JSONObject?) {
-//                        Log.d("RESPONSE ", "URL " + URI_FACTORY.getNowWeather(location, language))
-
                         if (response != null) {
 
                             current = DTO_MAPPER.mapCurrentDto(
                                     JSON_MAPPER.mapWeatherInfoJson(response.toString()))
 
-                            if (currentWeather != null) {
+                            if (current != null) {
+                                Log.d("OnService", "Updating " + current!!.name + " current info")
 
                                 //TODO: INSERT CURRENT HERE
                             }
@@ -79,7 +80,7 @@ class WeatherService() : IntentService("WeatherService") {
 
                                                 if(i == forecast?.list!!.size -1){
                                                     cache.push(forecast!!, "forecast")
-                                                }
+                                                }//TODO: TAKE CARE OF IMAGES AND STOP USING CACHE FOR DOMAIN OBJS
                                             }
                                         }, 0, 0, null,
                                         object : Response.ErrorListener {
@@ -88,7 +89,7 @@ class WeatherService() : IntentService("WeatherService") {
                                             }
                                         }))
                             }
-
+                            Log.d("OnService", "Updating " + current!!.name + " forecast info")
                             //TODO: INSERT FORECAST HERE
 
                         } else {
