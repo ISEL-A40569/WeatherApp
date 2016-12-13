@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("OnCreate", "Network Available")
         }else{
             Log.d("OnCreate", "Network Not Available")
+//            currentWeather = crud.queryCity()
         }
     }
 
@@ -105,7 +106,14 @@ class MainActivity : AppCompatActivity() {
 
                             if (currentWeather != null) {
                                 Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.currentInfo?.temp)
-                                application.requestQueue.add(getIconView(URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon)))
+
+                                var icon = iconCache.pop(currentWeather!!.currentInfo._icon)
+
+                                if(icon != null){
+                                    currentWeather!!.currentInfo.image = icon
+                                }else{
+                                    application.requestQueue.add(getIconView(URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon)))
+                                }
                                 setViews()
                             }
                         } else {
@@ -124,6 +132,7 @@ class MainActivity : AppCompatActivity() {
                 object : Response.Listener<Bitmap> {
                     override fun onResponse(bitmap: Bitmap) {
                         Log.d("RESPONSE", "GOT ICON")
+                        iconCache.push(currentWeather!!.currentInfo!!._icon, bitmap)
                         currentWeather?.currentInfo?.image = bitmap
                         cache.push(currentWeather!!, "current")
                         image?.setImageBitmap(currentWeather?.currentInfo?.image)

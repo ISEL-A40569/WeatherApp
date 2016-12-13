@@ -13,6 +13,8 @@ import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
 import pdm.isel.yawa.*
+import pdm.isel.yawa.icons.IconCache
+import pdm.isel.yawa.model.BaseWeatherInfo
 import pdm.isel.yawa.model.Current
 import pdm.isel.yawa.model.Forecast
 import pdm.isel.yawa.uri.RequestUriFactory
@@ -47,10 +49,11 @@ class WeatherService() : IntentService("WeatherService") {
                             if (current != null) {
                                 Log.d("OnService", "Updating " + current!!.name + " current info")
 
+
                                 //TODO: INSERT CURRENT HERE
                             }
                         } else {
-                            //TODO
+                            //TODO: throw some null response exception
                         }
                     }
                 }, object : Response.ErrorListener {
@@ -59,6 +62,22 @@ class WeatherService() : IntentService("WeatherService") {
             }
         }))
     }
+
+//    private fun getIconView(url: String, wi: BaseWeatherInfo): ImageRequest {
+//        return ImageRequest(url,
+//                object : Response.Listener<Bitmap> {
+//                    override fun onResponse(bitmap: Bitmap) {
+//                        Log.d("RESPONSE", "GOT ICON")
+//                        iconCache.push(current!!.currentInfo._icon, bitmap)
+//                        wi.image = bitmap
+//                    }
+//                }, 0, 0, null,
+//                object : Response.ErrorListener {
+//                    override fun onErrorResponse(error: VolleyError) {
+//                        Log.d("ERROR: ", error.toString())
+//                    }
+//                })
+//    }
 
     private fun makeForecastRequest() {
         application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
@@ -70,30 +89,11 @@ class WeatherService() : IntentService("WeatherService") {
                             forecast = DTO_MAPPER.mapForecastDto(
                                     JSON_MAPPER.mapForecastJson(response.toString()))
 
-                            for(i in forecast?.list!!.indices){
-                                var futureWI = forecast?.list!![i]
-                                application.requestQueue.add(ImageRequest(URI_FACTORY.getIcon(futureWI.icon),
-                                        object : Response.Listener<Bitmap> {
-                                            override fun onResponse(bitmap: Bitmap) {
-                                                Log.d("RESPONSE", "GOT ICON")
-                                                futureWI.image = bitmap
-
-                                                if(i == forecast?.list!!.size -1){
-                                                    cache.push(forecast!!, "forecast")
-                                                }//TODO: TAKE CARE OF IMAGES AND STOP USING CACHE FOR DOMAIN OBJS
-                                            }
-                                        }, 0, 0, null,
-                                        object : Response.ErrorListener {
-                                            override fun onErrorResponse(error: VolleyError) {
-                                                Log.d("ERROR: ", error.toString())
-                                            }
-                                        }))
-                            }
                             Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
                             //TODO: INSERT FORECAST HERE
 
                         } else {
-                            //TODO
+                            //TODO: throw some null response exception
                         }
                     }
                 }, object : Response.ErrorListener {

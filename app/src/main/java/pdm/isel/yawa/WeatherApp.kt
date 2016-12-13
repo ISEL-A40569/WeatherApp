@@ -9,10 +9,12 @@ import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import pdm.isel.yawa.broadcaste_receiver.WeatherBroadcastReceiver
+import pdm.isel.yawa.icons.IconCache
+import pdm.isel.yawa.provider.WeatherCrudFunctions
 
-/**
- * Created by Dani on 21-10-2016.
- */
+val crud = WeatherCrudFunctions()
+val iconCache = IconCache()
+
 class WeatherApp : Application() {
 
     val requestQueue by lazy { Volley.newRequestQueue(this) }
