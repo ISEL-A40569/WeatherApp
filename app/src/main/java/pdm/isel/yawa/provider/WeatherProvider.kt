@@ -14,14 +14,13 @@ import android.util.Log
 class WeatherProvider : ContentProvider() {
 
 
-    private val CURRENT_LST = 1
-    private val CURRENT_OBJ = 2
-    private val FORECAST_LST = 3
-    private val FORECAST_OBJ = 4
-    private val CURRENT_WI_LST = 5
-    private val CURRENT_WI_OBJ = 6
-    private val FUTURE_WI_LST = 7
-    private val FUTURE_WI_OBJ = 8
+
+    private val CITY_LST = 1
+    private val CITY_OBJ = 2
+    private val CURRENT_WI_LST = 3
+    private val CURRENT_WI_OBJ = 4
+    private val FUTURE_WI_LST = 5
+    private val FUTURE_WI_OBJ = 6
     //TODO potencialmente aqui estará um erro
     // um LST e um OBJ para cada objecto
 
@@ -30,22 +29,15 @@ class WeatherProvider : ContentProvider() {
     init {
         URI_MATCHER = UriMatcher(UriMatcher.NO_MATCH)
 
+
         URI_MATCHER.addURI(
                 WeatherContract.AUTHORITY,
-                WeatherContract.Current.RESOURCE,
-                CURRENT_LST)
+                WeatherContract.City.RESOURCE,
+                CITY_LST)
         URI_MATCHER.addURI(
                 WeatherContract.AUTHORITY,
-                WeatherContract.Current.RESOURCE + "/#",
-                CURRENT_OBJ)
-        URI_MATCHER.addURI(
-                WeatherContract.AUTHORITY,
-                WeatherContract.Forecast.RESOURCE,
-                FORECAST_LST)
-        URI_MATCHER.addURI(
-                WeatherContract.AUTHORITY,
-                WeatherContract.Forecast.RESOURCE + "/#",
-                FORECAST_OBJ)
+                WeatherContract.City.RESOURCE + "/#",
+                CITY_OBJ)
         URI_MATCHER.addURI(
                 WeatherContract.AUTHORITY,
                 WeatherContract.CurrentWeatherInfo.RESOURCE,
@@ -76,10 +68,9 @@ class WeatherProvider : ContentProvider() {
     override fun getType(uri: Uri?): String {
         Log.d("YAWA_TAG", "WeatherProvider - getType")
         when (URI_MATCHER.match(uri)) {
-            CURRENT_LST -> return WeatherContract.Current.CONTENT_TYPE
-            CURRENT_OBJ -> return WeatherContract.Current.CONTENT_ITEM_TYPE
-            FORECAST_LST  -> return WeatherContract.Forecast.CONTENT_TYPE
-            FORECAST_OBJ -> return WeatherContract.Forecast.CONTENT_ITEM_TYPE
+
+            CITY_LST  -> return WeatherContract.City.CONTENT_TYPE
+            CITY_OBJ -> return WeatherContract.City.CONTENT_ITEM_TYPE
             CURRENT_WI_LST -> return WeatherContract.CurrentWeatherInfo.CONTENT_TYPE
             CURRENT_WI_OBJ -> return WeatherContract.CurrentWeatherInfo.CONTENT_ITEM_TYPE
             FUTURE_WI_LST -> return WeatherContract.FutureWeatherInfo.CONTENT_TYPE
@@ -94,31 +85,19 @@ class WeatherProvider : ContentProvider() {
         val qbuilder = SQLiteQueryBuilder()
         when (URI_MATCHER.match(uri)) {
 
-            // TODO tenho a variavel uri com !! não sei pq tive de colocar
-            //CURRENT
-            CURRENT_LST -> {
-                qbuilder.tables = DbSchema.Current.TBL_NAME
+            //CITY
+            CITY_LST -> {
+                qbuilder.tables = DbSchema.City.TBL_NAME
                 if (TextUtils.isEmpty(sortOrder)) {
-                    sortOrder = WeatherContract.Current.DEFAULT_SORT_ORDER
+                    sortOrder = WeatherContract.City.DEFAULT_SORT_ORDER
                 }
             }
-            CURRENT_OBJ -> {
-                qbuilder.tables = DbSchema.Current.TBL_NAME
-                qbuilder.appendWhere(DbSchema.COL_ID + "=" + uri!!.lastPathSegment)
-            }
-            //FORECASTE
-            FORECAST_LST -> {
-                qbuilder.tables = DbSchema.Forecast.TBL_NAME
-                if (TextUtils.isEmpty(sortOrder)) {
-                    sortOrder = WeatherContract.Forecast.DEFAULT_SORT_ORDER
-                }
-            }
-            FORECAST_OBJ -> {
-                qbuilder.tables = DbSchema.Forecast.TBL_NAME
+            CITY_OBJ -> {
+                qbuilder.tables = DbSchema.City.TBL_NAME
                 qbuilder.appendWhere(DbSchema.COL_ID + "=" + uri!!.lastPathSegment)
             }
 
-            //CURRENTE WEATHER INFO
+            //CURRENT WEATHER INFO
             CURRENT_WI_LST -> {
                 qbuilder.tables = DbSchema.CurrentWeatherInfo.TBL_NAME
                 if (TextUtils.isEmpty(sortOrder)) {
@@ -157,8 +136,7 @@ class WeatherProvider : ContentProvider() {
         val table: String
         if (selection != null) throw IllegalArgumentException("selection not supported")
         when (URI_MATCHER.match(uri)) {
-            CURRENT_LST -> table = DbSchema.Current.TBL_NAME
-            FORECAST_LST -> table = DbSchema.Forecast.TBL_NAME
+            CITY_LST -> table = DbSchema.City.TBL_NAME
             CURRENT_WI_LST -> table = DbSchema.CurrentWeatherInfo.TBL_NAME
             FUTURE_WI_LST ->table = DbSchema.FutureWeatherInfo.TBL_NAME
             else -> throw badUri(uri!!)
@@ -179,12 +157,8 @@ class WeatherProvider : ContentProvider() {
         if (selection != null) throw IllegalArgumentException("selection not supported")
 
         when (URI_MATCHER.match(uri)) {
-            CURRENT_LST -> {
-                table = DbSchema.Current.TBL_NAME
-                //if (selection != null) {throw IllegalArgumentException("selection not supported")}
-            }
-            FORECAST_LST -> {
-                table = DbSchema.Forecast.TBL_NAME
+            CITY_LST -> {
+                table = DbSchema.City.TBL_NAME
                 //if (selection != null) {throw IllegalArgumentException("selection not supported")}
             }
             CURRENT_WI_LST -> {
@@ -199,7 +173,7 @@ class WeatherProvider : ContentProvider() {
         }
 
         val db = dbHelper!!.writableDatabase
-        val ndel = db.delete(table, null, null)
+        val ndel = db.delete(table, selection, selectionArgs)
 
         context.contentResolver.notifyChange(uri, null)
         return ndel
@@ -210,8 +184,7 @@ class WeatherProvider : ContentProvider() {
         Log.d("YAWA_TAG", "WeatherProvider - insert method")
         val table: String
         when (URI_MATCHER.match(uri)) {
-            CURRENT_LST -> table = DbSchema.Current.TBL_NAME
-            FORECAST_LST -> table = DbSchema.Forecast.TBL_NAME
+            CITY_LST -> table = DbSchema.City.TBL_NAME
             CURRENT_WI_LST -> table = DbSchema.CurrentWeatherInfo.TBL_NAME
             FUTURE_WI_LST ->table = DbSchema.FutureWeatherInfo.TBL_NAME
             else -> throw badUri(uri!!)

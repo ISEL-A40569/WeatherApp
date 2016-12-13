@@ -14,8 +14,8 @@ object WeatherContract{
 
     val MEDIA_BASE_SUBTYPE = "/vnd.weather."
 
-    object Forecast : BaseColumns{
-        val RESOURCE = "forecast"
+    object City : BaseColumns{
+        val RESOURCE = "city"
 
         val CONTENT_URI = Uri.withAppendedPath(WeatherContract.CONTENT_URI, RESOURCE)
         val CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + MEDIA_BASE_SUBTYPE + RESOURCE       //para listas
@@ -25,9 +25,11 @@ object WeatherContract{
         val COUNTRY = "country"
         val LON = "lon"
         val LAT = "lat"
+        val LANGUAGE = "language"
 
-        val SELECT_ALL = arrayOf(BaseColumns._ID, NAME, COUNTRY, LON, LAT)
+        val SELECT_ALL = arrayOf(BaseColumns._ID, NAME, COUNTRY, LON, LAT, LANGUAGE)
         val DEFAULT_SORT_ORDER = BaseColumns._ID + " ASC"
+        val SELECT_TEST = arrayOf(BaseColumns._ID, "name", "language")
     }
 
     object FutureWeatherInfo : BaseColumns{
@@ -68,20 +70,5 @@ object WeatherContract{
         val SELECT_ALL = arrayOf(BaseColumns._ID, CURR_ID, DATE, PRESS, HUM, DESCRIPTION, TEMP, SUNRISE, SUNSET, WINDSPEED)
         val DEFAULT_SORT_ORDER = BaseColumns._ID + " ASC"
         val SELECT_TEST = arrayOf(BaseColumns._ID, CURR_ID, DESCRIPTION)
-    }
-
-    object Current : BaseColumns{
-        val RESOURCE = "current"
-        val CONTENT_URI = Uri.withAppendedPath(WeatherContract.CONTENT_URI, RESOURCE)
-        val CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + MEDIA_BASE_SUBTYPE + RESOURCE       //para listas
-        val CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + MEDIA_BASE_SUBTYPE + RESOURCE       //para items
-
-        val NAME = "name"
-        val COUNTRY = "country"
-        val LON = "lon"
-        val LAT = "lat"
-
-        val SELECT_ALL = arrayOf(BaseColumns._ID, NAME, COUNTRY, LON, LAT)
-        val DEFAULT_SORT_ORDER = BaseColumns._ID + " ASC"
     }
 }

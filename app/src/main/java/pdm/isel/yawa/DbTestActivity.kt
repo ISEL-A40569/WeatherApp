@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.widget.SimpleCursorAdapter
 import android.widget.TextView
+import pdm.isel.yawa.provider.DbSchema
 import pdm.isel.yawa.provider.WeatherContract
 import pdm.isel.yawa.provider.WeatherContract.CONTENT_URI
 
@@ -31,8 +32,8 @@ class DbTestActivity : ListActivity(), LoaderManager.LoaderCallbacks<Cursor> {
         when (id) {
             WEATHER_LOADER -> CursorLoader(
                     this,
-                    WeatherContract.CurrentWeatherInfo.CONTENT_URI,
-                    WeatherContract.CurrentWeatherInfo.SELECT_TEST,
+                    WeatherContract.City.CONTENT_URI,
+                    WeatherContract.City.SELECT_TEST,
                     null,
                     null,
                     null
@@ -51,7 +52,7 @@ class DbTestActivity : ListActivity(), LoaderManager.LoaderCallbacks<Cursor> {
     var res: TextView? = null
 
     val adapter by lazy {
-        val from = arrayOf(WeatherContract.CurrentWeatherInfo.CURR_ID, WeatherContract.CurrentWeatherInfo.DESCRIPTION)
+        val from = arrayOf(WeatherContract.City.NAME, "_id")
         val to   = intArrayOf(android.R.id.text1, android.R.id.text2)
 
         SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, null, from, to, 0)
@@ -75,21 +76,38 @@ class DbTestActivity : ListActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
         var contentValues = ContentValues()
 
-        contentValues.put("currentid", 1)
-        contentValues.put("date", "05/12/2016")
-        contentValues.put("pressure", "5.5")
-        contentValues.put("humidity", "1")
-        contentValues.put("description", "nice weather")
-        contentValues.put("temp", 15)
-        contentValues.put("sunrise", "7:50")
-        contentValues.put("sunset", "20:00")
-        contentValues.put("windSpeed", "5")
+        contentValues.put("name", "Lisboa")
+        contentValues.put("country", "Portugal")
+        contentValues.put("lon", "14")
+        contentValues.put("lat", "10")
+        contentValues.put("language", "pt")
+        contentResolver.insert(WeatherContract.City.CONTENT_URI, contentValues)
 
-        contentResolver.insert(WeatherContract.CurrentWeatherInfo.CONTENT_URI, contentValues)
+        contentValues.put("name", "Porto")
+        contentValues.put("country", "Portugal")
+        contentValues.put("lon", "14")
+        contentValues.put("lat", "10")
+        contentValues.put("language", "pt2")
+        contentResolver.insert(WeatherContract.City.CONTENT_URI, contentValues)
+
+        contentValues.put("name", "leiria")
+        contentValues.put("country", "Portugal")
+        contentValues.put("lon", "14")
+        contentValues.put("lat", "10")
+        contentValues.put("language", "pt2")
+        contentResolver.insert(WeatherContract.City.CONTENT_URI, contentValues)
+
+        contentValues.put("name", "braga")
+        contentValues.put("country", "Portugal")
+        contentValues.put("lon", "14")
+        contentValues.put("lat", "10")
+        contentValues.put("language", "pt2")
+        contentResolver.insert(WeatherContract.City.CONTENT_URI, contentValues)
     }
 
     fun onDelete(view: View) {
         Log.d("DbTest", "onDelete")
+        contentResolver.delete(WeatherContract.CurrentWeatherInfo.CONTENT_URI, null, null)
     }
 
     fun onUpdate(view: View) {
