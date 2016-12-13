@@ -19,7 +19,6 @@ import org.json.JSONObject
 import pdm.isel.yawa.cache.Cache
 import pdm.isel.yawa.json.JsonToDtoMapper
 import pdm.isel.yawa.model.*
-import pdm.isel.yawa.provider.WeatherContract
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
@@ -28,10 +27,10 @@ val URI_FACTORY = RequestUriFactory()
 val DTO_MAPPER = DtoToDomainMapper()
 val JSON_MAPPER = JsonToDtoMapper()
 
-val cache: Cache = Cache(100)
+val cache: Cache = Cache(100)//TODO: remove
 
 var language = Locale.getDefault().getDisplayLanguage()
-var location = "Lisbon" //TODO: GET DEVICE location
+var location = "Lisbon" //TODO: THIS MUST BE USERS CHOICE AND BE STORED
 
 var currentWeather: Current? = null
 
@@ -70,13 +69,15 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         Log.d("RESPONSE", "ON START, location = " + location)
         currentWeather = cache.pop(location + language + "current") as Current?
+        //TODO: substituite for something like:
+        //currentWeather = crud.queryCurrent()
 
         if (currentWeather != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
             setViews()
         } else {
             Log.d("RESPONSE", "LOAD FROM REQUEST")
-            makeRequest()
+            makeRequest()//TODO: should this keep being done here!?
         }
     }
 
@@ -189,17 +190,17 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-
-    private fun insertIntoTableCurrent(curr: Current) {
-        //TODO
-    }
-    private fun insertIntoTableForescast(forecast: Forecast) {
-        //TODO
-    }
-    private fun insertIntoTableCurrent(curr: CurrentWeatherInfo) {
-        //TODO
-    }
-    private fun insertIntoTableCurrent(curr: FutureWeatherInfo) {
-        //TODO
-    }
+//TODO: this is not here
+//    private fun insertIntoTableCurrent(curr: Current) {
+//        //TODO
+//    }
+//    private fun insertIntoTableForescast(forecast: Forecast) {
+//        //TODO
+//    }
+//    private fun insertIntoTableCurrent(curr: CurrentWeatherInfo) {
+//        //TODO
+//    }
+//    private fun insertIntoTableCurrent(curr: FutureWeatherInfo) {
+//        //TODO
+//    }
 }

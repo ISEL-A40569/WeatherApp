@@ -20,7 +20,8 @@ import pdm.isel.yawa.model.Forecast
 import pdm.isel.yawa.uri.RequestUriFactory
 
 /**
- * Created by Dani on 08-12-2016.
+ * TODO: DUVIDA: PQ É Q É PRECISO DESINSTALAR A APP PARA O SERVICO PARAR!?
+ * TODO: SHOULD UPDATE ALL CITIES IN CITYLIST!?
  */
 class WeatherService() : IntentService("WeatherService") {
 
@@ -63,6 +64,7 @@ class WeatherService() : IntentService("WeatherService") {
         }))
     }
 
+    //TODO: maybe this can be used later somewhere else by everybody (activities or what?) that needs to get icons
 //    private fun getIconView(url: String, wi: BaseWeatherInfo): ImageRequest {
 //        return ImageRequest(url,
 //                object : Response.Listener<Bitmap> {

@@ -33,7 +33,6 @@ class ForecastActivity : ListActivity() {
 
         forecast = cache.pop(location + language + "forecast") as Forecast?
 
-        //val cursor = contentResolver.query(WeatherContract.Forecast.CONTENT_URI, null, null, null, null);TODO
 
         if (forecast != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")

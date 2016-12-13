@@ -7,11 +7,13 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
+import java.util.*
 
 class CityListActivity : ListActivity() {
 
     private val cities = arrayOf("Lisbon", "Porto", "Coimbra", "Faro", "Funchal", "Ponta Delgada",
-            "Madrid", "London", "Roma", "Paris", "New York", "Moscow")
+            "Madrid", "London", "Roma", "Paris", "New York", "Moscow")//TODO: THIS MUST BE USERS CHOICE AND BE STORED
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

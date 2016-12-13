@@ -53,6 +53,7 @@ class WeatherCrudFunctions  {
         return 0
     }
 
+    //TODO: CitiInfo is an abstract class, only its implementations (Current and Forecast) should be returned
     fun queryCity(cr:ContentResolver, selection: String?, selectionArgs: Array<out String>?):CityInfo??{return null}
     fun queryCurrentWeatherInfo(cr:ContentResolver, selection: String?, selectionArgs: Array<out String>?):CurrentWeatherInfo??{return null}
     fun queryFutureWeatherInfo(cr:ContentResolver, selection: String?, selectionArgs: Array<out String>?):FutureWeatherInfo??{return null}
