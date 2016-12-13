@@ -36,7 +36,7 @@ class WeatherApp : Application() {
             alarmManager.setInexactRepeating(
                     AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     SystemClock.elapsedRealtime() + 10000,
-                    10000,
+                    5 * 60000,
                     pendingAlarmIntent
             )
         }
