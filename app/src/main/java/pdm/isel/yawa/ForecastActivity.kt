@@ -8,6 +8,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.Toast
 import com.android.volley.Request
@@ -21,9 +22,9 @@ import pdm.isel.yawa.model.Forecast
 import pdm.isel.yawa.provider.WeatherContract
 import pdm.isel.yawa.uri.RequestUriFactory
 
+
 class ForecastActivity : ListActivity() {
     val NUMBER_OF_FORECAST_DAYS = 16
-
     var forecast: Forecast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,33 +61,39 @@ class ForecastActivity : ListActivity() {
                 object : Response.Listener<JSONObject> {
                     override fun onResponse(response: JSONObject?) {
 
-                        if (response != null) {
                             forecast = DTO_MAPPER.mapForecastDto(
                                     JSON_MAPPER.mapForecastJson(response.toString()))
 
                             for(i in forecast?.list!!.indices){
                                 var futureWI = forecast?.list!![i]
-                                application.requestQueue.add(ImageRequest(URI_FACTORY.getIcon(futureWI.icon),
-                                        object : Response.Listener<Bitmap> {
-                                            override fun onResponse(bitmap: Bitmap) {
-                                                Log.d("RESPONSE", "GOT ICON")
-                                                futureWI.image = bitmap
 
-                                                if(i == forecast?.list!!.size -1){
-                                                    setView()
+//                                var icon: Bitmap? = iconCache.pop(futureWI._icon)//TODO: solve IconCache parallel access problem
+//
+//                                if(icon != null){
+//                                    futureWI.image = icon
+//                                }else{
+                                    application.requestQueue.add(ImageRequest(URI_FACTORY.getIcon(futureWI.icon),
+                                            object : Response.Listener<Bitmap> {
+                                                override fun onResponse(bitmap: Bitmap) {
+                                                    Log.d("RESPONSE", "GOT ICON " + i.toString())
+
+                                                    futureWI.image = bitmap
+                                                    //iconCache.push(futureWI._icon, bitmap)//TODO: solve IconCache parallel access problem
+
+                                                    if(i == forecast?.list!!.size -1){
+                                                        setView()
+                                                    }
                                                 }
-                                            }
-                                        }, 0, 0, null,
-                                        object : Response.ErrorListener {
-                                            override fun onErrorResponse(error: VolleyError) {
-                                                Log.d("ERROR: ", error.toString())
-                                            }
-                                        }))
+                                            }, 0, 0,
+                                            ImageView.ScaleType.CENTER_INSIDE,
+                                            null,
+                                            object : Response.ErrorListener {
+                                                override fun onErrorResponse(error: VolleyError) {
+                                                    Log.d("ERROR: ", error.toString())
+                                                }
+                                            }))
+//                                }
                             }
-
-                        } else {
-                            //TODO: should throw some null response exception
-                        }
                     }
                 }, object : Response.ErrorListener {
             override fun onErrorResponse(error: VolleyError) {
@@ -94,6 +101,7 @@ class ForecastActivity : ListActivity() {
             }
         }))
     }
+
 
 
     private fun setView() {

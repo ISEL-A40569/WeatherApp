@@ -12,14 +12,18 @@ class IconCache {
     private val iconMap = HashMap<String, Bitmap>()
 
     fun pop(key: String): Bitmap? {
-        Log.d("OnCache", "Pop")
+        Log.d("OnCache", "Pop key "+ key)
+        Log.d("OnCache", "contains = "+ iconMap.containsKey(key).toString())
+
         return iconMap.get(key)
     }
 
     fun push(key: String, icon: Bitmap) {
-        Log.d("OnCache", "Push")
-        if(!iconMap.containsKey(key))
-        iconMap.put(key, icon)
+        Log.d("OnCache", "contains = "+ iconMap.containsKey(key).toString())
+        if(!iconMap.containsKey(key)){
+            Log.d("OnCache", "Pushing key "+ key)
+            iconMap.put(key, icon)
+        }
     }
 
 }

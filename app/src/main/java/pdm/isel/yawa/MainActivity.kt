@@ -105,8 +105,6 @@ class MainActivity : AppCompatActivity() {
                 object : Response.Listener<JSONObject> {
                     override fun onResponse(response: JSONObject?) {
 
-                        if (response != null) {
-
                             currentWeather = DTO_MAPPER.mapCurrentDto(
                                     JSON_MAPPER.mapWeatherInfoJson(response.toString()))
 
@@ -122,9 +120,6 @@ class MainActivity : AppCompatActivity() {
                                 }
                                 setViews()
                             }
-                        } else {
-                            //TODO: should throw some null response exception
-                        }
                     }
                 }, object : Response.ErrorListener {
             override fun onErrorResponse(error: VolleyError) {
@@ -140,10 +135,11 @@ class MainActivity : AppCompatActivity() {
                         Log.d("RESPONSE", "GOT ICON")
                         iconCache.push(currentWeather!!.currentInfo!!._icon, bitmap)
                         currentWeather?.currentInfo?.image = bitmap
-                        //cache.push(currentWeather!!, "current")
                         image?.setImageBitmap(currentWeather?.currentInfo?.image)
                     }
-                }, 0, 0, null,
+                }, 0, 0,
+                ImageView.ScaleType.CENTER_INSIDE,
+                null,
                 object : Response.ErrorListener {
                     override fun onErrorResponse(error: VolleyError) {
                         Log.d("ERROR: ", error.toString())
