@@ -42,10 +42,9 @@ class ForecastActivity : ListActivity() {
             setView()
         } else {
 
-            //TODO: ALSO DONT DO IT IF POWER IS LOW
             var connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-            if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected){
+            if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected && !isBatteryLow){
                 Log.d("OnStart", "Network Available")
                 makeRequest()//TODO: should this keep being done here!?
             }else{

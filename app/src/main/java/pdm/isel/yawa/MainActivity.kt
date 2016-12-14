@@ -32,7 +32,9 @@ var language = Locale.getDefault().displayLanguage
 var location: String? = null
 
 var currentWeather: Current? = null
+
 var updateInterval: Long = 0
+var isBatteryLow = false
 
 class MainActivity : AppCompatActivity() {
 
@@ -72,10 +74,9 @@ class MainActivity : AppCompatActivity() {
             Log.d("RESPONSE", "LOAD FROM CACHE")
             setViews()
         } else {
-            //TODO: ALSO DONT DO IT IF POWER IS LOW
             var connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-            if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected){
+            if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected && !isBatteryLow){
                 Log.d("OnStart", "Network Available")
                 Log.d("RESPONSE", "LOAD FROM REQUEST")
                 makeRequest()//TODO: should this keep being done here!?
@@ -168,8 +169,12 @@ class MainActivity : AppCompatActivity() {
     fun onDetails(view: View) {
 
         Log.d("YAWA_TAG", "onDetails")
-        val intent = Intent(this, DetailedCurrentWeatherInfoActivity::class.java)
-        startActivity(intent)
+        if(currentWeather != null){
+            val intent = Intent(this, DetailedCurrentWeatherInfoActivity::class.java)
+            startActivity(intent)
+        }else{
+            Toast.makeText(this, "Select a City First", Toast.LENGTH_SHORT).show()
+        }
     }
 
 

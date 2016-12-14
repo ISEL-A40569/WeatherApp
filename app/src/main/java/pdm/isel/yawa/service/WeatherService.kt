@@ -36,8 +36,7 @@ class WeatherService() : IntentService("WeatherService") {
 
         var connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        //TODO: ALSO DONT DO IT IF POWER IS LOW
-        if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected){
+        if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected && !isBatteryLow){
             makeCurrentRequest()
             makeForecastRequest()
         }

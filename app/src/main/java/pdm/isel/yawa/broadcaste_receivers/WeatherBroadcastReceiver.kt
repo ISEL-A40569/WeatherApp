@@ -1,4 +1,4 @@
-package pdm.isel.yawa.broadcaste_receiver
+package pdm.isel.yawa.broadcaste_receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context

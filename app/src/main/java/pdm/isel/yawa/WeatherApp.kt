@@ -8,7 +8,7 @@ import android.os.SystemClock
 import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
-import pdm.isel.yawa.broadcaste_receiver.WeatherBroadcastReceiver
+import pdm.isel.yawa.broadcaste_receivers.WeatherBroadcastReceiver
 import pdm.isel.yawa.icons.IconCache
 import pdm.isel.yawa.provider.WeatherCrudFunctions
 
