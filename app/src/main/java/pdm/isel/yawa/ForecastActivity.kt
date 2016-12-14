@@ -31,8 +31,9 @@ class ForecastActivity : ListActivity() {
     override fun onStart() {
         super.onStart()
 
-        forecast = cache.pop(location + language + "forecast") as Forecast?
-
+        //forecast = cache.pop(location + language + "forecast") as Forecast?
+        //TODO: substituite for something like:
+        //forecast = crud.getForecast(contentResolver, location, language)
 
         if (forecast != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
@@ -46,7 +47,7 @@ class ForecastActivity : ListActivity() {
 
     private fun makeRequest() {
         application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
-                RequestUriFactory().getFutureWeather(location, language, NUMBER_OF_FORECAST_DAYS), null,
+                RequestUriFactory().getFutureWeather(location!!, language, NUMBER_OF_FORECAST_DAYS), null,
                 object : Response.Listener<JSONObject> {
                     override fun onResponse(response: JSONObject?) {
 
@@ -63,7 +64,6 @@ class ForecastActivity : ListActivity() {
                                                 futureWI.image = bitmap
 
                                                 if(i == forecast?.list!!.size -1){
-                                                    cache.push(forecast!!, "forecast")
                                                     setView()
                                                 }
                                             }

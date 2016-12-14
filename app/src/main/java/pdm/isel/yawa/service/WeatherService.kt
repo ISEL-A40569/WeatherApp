@@ -39,7 +39,7 @@ class WeatherService() : IntentService("WeatherService") {
 
     private fun makeCurrentRequest() {
         application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
-                RequestUriFactory().getNowWeather(location, language), null,
+                RequestUriFactory().getNowWeather(location!!, language), null,
                 object : Response.Listener<JSONObject> {
                     override fun onResponse(response: JSONObject?) {
                         if (response != null) {
@@ -83,7 +83,7 @@ class WeatherService() : IntentService("WeatherService") {
 
     private fun makeForecastRequest() {
         application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
-                RequestUriFactory().getFutureWeather(location, language, NUMBER_OF_FORECAST_DAYS), null,
+                RequestUriFactory().getFutureWeather(location!!, language, NUMBER_OF_FORECAST_DAYS), null,
                 object : Response.Listener<JSONObject> {
                     override fun onResponse(response: JSONObject?) {
 

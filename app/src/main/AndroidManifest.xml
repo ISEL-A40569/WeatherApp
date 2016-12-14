@@ -33,7 +33,7 @@
 
         <activity android:name=".DbTestActivity" />
         <activity android:name=".PreferencesActivity" />
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".SelectionActivity"></activity>
 
         <receiver
             android:name=".broadcaste_receiver.WeatherBroadcastReceiver"

@@ -15,6 +15,7 @@ import pdm.isel.yawa.provider.WeatherCrudFunctions
 val crud = WeatherCrudFunctions()
 val iconCache = IconCache()
 
+
 class WeatherApp : Application() {
 
     val requestQueue by lazy { Volley.newRequestQueue(this) }
@@ -35,8 +36,8 @@ class WeatherApp : Application() {
 
             alarmManager.setInexactRepeating(
                     AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() + 10000,
-                    5 * 60000,
+                    SystemClock.elapsedRealtime() + 6000,
+                    15 * 60000,
                     pendingAlarmIntent
             )
         }

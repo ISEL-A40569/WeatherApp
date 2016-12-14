@@ -1,6 +1,7 @@
 package pdm.isel.yawa
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
@@ -16,7 +17,6 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
-import pdm.isel.yawa.cache.Cache
 import pdm.isel.yawa.json.JsonToDtoMapper
 import pdm.isel.yawa.model.*
 import pdm.isel.yawa.uri.RequestUriFactory
@@ -27,10 +27,8 @@ val URI_FACTORY = RequestUriFactory()
 val DTO_MAPPER = DtoToDomainMapper()
 val JSON_MAPPER = JsonToDtoMapper()
 
-val cache: Cache = Cache(100)//TODO: remove
-
-var language = Locale.getDefault().getDisplayLanguage()
-var location = "Lisbon" //TODO: THIS MUST BE USERS CHOICE AND BE STORED
+var language = Locale.getDefault().displayLanguage
+var location: String? = null
 
 var currentWeather: Current? = null
 
@@ -67,10 +65,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        if(location == null)
+        location = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getString("city","")
+
         Log.d("RESPONSE", "ON START, location = " + location)
-        currentWeather = cache.pop(location + language + "current") as Current?
+        //currentWeather = cache.pop(location + language + "current") as Current?
         //TODO: substituite for something like:
-        //currentWeather = crud.queryCurrent()
+        //currentWeather = crud.getCurrent(contentResolver, location, language)
 
         if (currentWeather != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
@@ -95,10 +96,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun makeRequest() {
         application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
-                RequestUriFactory().getNowWeather(location, language), null,
+                RequestUriFactory().getNowWeather(location!!, language), null,
                 object : Response.Listener<JSONObject> {
                     override fun onResponse(response: JSONObject?) {
-//                        Log.d("RESPONSE ", "URL " + URI_FACTORY.getNowWeather(location, language))
 
                         if (response != null) {
 
@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
                         Log.d("RESPONSE", "GOT ICON")
                         iconCache.push(currentWeather!!.currentInfo!!._icon, bitmap)
                         currentWeather?.currentInfo?.image = bitmap
-                        cache.push(currentWeather!!, "current")
+                        //cache.push(currentWeather!!, "current")
                         image?.setImageBitmap(currentWeather?.currentInfo?.image)
                     }
                 }, 0, 0, null,
@@ -186,7 +186,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onDbTest(view: View){
-        val intent = Intent(this, DbTestActivity::class.java)
+        val intent = Intent(this, SelectionActivity::class.java)
         startActivity(intent)
     }
 
