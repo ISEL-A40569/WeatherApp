@@ -11,28 +11,22 @@
     tools:context="pdm.isel.yawa.PreferencesActivity">
 
     <Button
-        android:id="@+id/PreferencesAddCityButton"
+        android:id="@+id/SelectCityButton"
         android:layout_width="200dp"
         android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:text="@string/SelectCity"
         android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:text="@string/AddCity"/>
-
-    <Button
-        android:id="@+id/PreferencesSelectFavoriteCityButton"
-        android:layout_below="@id/PreferencesAddCityButton"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        android:text="@string/SelectCity"/>
+        android:onClick="onSelectCity"/>
 
     <Button
         android:id="@+id/PreferencesAutoUpdateButton"
-        android:layout_below="@id/PreferencesSelectFavoriteCityButton"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_centerInParent="true"
-        android:text="@string/AutoUpdate"/>
+        android:text="@string/AutoUpdate"
+        android:onClick="onUpdateIntervalSetting"
+        android:layout_below="@id/SelectCityButton"/>
 
     <Button
         android:id="@+id/PreferencesNotificationButton"
@@ -42,12 +36,5 @@
         android:layout_centerInParent="true"
         android:text="@string/Notifications"/>
 
-    <Button
-        android:id="@+id/PreferencesBatteryLevelButton"
-        android:layout_below="@id/PreferencesNotificationButton"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        android:text="@string/BatteryLevel"/>
 
 </RelativeLayout>

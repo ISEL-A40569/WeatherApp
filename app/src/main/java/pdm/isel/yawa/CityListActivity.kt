@@ -10,7 +10,7 @@ import android.widget.ListView
 import android.widget.Toast
 import java.util.*
 
-val cityList = LinkedList<String?>()//TODO
+val cityList = LinkedList<String?>()//TODO: store this or get it fill from database
 
 class CityListActivity : ListActivity() {
 

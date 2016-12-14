@@ -27,7 +27,7 @@ class SelectionActivity : AppCompatActivity() {
             editor.putString("city", city)
             editor.commit()
             location = city
-            cityList!!.add(city)
+            cityList.add(city)
             currentWeather = null
         }
     }

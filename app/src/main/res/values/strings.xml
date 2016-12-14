@@ -48,10 +48,10 @@
     <string name="weathermap">https://openweathermap.org/</string>
 
     <!--STRINGS OF PREFERENCES ACTIVITY-->
-    <string name="AddCity">Add City To List</string>
-    <string name="SelectCity">Select Favorite City</string>
     <string name="AutoUpdate">Set Auto Update</string>
     <string name="Notifications">Set Notifications</string>
-    <string name="BatteryLevel">Set Battery Level For Network</string>
+
+    <!--STRINGS OF SELECTION ACTIVITY-->
+    <string name="SelectCity">Select City</string>
 
 </resources>

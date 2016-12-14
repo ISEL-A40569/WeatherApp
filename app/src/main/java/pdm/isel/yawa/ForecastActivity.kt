@@ -1,12 +1,15 @@
 package pdm.isel.yawa
 
 import android.app.ListActivity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ListView
+import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -31,17 +34,23 @@ class ForecastActivity : ListActivity() {
     override fun onStart() {
         super.onStart()
 
-        //forecast = cache.pop(location + language + "forecast") as Forecast?
-        //TODO: substituite for something like:
-        //forecast = crud.getForecast(contentResolver, location, language)
+        //forecast = crud.queryForecast(contentResolver, "", arrayOf(location, language))
 
         if (forecast != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
             setView()
         } else {
-            Log.d("RESPONSE", "LOAD FROM REQUEST")
-            makeRequest()
 
+            //TODO: ALSO DONT DO IT IF POWER IS LOW
+            var connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+            if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected){
+                Log.d("OnStart", "Network Available")
+                makeRequest()//TODO: should this keep being done here!?
+            }else{
+                Log.d("OnStart", "Network Not Available")
+                Toast.makeText(this, "OffLine", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -76,7 +85,7 @@ class ForecastActivity : ListActivity() {
                             }
 
                         } else {
-                            //TODO
+                            //TODO: should throw some null response exception
                         }
                     }
                 }, object : Response.ErrorListener {

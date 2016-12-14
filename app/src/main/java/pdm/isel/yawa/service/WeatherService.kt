@@ -5,7 +5,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.ConnectivityManager
 import android.util.Log
+import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -20,8 +22,8 @@ import pdm.isel.yawa.model.Forecast
 import pdm.isel.yawa.uri.RequestUriFactory
 
 /**
- * TODO: DUVIDA: PQ É Q É PRECISO DESINSTALAR A APP PARA O SERVICO PARAR!?
- * TODO: SHOULD UPDATE ALL CITIES IN CITYLIST!?
+ *
+ *
  */
 class WeatherService() : IntentService("WeatherService") {
 
@@ -31,10 +33,15 @@ class WeatherService() : IntentService("WeatherService") {
 
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnService", "onHandleIntent start")
-        makeCurrentRequest()
-        makeForecastRequest()
-        Log.d("OnService", "onHandleIntent end")
 
+        var connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        //TODO: ALSO DONT DO IT IF POWER IS LOW
+        if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected){
+            makeCurrentRequest()
+            makeForecastRequest()
+        }
+        Log.d("OnService", "onHandleIntent end")
     }
 
     private fun makeCurrentRequest() {

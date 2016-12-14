@@ -33,14 +33,15 @@
 
         <activity android:name=".DbTestActivity" />
         <activity android:name=".PreferencesActivity" />
-        <activity android:name=".SelectionActivity"></activity>
+        <activity android:name=".SelectionActivity" />
 
         <receiver
             android:name=".broadcaste_receiver.WeatherBroadcastReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
@@ -49,7 +50,7 @@
             android:name=".service.WeatherService"
             android:exported="false" />
 
-
+        <activity android:name=".UpdateIntervalSettingActivity"></activity>
     </application>
 
 </manifest>

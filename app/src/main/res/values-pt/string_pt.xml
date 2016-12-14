@@ -49,11 +49,12 @@
     <string name="dani">Daniel Cabral</string>
     <string name="weathermap">https://openweathermap.org/</string>
 
+
     <!--STRINGS OF PREFERENCES ACTIVITY-->
-    <string name="AddCity">Adicionar Cidade</string>
-    <string name="SelectCity">Definir Cidade Favorita</string>
     <string name="AutoUpdate">Definir Actualizações Automáticas</string>
     <string name="Notifications">Definir Notificações</string>
-    <string name="BatteryLevel">Definir Nivel de Bateria Para Rede</string>
+
+    <!--STRINGS OF SELECTION ACTIVITY-->
+    <string name="SelectCity">Definir Cidade</string>
 
 </resources>

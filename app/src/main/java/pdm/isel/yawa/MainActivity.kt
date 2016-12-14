@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -31,6 +32,7 @@ var language = Locale.getDefault().displayLanguage
 var location: String? = null
 
 var currentWeather: Current? = null
+var updateInterval: Long = 0
 
 class MainActivity : AppCompatActivity() {
 
@@ -53,32 +55,35 @@ class MainActivity : AppCompatActivity() {
         description = findViewById(R.id.main_description) as TextView?
         image = findViewById(R.id.main_view) as ImageView?
 
-        var connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected){
-            Log.d("OnCreate", "Network Available")
-        }else{
-            Log.d("OnCreate", "Network Not Available")
-//            currentWeather = crud.queryCity()
-        }
     }
 
     override fun onStart() {
         super.onStart()
+        updateInterval = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getLong("updateInterval",15)
+
         if(location == null)
         location = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getString("city","")
 
         Log.d("RESPONSE", "ON START, location = " + location)
-        //currentWeather = cache.pop(location + language + "current") as Current?
-        //TODO: substituite for something like:
-        //currentWeather = crud.getCurrent(contentResolver, location, language)
+
+        //currentWeather = crud.queryCurrent(contentResolver, "", arrayOf(location, language))
 
         if (currentWeather != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
             setViews()
         } else {
-            Log.d("RESPONSE", "LOAD FROM REQUEST")
-            makeRequest()//TODO: should this keep being done here!?
+            //TODO: ALSO DONT DO IT IF POWER IS LOW
+            var connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+            if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected){
+                Log.d("OnStart", "Network Available")
+                Log.d("RESPONSE", "LOAD FROM REQUEST")
+                makeRequest()//TODO: should this keep being done here!?
+            }else{
+                Log.d("OnStart", "Network Not Available")
+                Toast.makeText(this, "OffLine", Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 
@@ -118,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                                 setViews()
                             }
                         } else {
-                            //TODO
+                            //TODO: should throw some null response exception
                         }
                     }
                 }, object : Response.ErrorListener {
@@ -186,21 +191,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onDbTest(view: View){
-        val intent = Intent(this, SelectionActivity::class.java)
+        val intent = Intent(this, PreferencesActivity::class.java)
         startActivity(intent)
     }
 
-//TODO: this is not here
-//    private fun insertIntoTableCurrent(curr: Current) {
-//        //TODO
-//    }
-//    private fun insertIntoTableForescast(forecast: Forecast) {
-//        //TODO
-//    }
-//    private fun insertIntoTableCurrent(curr: CurrentWeatherInfo) {
-//        //TODO
-//    }
-//    private fun insertIntoTableCurrent(curr: FutureWeatherInfo) {
-//        //TODO
-//    }
 }
