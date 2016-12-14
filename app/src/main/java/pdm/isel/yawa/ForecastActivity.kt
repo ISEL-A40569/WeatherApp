@@ -19,7 +19,6 @@ import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
 import pdm.isel.yawa.adapter.FutureWeatherInfoArrayAdapter
 import pdm.isel.yawa.model.Forecast
-import pdm.isel.yawa.provider.WeatherContract
 import pdm.isel.yawa.uri.RequestUriFactory
 
 

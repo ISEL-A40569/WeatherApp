@@ -36,7 +36,7 @@
         <activity android:name=".SelectionActivity" />
 
         <receiver
-            android:name=".broadcaste_receivers.WeatherBroadcastReceiver"
+            android:name=".broadcast_receivers.WeatherBroadcastReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -52,12 +52,27 @@
 
         <activity android:name=".UpdateIntervalSettingActivity"></activity>
 
-        <receiver android:name=".broadcaste_receivers.BatteryLevelReceiver">
+        <receiver android:name=".broadcast_receivers.BatteryLevelReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BATTERY_LOW"/>
                 <action android:name="android.intent.action.BATTERY_OKAY"/>
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name=".broadcast_receivers.NotificationsReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.NotificationsService"
+            android:exported="false" />
 
     </application>
 

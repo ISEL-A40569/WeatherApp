@@ -1,8 +1,8 @@
 package pdm.isel.yawa
 
+import android.app.Notification
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.content.Intent
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -22,6 +22,12 @@ import pdm.isel.yawa.json.JsonToDtoMapper
 import pdm.isel.yawa.model.*
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
+import android.content.Intent
+import android.app.PendingIntent
+import android.app.NotificationManager
+import android.content.Context.NOTIFICATION_SERVICE
+import android.graphics.Color
+import android.support.v7.app.NotificationCompat
 
 
 val URI_FACTORY = RequestUriFactory()
@@ -35,7 +41,8 @@ var currentWeather: Current? = null
 
 var updateInterval: Long = 0
 var isBatteryLow = false
-
+var areNotificionsOn = true
+var notificationInterval = 10000L
 class MainActivity : AppCompatActivity() {
 
     //INFORMATION IN TEXTVIEWS
@@ -84,7 +91,6 @@ class MainActivity : AppCompatActivity() {
                 Log.d("OnStart", "Network Not Available")
                 Toast.makeText(this, "OffLine", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 
