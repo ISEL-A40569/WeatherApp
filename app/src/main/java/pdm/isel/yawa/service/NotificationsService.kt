@@ -7,6 +7,7 @@ import android.content.Intent
 import android.support.v7.app.NotificationCompat
 import android.util.Log
 import pdm.isel.yawa.R
+import pdm.isel.yawa.areNotificionsOn
 import java.util.*
 
 /**
@@ -15,6 +16,7 @@ import java.util.*
 class NotificationsService : IntentService("NotificationService"){
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnNotificationsService", "OnNotificationsService")
+        if(areNotificionsOn)
         generateNotification(applicationContext)
     }
 

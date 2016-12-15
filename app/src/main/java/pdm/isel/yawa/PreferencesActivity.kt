@@ -21,4 +21,10 @@ class PreferencesActivity : AppCompatActivity() {
         val intent = Intent(this, SelectionActivity::class.java)
         startActivity(intent)
     }
-}
+
+    fun onNotificationSettings(view: View){
+        val intent = Intent(this, NotificationSettingsActivity::class.java)
+        startActivity(intent)
+    }
+
+    }

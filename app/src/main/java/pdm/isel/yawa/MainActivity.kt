@@ -3,6 +3,7 @@ package pdm.isel.yawa
 import android.app.Notification
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -23,11 +24,7 @@ import pdm.isel.yawa.model.*
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 import android.content.Intent
-import android.app.PendingIntent
-import android.app.NotificationManager
-import android.content.Context.NOTIFICATION_SERVICE
-import android.graphics.Color
-import android.support.v7.app.NotificationCompat
+import android.content.SharedPreferences
 
 
 val URI_FACTORY = RequestUriFactory()
@@ -39,10 +36,11 @@ var location: String? = null
 
 var currentWeather: Current? = null
 
-var updateInterval: Long = 0
 var isBatteryLow = false
 var areNotificionsOn = true
-var notificationInterval = 10000L
+
+var prefs: SharedPreferences? = null
+
 class MainActivity : AppCompatActivity() {
 
     //INFORMATION IN TEXTVIEWS
@@ -68,7 +66,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        //TODO: not sure if this is supposed to be here
         updateInterval = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getLong("updateInterval",15)
+        hourValue = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getInt("hour",8)
+        minutesValue = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getInt("minutes",0)
 
         if(location == null)
         location = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getString("city","")

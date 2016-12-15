@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.AlarmManager.INTERVAL_DAY
 import android.app.Application
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
 import android.util.Log
@@ -13,11 +14,11 @@ import pdm.isel.yawa.broadcast_receivers.NotificationsReceiver
 import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 import pdm.isel.yawa.icons.IconCache
 import pdm.isel.yawa.provider.WeatherCrudFunctions
+import java.security.AccessController.getContext
 import java.util.*
 
 val crud = WeatherCrudFunctions()
 val iconCache = IconCache()
-
 
 class WeatherApp : Application() {
 
@@ -54,8 +55,8 @@ class WeatherApp : Application() {
             val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
             val calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, 23)
-            calendar.set(Calendar.MINUTE, 49)
+            calendar.set(Calendar.HOUR_OF_DAY, hourValue!!)
+            calendar.set(Calendar.MINUTE, minutesValue!!)
             calendar.set(Calendar.SECOND, 0)
 //            calendar.set(2016, 12, 14, 23, 42, 0)
             alarmManager.setRepeating(

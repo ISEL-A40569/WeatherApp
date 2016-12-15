@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+var updateInterval: Long = 0
 
 class UpdateIntervalSettingActivity : AppCompatActivity() {
     var editText: EditText? = null
@@ -19,7 +20,7 @@ class UpdateIntervalSettingActivity : AppCompatActivity() {
     fun onUpdateTime(view: View){
         Log.d("OnUpdatingInterval", updateInterval.toString())
         updateInterval =  editText!!.text.toString().toLong()
-        val editor = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).edit()
+        val editor = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).edit()//TODO: use only one editor in app!?
         editor.putLong("updateInterval", updateInterval)
         editor.commit()
 
