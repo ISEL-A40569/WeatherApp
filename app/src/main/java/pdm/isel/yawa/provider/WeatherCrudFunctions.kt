@@ -9,6 +9,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.BaseColumns
+import android.util.Log
 import pdm.isel.yawa.ForecastActivity
 import pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS
 import pdm.isel.yawa.model.*
@@ -94,12 +95,6 @@ class WeatherCrudFunctions  {
         return 0
     }
 
-    //TODO: CitiInfo is an abstract class, only its implementations (Current and Forecast) should be returned
-    //TODO: fun getCurrent(cr:ContentResolver, location: String, language: String): Current? {...}
-    // -> queryCurrent. ## location e language colocados na clausula selection
-    //TODO: fun getForecast(cr:ContentResolver, location: String, language: String): Forecast? {...}
-    // -> queryForecast
-
     fun queryCity(cr:ContentResolver
                   , projection: Array<out String>?
                   , selection: String?
@@ -107,6 +102,12 @@ class WeatherCrudFunctions  {
                   , sortOrder: String?):LinkedList<String>{
 
         var cursor = cr.query(WeatherContract.City.CONTENT_URI, projection, selection, selectionArgs, sortOrder) as Cursor
+
+        if(cursor.count == 0) {
+            Log.d("YAWA_TAG", "WeatherCrudFunctions - NULL CURSOR")
+            return null!!
+        }
+
         var list = LinkedList<String>()
 
         while(cursor.moveToNext()){
@@ -115,14 +116,17 @@ class WeatherCrudFunctions  {
         return list
     }
 
-    /**
-     * decidir melhor este método. precisa de mais dados nos parametros
-     */
+
     fun queryCurrent(cr:ContentResolver, uri: Uri?, projection: Array<out String>?
                      , selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Current??{
 
         var cursorwi = cr.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI,null,selection, selectionArgs, "_id")
         var cursorCity = cr.query(WeatherContract.City.CONTENT_URI,projection,selection,selectionArgs,sortOrder)
+
+        if (cursorCity.count == 0 || cursorwi.count == 0) {
+            Log.d("YAWA_TAG", "WeatherCrudFunctions - NULL CURSOR")
+            return null
+        }
 
         var currInfo = CurrentWeatherInfo(cursorwi.getString(2)
                     ,cursorwi.getString(3)
@@ -148,6 +152,11 @@ class WeatherCrudFunctions  {
         var cursorfwi = cr.query(WeatherContract.FutureWeatherInfo.CONTENT_URI,null,selection, selectionArgs, "_id")
         var cursorCity = cr.query(WeatherContract.City.CONTENT_URI,projection,selection,selectionArgs,sortOrder)
 
+        if (cursorCity.count == 0 || cursorfwi.count == 0) {
+            Log.d("YAWA_TAG", "WeatherCrudFunctions - NULL CURSOR")
+            return null
+        }
+
         var arrayOfFutureWeatherInfo = kotlin.arrayOfNulls<FutureWeatherInfo>(NUMBER_OF_FORECAST_DAYS) as Array<FutureWeatherInfo>
 
         var index = 0
@@ -169,7 +178,7 @@ class WeatherCrudFunctions  {
                 ,cursorCity.getString(5)
                 ,arrayOfFutureWeatherInfo)
 
-        return null
+        return fwi
     }
 
 }
