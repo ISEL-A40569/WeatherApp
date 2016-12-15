@@ -200,7 +200,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onDbTest(view: View){
-        val intent = Intent(this, PreferencesActivity::class.java)
+        val intent = Intent(this, DbTestActivity::class.java)
         startActivity(intent)
     }
 

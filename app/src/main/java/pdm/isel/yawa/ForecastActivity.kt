@@ -21,9 +21,9 @@ import pdm.isel.yawa.adapter.FutureWeatherInfoArrayAdapter
 import pdm.isel.yawa.model.Forecast
 import pdm.isel.yawa.uri.RequestUriFactory
 
-
-class ForecastActivity : ListActivity() {
     val NUMBER_OF_FORECAST_DAYS = 16
+class ForecastActivity : ListActivity() {
+
     var forecast: Forecast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -44,10 +44,11 @@ object WeatherContract{
         val PRESSURE = "pressure"
         val HUM = "humidity"
         val DESC = "description"
+        val ICON = "icon"
         val TEMP_MIN = "tempMin"
         val TEMP_MAX = "tempMax"
 
-        val SELECT_ALL = arrayOf(BaseColumns._ID, FORECAST_ID, DATE, PRESSURE, HUM, DESC, TEMP_MIN, TEMP_MAX)
+        val SELECT_ALL = arrayOf(BaseColumns._ID, FORECAST_ID, DATE, PRESSURE, HUM, DESC, ICON, TEMP_MIN, TEMP_MAX)
         val DEFAULT_SORT_ORDER = BaseColumns._ID + " ASC"
     }
 
@@ -62,12 +63,14 @@ object WeatherContract{
         val PRESS = "pressure"
         val HUM = "humidity"
         val DESCRIPTION = "description"
+        val ICON = "icon"
         val TEMP = "temp"
         val SUNRISE = "sunrise"
         val SUNSET = "sunset"
         val WINDSPEED = "windSpeed"
 
-        val SELECT_ALL = arrayOf(BaseColumns._ID, CURR_ID, DATE, PRESS, HUM, DESCRIPTION, TEMP, SUNRISE, SUNSET, WINDSPEED)
+
+        val SELECT_ALL = arrayOf(BaseColumns._ID, CURR_ID, DATE, PRESS, HUM, DESCRIPTION, ICON, TEMP, SUNRISE, SUNSET, WINDSPEED)
         val DEFAULT_SORT_ORDER = BaseColumns._ID + " ASC"
         val SELECT_TEST = arrayOf(BaseColumns._ID, CURR_ID, DESCRIPTION)
     }
