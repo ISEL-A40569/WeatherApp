@@ -37,9 +37,6 @@ var location: String? = null
 var currentWeather: Current? = null
 
 var isBatteryLow = false
-var areNotificionsOn = true
-
-var prefs: SharedPreferences? = null
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,10 +63,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        //TODO: not sure if this is supposed to be here
+        //TODO: how to do this in WeatherApp ?!?
         updateInterval = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getLong("updateInterval",15)
         hourValue = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getInt("hour",8)
         minutesValue = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getInt("minutes",0)
+
+        Log.d("SettingNotifications", hourValue.toString())
+        Log.d("SettingNotifications", minutesValue.toString())
+
 
         if(location == null)
         location = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getString("city","")

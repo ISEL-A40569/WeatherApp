@@ -5,10 +5,13 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.RadioButton
 
 var hourValue: Int = 8
 var minutesValue: Int = 0
+var areNotificionsOn = true
 
 class NotificationSettingsActivity : AppCompatActivity() {
 
@@ -21,20 +24,32 @@ class NotificationSettingsActivity : AppCompatActivity() {
         var hour: EditText = findViewById(R.id.HourSelectionBox) as EditText
         var minutes: EditText = findViewById(R.id.MinutesSelectionBox) as EditText
 
-        button.setOnClickListener {
-            Log.d("OnSettingNotifications", hourValue.toString())
-            Log.d("OnSettingNotifications", minutesValue.toString())
+        var checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
 
-            hourValue= Integer.valueOf(hour.text.toString())
-            minutesValue = Integer.valueOf(minutes.text.toString())
+        checkBox.setOnClickListener {
+            Log.d("OnSettingNotifications", checkBox.isChecked.toString())
 
-            val editor = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).edit()//TODO: use only one editor in app!?
-            editor.putInt("hour", hourValue)
-            editor.putInt("minutes", minutesValue)
-            editor.commit()
+            if (checkBox.isChecked) {
+                areNotificionsOn = true
+            }else{
+                areNotificionsOn = false
+            }
+        }
+            button.setOnClickListener {
+                Log.d("OnSettingNotifications", hourValue.toString())
+                Log.d("OnSettingNotifications", minutesValue.toString())
 
-            Log.d("OnSettingNotifications", hourValue.toString())
-            Log.d("OnSettingNotifications", minutesValue.toString())
+                hourValue = Integer.valueOf(hour.text.toString())
+                minutesValue = Integer.valueOf(minutes.text.toString())
+
+                val editor = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).edit()//TODO: use only one editor in app!?
+                editor.putInt("hour", hourValue)
+                editor.putInt("minutes", minutesValue)
+                editor.commit()
+
+                Log.d("OnSettingNotifications", hourValue.toString())
+                Log.d("OnSettingNotifications", minutesValue.toString())
+
         }
     }
 }
