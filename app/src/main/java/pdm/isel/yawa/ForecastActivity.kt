@@ -30,7 +30,7 @@ class ForecastActivity : ListActivity() {
 
     override fun onStart() {
         super.onStart()
-        //forecast = crud.queryForecast(contentResolver, "", arrayOf(location, language))
+        //forecast = crud.queryForecast(contentResolver, "", arrayOf(location, language)) TODO: after still have to get icons
 
         if (forecast != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
@@ -68,13 +68,23 @@ class ForecastActivity : ListActivity() {
                     if (icon != null) {
                         futureWI.image = icon
                         ++count
+                        Log.d("GettingIcon" + count, "cache")
+
+                        if (count == NUMBER_OF_FORECAST_DAYS) {
+                            setView()
+                        }
                     } else {
                         application.requestQueue.add(IconRequest(
                                 URI_FACTORY.getIcon(futureWI.icon),
                                 object : VolleyIconCallback {
                                     override fun onSuccess(icon: Bitmap) {
                                         futureWI.image = icon;
+                                        iconCache.push(futureWI._icon, icon)
                                         ++count
+                                        Log.d("GettingIcon" + count, "request")
+                                        if (count == NUMBER_OF_FORECAST_DAYS) {
+                                            setView()
+                                        }
                                     }
 
                                 }
@@ -82,9 +92,6 @@ class ForecastActivity : ListActivity() {
                         )
                     }
 
-                    if (count == NUMBER_OF_FORECAST_DAYS) {
-                        setView()
-                    }
                 }
             }
         }

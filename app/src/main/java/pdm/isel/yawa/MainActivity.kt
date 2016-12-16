@@ -39,10 +39,15 @@ class MainActivity : AppCompatActivity() {
         Log.d("YAWA_TAG", "MAIN_onCreate")
 
         cityName = findViewById(R.id.main_city) as TextView
+        Log.d("YAWA_TAG", "MAIN_onCreate2")
         country = findViewById(R.id.main_country) as TextView
+        Log.d("YAWA_TAG", "MAIN_onCreate3")
         temp = findViewById(R.id.main_temp) as TextView
+        Log.d("YAWA_TAG", "MAIN_onCreate4")
         description = findViewById(R.id.main_description) as TextView
+        Log.d("YAWA_TAG", "MAIN_onCreate5")
         image = findViewById(R.id.main_view) as ImageView
+        Log.d("YAWA_TAG", "MAIN_onCreate6")
 
     }
 

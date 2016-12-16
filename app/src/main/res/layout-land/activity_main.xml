@@ -80,7 +80,7 @@
                 android:text="15º"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="100dp"
+                android:textSize="80dp"
                 android:gravity="center"
                 android:id="@+id/main_temp"
                 style="@style/MainInfo"/>
@@ -101,6 +101,15 @@
                 android:gravity="center"
                 android:id="@+id/main_country"
                 style="@style/MainInfo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:id="@+id/main_description"
+                style="@style/MainInfo"
+                />
 
         </LinearLayout>
 
