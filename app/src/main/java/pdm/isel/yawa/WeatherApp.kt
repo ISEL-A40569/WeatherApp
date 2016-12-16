@@ -6,7 +6,9 @@ import android.app.Application
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.SystemClock
+import android.preference.PreferenceManager
 import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
@@ -21,30 +23,38 @@ val crud = WeatherCrudFunctions()
 val iconCache = IconCache()
 
 class WeatherApp : Application() {
+    val MY_PREFS_NAME = "Prefs"
 
     val requestQueue by lazy { Volley.newRequestQueue(this) }
+    var prefs: SharedPreferences? = null
+
+    var editor: SharedPreferences.Editor? =null
+
+    var alarmManager: AlarmManager? = null
 
     override fun onCreate() {
         super.onCreate()
         Log.d("Weather/App", "WeatherApp onCreate")
 
-        val alarmIntentForWeatherService = Intent(this, WeatherBroadcastReceiver::class.java)
+        prefs = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE)
+        editor = prefs!!.edit()
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
-        if (PendingIntent.getBroadcast(this, 0, alarmIntentForWeatherService, PendingIntent.FLAG_NO_CREATE) == null) {
-            Log.i("Weather/App", "no alarm")
+        getPreferences(prefs!!)
 
-            val pendingAlarmIntent = PendingIntent.getBroadcast(this, 0, alarmIntentForWeatherService, 0)
+        setWeatherReceiver()
 
-            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        setNotificationsReceiver()
+    }
 
-            alarmManager.setInexactRepeating(
-                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() + 6000,
-                    updateInterval * 60000,
-                    pendingAlarmIntent
-            )
-        }
+    fun getPreferences(prefs: SharedPreferences) {
+        updateInterval = prefs.getLong("updateInterval", 1)
+        areNotificionsOn = prefs.getBoolean("areNotificionsOn", true)
+        hourValue = prefs.getInt("hour", 22)
+        minutesValue = prefs.getInt("minutes", 26)
+    }
 
+    fun setNotificationsReceiver() {
         val alarmIntentForNotificationsService = Intent(this, NotificationsReceiver::class.java)
 
         if (PendingIntent.getBroadcast(this, 1, alarmIntentForNotificationsService, PendingIntent.FLAG_NO_CREATE) == null) {
@@ -52,29 +62,50 @@ class WeatherApp : Application() {
 
             val pendingAlarmIntent = PendingIntent.getBroadcast(this, 1, alarmIntentForNotificationsService, 0)
 
-            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+            Log.d("SettingNotifications", hourValue.toString())
+            Log.d("SettingNotifications", minutesValue.toString())
 
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.HOUR_OF_DAY, hourValue!!)
             calendar.set(Calendar.MINUTE, minutesValue!!)
             calendar.set(Calendar.SECOND, 0)
-//            calendar.set(2016, 12, 14, 23, 42, 0)
-            alarmManager.setRepeating(
+
+            alarmManager!!.setRepeating(
                     AlarmManager.RTC_WAKEUP,
                     calendar.timeInMillis,
-                    AlarmManager.INTERVAL_DAY,
+                    INTERVAL_DAY,
                     pendingAlarmIntent
             )
         }
     }
 
+    fun setWeatherReceiver() {
+        val alarmIntentForWeatherService = Intent(this, WeatherBroadcastReceiver::class.java)
 
+        if (PendingIntent.getBroadcast(this, 0, alarmIntentForWeatherService, PendingIntent.FLAG_NO_CREATE) == null) {
+            Log.i("Weather/App", "no alarm")
 
-//    Intent intent = new Intent(MainActivity.this, Receiver.class);
-//    PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, REQUEST_CODE, intent, 0);
-//    AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-//    am.setRepeating(am.RTC_WAKEUP, System.currentTimeInMillis(), am.INTERVAL_DAY*7, pendingIntent);
+            val pendingAlarmIntent = PendingIntent.getBroadcast(this, 0, alarmIntentForWeatherService, 0)
+
+            alarmManager!!.setRepeating(
+                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() + 6000,
+                    updateInterval * 60000,
+                    pendingAlarmIntent
+            )
+        }
+    }
+
 }
 
 val Application.requestQueue : RequestQueue
     get() = (this as WeatherApp).requestQueue
+
+val Application.prefs : SharedPreferences
+    get() = (this as WeatherApp).prefs!!
+
+val Application.editor : SharedPreferences.Editor
+    get() = (this as WeatherApp).editor!!
+
+val Application.alarmManager : AlarmManager
+    get() = (this as WeatherApp).alarmManager!!

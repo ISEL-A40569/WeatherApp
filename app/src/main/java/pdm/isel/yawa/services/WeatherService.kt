@@ -1,4 +1,4 @@
-package pdm.isel.yawa.service
+package pdm.isel.yawa.services
 
 import android.app.IntentService
 import android.content.ContentValues
@@ -34,7 +34,7 @@ class WeatherService() : IntentService("WeatherService") {
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnService", "onHandleIntent start")
 
-        var connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected && !isBatteryLow){
             makeCurrentRequest()

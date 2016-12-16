@@ -47,7 +47,7 @@
         </receiver>
 
         <service
-            android:name=".service.WeatherService"
+            android:name=".services.WeatherService"
             android:exported="false" />
 
         <activity android:name=".UpdateIntervalSettingActivity" />
@@ -70,7 +70,7 @@
         </receiver>
 
         <service
-            android:name=".service.NotificationsService"
+            android:name=".services.NotificationsService"
             android:exported="false" />
 
         <activity android:name=".NotificationSettingsActivity"></activity>

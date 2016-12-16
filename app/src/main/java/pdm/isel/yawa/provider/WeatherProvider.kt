@@ -13,8 +13,6 @@ import android.util.Log
 
 class WeatherProvider : ContentProvider() {
 
-
-
     private val CITY_LST = 1
     private val CITY_OBJ = 2
     private val CURRENT_WI_LST = 3

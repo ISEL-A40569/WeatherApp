@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import pdm.isel.yawa.service.NotificationsService
+import pdm.isel.yawa.services.NotificationsService
 
 /**
  * Created by Dani on 14-12-2016.

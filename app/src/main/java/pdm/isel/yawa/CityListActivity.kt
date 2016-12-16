@@ -33,9 +33,8 @@ class CityListActivity : ListActivity() {
         currentWeather = null
         location = cities[position] as String
         Toast.makeText(this, location, Toast.LENGTH_SHORT).show()
-        val editor = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).edit()
-        editor.putString("city", location)
-        editor.commit()
+        application.editor.putString("city", location)
+        application.editor.commit()
 
     }
 

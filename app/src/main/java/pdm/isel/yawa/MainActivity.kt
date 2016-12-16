@@ -24,7 +24,6 @@ import pdm.isel.yawa.model.*
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 import android.content.Intent
-import android.content.SharedPreferences
 
 
 val URI_FACTORY = RequestUriFactory()
@@ -53,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.d("YAWA_TAG", "MAIN_onCreate")
 
-
         cityName = findViewById(R.id.main_city) as TextView?
         country = findViewById(R.id.main_country) as TextView?
         description = findViewById(R.id.main_description) as TextView?
@@ -63,17 +61,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        //TODO: how to do this in WeatherApp ?!?
-        updateInterval = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getLong("updateInterval",15)
-        hourValue = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getInt("hour",8)
-        minutesValue = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getInt("minutes",0)
-
-        Log.d("SettingNotifications", hourValue.toString())
-        Log.d("SettingNotifications", minutesValue.toString())
-
 
         if(location == null)
-        location = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).getString("city","")
+        location = application.prefs.getString("city","")
 
         Log.d("RESPONSE", "ON START, location = " + location)
 

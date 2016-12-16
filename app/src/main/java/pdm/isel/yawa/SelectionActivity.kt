@@ -9,8 +9,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 
-val MY_PREFS_NAME = "Prefs"
-
 class SelectionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,9 +21,8 @@ class SelectionActivity : AppCompatActivity() {
 
         selectButton.setOnClickListener {
             var city = editText.text.toString()
-            val editor = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).edit()
-            editor.putString("city", city)
-            editor.commit()
+            application.editor.putString("city", city)
+            application.editor.commit()
             location = city
             cityList.add(city)
             currentWeather = null

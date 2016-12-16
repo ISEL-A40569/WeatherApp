@@ -1,15 +1,19 @@
 package pdm.isel.yawa
 
+import android.app.AlarmManager
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.RadioButton
+import pdm.isel.yawa.broadcast_receivers.NotificationsReceiver
+import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
+import java.util.*
 
-var hourValue: Int = 8
+var hourValue: Int = 0
 var minutesValue: Int = 0
 var areNotificionsOn = true
 
@@ -34,6 +38,8 @@ class NotificationSettingsActivity : AppCompatActivity() {
             }else{
                 areNotificionsOn = false
             }
+
+            application.editor.putBoolean("areNotificionsOn", areNotificionsOn)
         }
             button.setOnClickListener {
                 Log.d("OnSettingNotifications", hourValue.toString())
@@ -42,10 +48,25 @@ class NotificationSettingsActivity : AppCompatActivity() {
                 hourValue = Integer.valueOf(hour.text.toString())
                 minutesValue = Integer.valueOf(minutes.text.toString())
 
-                val editor = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).edit()//TODO: use only one editor in app!?
-                editor.putInt("hour", hourValue)
-                editor.putInt("minutes", minutesValue)
-                editor.commit()
+                application.editor.putInt("hour", hourValue)
+                application.editor.putInt("minutes", minutesValue)
+                application.editor.commit()
+
+                var pendingAlarmIntent = android.app.PendingIntent.getBroadcast(applicationContext,1, Intent(applicationContext, NotificationsReceiver::class.java), 0)
+
+                application.alarmManager.cancel(pendingAlarmIntent)
+
+                val calendar = Calendar.getInstance()
+                calendar.set(Calendar.HOUR_OF_DAY, hourValue!!)
+                calendar.set(Calendar.MINUTE, minutesValue!!)
+                calendar.set(Calendar.SECOND, 0)
+
+                application.alarmManager!!.setRepeating(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        AlarmManager.INTERVAL_DAY,
+                        pendingAlarmIntent
+                )
 
                 Log.d("OnSettingNotifications", hourValue.toString())
                 Log.d("OnSettingNotifications", minutesValue.toString())

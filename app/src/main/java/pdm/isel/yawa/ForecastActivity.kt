@@ -62,7 +62,7 @@ class ForecastActivity : ListActivity() {
                             forecast = DTO_MAPPER.mapForecastDto(
                                     JSON_MAPPER.mapForecastJson(response.toString()))
 
-                            for(i in forecast?.list!!.indices){
+                            for(i in forecast!!.list!!.indices){
                                 var futureWI = forecast?.list!![i]
 
 //                                var icon: Bitmap? = iconCache.pop(futureWI._icon)//TODO: solve IconCache parallel access problem
