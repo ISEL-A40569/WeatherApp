@@ -77,7 +77,12 @@ class WeatherProvider : ContentProvider() {
         }
     }
 
-    override fun query(uri: Uri?, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor {
+    override fun query(uri: Uri?
+                       , projection: Array<out String>?
+                       , selection: String?
+                       , selectionArgs: Array<out String>?
+                       , sortOrder: String?): Cursor {
+
         Log.d("YAWA_TAG", "WeatherProvider - query method")
         var sortOrder = sortOrder
         val qbuilder = SQLiteQueryBuilder()
@@ -129,7 +134,11 @@ class WeatherProvider : ContentProvider() {
     }
 
 
-    override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
+    override fun update(uri: Uri?
+                        , values: ContentValues?
+                        , selection: String?
+                        , selectionArgs: Array<out String>?): Int {
+
         Log.d("YAWA_TAG", "WeatherProvider - update")
         val table: String
         if (selection != null) throw IllegalArgumentException("selection not supported")
