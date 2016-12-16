@@ -4,18 +4,14 @@ import android.app.ListActivity
 import android.app.LoaderManager
 import android.content.ContentValues
 import android.content.CursorLoader
-import android.content.Intent
 import android.content.Loader
 import android.database.Cursor
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.SimpleCursorAdapter
 import android.widget.TextView
-import pdm.isel.yawa.provider.DbSchema
 import pdm.isel.yawa.provider.WeatherContract
-import pdm.isel.yawa.provider.WeatherContract.CONTENT_URI
 
 class DbTestActivity : ListActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 

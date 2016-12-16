@@ -1,24 +1,14 @@
 package pdm.isel.yawa.services
 
 import android.app.IntentService
-import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.ConnectivityManager
 import android.util.Log
-import android.widget.Toast
-import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.ImageRequest
-import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
 import pdm.isel.yawa.*
-import pdm.isel.yawa.icons.IconCache
-import pdm.isel.yawa.model.BaseWeatherInfo
 import pdm.isel.yawa.model.Current
 import pdm.isel.yawa.model.Forecast
+import pdm.isel.yawa.requests.DataRequest
 import pdm.isel.yawa.uri.RequestUriFactory
 
 /**
@@ -34,9 +24,7 @@ class WeatherService() : IntentService("WeatherService") {
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnService", "onHandleIntent start")
 
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected && !isBatteryLow){
+        if(application.isConnected && !isBatteryLow){
             makeCurrentRequest()
             makeForecastRequest()
         }
@@ -44,70 +32,53 @@ class WeatherService() : IntentService("WeatherService") {
     }
 
     private fun makeCurrentRequest() {
-        application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
-                RequestUriFactory().getNowWeather(location!!, language), null,
-                object : Response.Listener<JSONObject> {
-                    override fun onResponse(response: JSONObject?) {
-                        if (response != null) {
-
-                            current = DTO_MAPPER.mapCurrentDto(
-                                    JSON_MAPPER.mapWeatherInfoJson(response.toString()))
-
-                            if (current != null) {
-                                Log.d("OnService", "Updating " + current!!.name + " current info")
-
-
-                                //TODO: INSERT CURRENT HERE
-                            }
-                        } else {
-                            //TODO: throw some null response exception
-                        }
-                    }
-                }, object : Response.ErrorListener {
-            override fun onErrorResponse(error: VolleyError) {
-                Log.d("ERROR: ", error.toString())
-            }
-        }))
+        application.requestQueue.add(DataRequest(
+                RequestUriFactory().getNowWeather(location!!, language),
+                getCurrentResponseListener()))
     }
 
-    //TODO: maybe this can be used later somewhere else by everybody (activities or what?) that needs to get icons
-//    private fun getIconView(url: String, wi: BaseWeatherInfo): ImageRequest {
-//        return ImageRequest(url,
-//                object : Response.Listener<Bitmap> {
-//                    override fun onResponse(bitmap: Bitmap) {
-//                        Log.d("RESPONSE", "GOT ICON")
-//                        iconCache.push(current!!.currentInfo._icon, bitmap)
-//                        wi.image = bitmap
-//                    }
-//                }, 0, 0, null,
-//                object : Response.ErrorListener {
-//                    override fun onErrorResponse(error: VolleyError) {
-//                        Log.d("ERROR: ", error.toString())
-//                    }
-//                })
-//    }
+    private fun getCurrentResponseListener(): Response.Listener<JSONObject> {
+        return object : Response.Listener<JSONObject> {
+            override fun onResponse(response: JSONObject?) {
+                if (response != null) {
+
+                    current = DTO_MAPPER.mapCurrentDto(
+                            JSON_MAPPER.mapWeatherInfoJson(response.toString()))
+
+                    if (current != null) {
+                        Log.d("OnService", "Updating " + current!!.name + " current info")
+
+
+                        //TODO: INSERT CURRENT HERE
+                    }
+                } else {
+                    //TODO: throw some null response exception
+                }
+            }
+        }
+    }
 
     private fun makeForecastRequest() {
-        application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
-                RequestUriFactory().getFutureWeather(location!!, language, NUMBER_OF_FORECAST_DAYS), null,
-                object : Response.Listener<JSONObject> {
-                    override fun onResponse(response: JSONObject?) {
+        application.requestQueue.add(DataRequest(
+                RequestUriFactory().getFutureWeather(location!!, language, NUMBER_OF_FORECAST_DAYS),
+                getForecastResponseListener()))
+    }
 
-                        if (response != null) {
-                            forecast = DTO_MAPPER.mapForecastDto(
-                                    JSON_MAPPER.mapForecastJson(response.toString()))
+    private fun getForecastResponseListener(): Response.Listener<JSONObject> {
+        return object : Response.Listener<JSONObject> {
+            override fun onResponse(response: JSONObject?) {
 
-                            Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
-                            //TODO: INSERT FORECAST HERE
+                if (response != null) {
+                    forecast = DTO_MAPPER.mapForecastDto(
+                            JSON_MAPPER.mapForecastJson(response.toString()))
 
-                        } else {
-                            //TODO: throw some null response exception
-                        }
-                    }
-                }, object : Response.ErrorListener {
-            override fun onErrorResponse(error: VolleyError) {
-                Log.d("ERROR: ", error.toString())
+                    Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
+                    //TODO: INSERT FORECAST HERE
+
+                } else {
+                    //TODO: throw some null response exception
+                }
             }
-        }))
+        }
     }
 }

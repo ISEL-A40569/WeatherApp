@@ -3,7 +3,6 @@ package pdm.isel.yawa.broadcast_receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import pdm.isel.yawa.services.NotificationsService
 
 /**

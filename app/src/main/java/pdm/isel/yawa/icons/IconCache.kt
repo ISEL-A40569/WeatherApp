@@ -2,7 +2,7 @@ package pdm.isel.yawa.icons
 
 import android.graphics.Bitmap
 import android.util.Log
-import java.util.HashMap
+import java.util.*
 
 /**
  * Icon Bitmaps cache.

@@ -30,7 +30,7 @@ class FutureWeatherInfoArrayAdapter(context: Context, val futureWeatherInfos: Ar
 
         var fwi: FutureWeatherInfo = getItem(position)
         vh.textView?.setText(fwi.date)
-        vh.imageView?.setImageBitmap(fwi.image!!)
+        vh.imageView!!.setImageBitmap(fwi.image!!)
 
         return convertView
     }

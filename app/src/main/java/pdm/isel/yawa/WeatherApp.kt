@@ -7,20 +7,28 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.os.SystemClock
-import android.preference.PreferenceManager
 import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import pdm.isel.yawa.broadcast_receivers.NotificationsReceiver
 import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 import pdm.isel.yawa.icons.IconCache
+import pdm.isel.yawa.json.JsonToDtoMapper
+import pdm.isel.yawa.model.DtoToDomainMapper
 import pdm.isel.yawa.provider.WeatherCrudFunctions
-import java.security.AccessController.getContext
+import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
+
+val URI_FACTORY = RequestUriFactory()
+val DTO_MAPPER = DtoToDomainMapper()
+val JSON_MAPPER = JsonToDtoMapper()
 
 val crud = WeatherCrudFunctions()
 val iconCache = IconCache()
+
+var isBatteryLow = false
 
 class WeatherApp : Application() {
     val MY_PREFS_NAME = "Prefs"
@@ -32,6 +40,10 @@ class WeatherApp : Application() {
 
     var alarmManager: AlarmManager? = null
 
+    val connectivityManager by lazy {getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager}
+
+    var isConnected = false
+
     override fun onCreate() {
         super.onCreate()
         Log.d("Weather/App", "WeatherApp onCreate")
@@ -39,6 +51,9 @@ class WeatherApp : Application() {
         prefs = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE)
         editor = prefs!!.edit()
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+        isConnected = connectivityManager.activeNetworkInfo != null &&
+                connectivityManager.activeNetworkInfo.isConnected
 
         getPreferences(prefs!!)
 
@@ -109,3 +124,7 @@ val Application.editor : SharedPreferences.Editor
 
 val Application.alarmManager : AlarmManager
     get() = (this as WeatherApp).alarmManager!!
+
+val Application.isConnected : Boolean
+    get() = (this as WeatherApp).isConnected
+

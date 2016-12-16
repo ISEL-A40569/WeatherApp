@@ -1,14 +1,9 @@
 package pdm.isel.yawa
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import com.android.volley.Response
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.ImageRequest
 import pdm.isel.yawa.model.FutureWeatherInfo
 
 var futureWeatherInfo: FutureWeatherInfo? = null

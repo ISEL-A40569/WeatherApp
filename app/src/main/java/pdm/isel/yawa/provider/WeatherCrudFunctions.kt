@@ -1,16 +1,11 @@
 package pdm.isel.yawa.provider
 
-import android.app.LoaderManager
-import android.content.ContentProvider
 import android.content.ContentResolver
 import android.content.ContentValues
-import android.content.Loader
 import android.database.Cursor
 import android.net.Uri
-import android.os.Bundle
 import android.provider.BaseColumns
 import android.util.Log
-import pdm.isel.yawa.ForecastActivity
 import pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS
 import pdm.isel.yawa.model.*
 import java.util.*

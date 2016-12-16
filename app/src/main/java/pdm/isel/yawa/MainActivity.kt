@@ -1,11 +1,7 @@
 package pdm.isel.yawa
 
-import android.app.Notification
-import android.content.Context
-import android.content.Context.MODE_PRIVATE
-import android.content.ContextWrapper
+import android.content.Intent
 import android.graphics.Bitmap
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -13,29 +9,19 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.ImageRequest
-import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
-import pdm.isel.yawa.json.JsonToDtoMapper
-import pdm.isel.yawa.model.*
+import pdm.isel.yawa.model.Current
+import pdm.isel.yawa.requests.IconRequest
+import pdm.isel.yawa.requests.DataRequest
+import pdm.isel.yawa.requests.VolleyIconCallback
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
-import android.content.Intent
-
-
-val URI_FACTORY = RequestUriFactory()
-val DTO_MAPPER = DtoToDomainMapper()
-val JSON_MAPPER = JsonToDtoMapper()
 
 var language = Locale.getDefault().displayLanguage
 var location: String? = null
 
 var currentWeather: Current? = null
-
-var isBatteryLow = false
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,10 +38,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.d("YAWA_TAG", "MAIN_onCreate")
 
-        cityName = findViewById(R.id.main_city) as TextView?
-        country = findViewById(R.id.main_country) as TextView?
-        description = findViewById(R.id.main_description) as TextView?
-        image = findViewById(R.id.main_view) as ImageView?
+        cityName = findViewById(R.id.main_city) as TextView
+        country = findViewById(R.id.main_country) as TextView
+        temp = findViewById(R.id.main_temp) as TextView
+        description = findViewById(R.id.main_description) as TextView
+        image = findViewById(R.id.main_view) as ImageView
 
     }
 
@@ -73,12 +60,11 @@ class MainActivity : AppCompatActivity() {
             Log.d("RESPONSE", "LOAD FROM CACHE")
             setViews()
         } else {
-            var connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-            if(connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected && !isBatteryLow){
+            if(application.isConnected && !isBatteryLow){
                 Log.d("OnStart", "Network Available")
                 Log.d("RESPONSE", "LOAD FROM REQUEST")
-                makeRequest()//TODO: should this keep being done here!?
+                makeRequest()
             }else{
                 Log.d("OnStart", "Network Not Available")
                 Toast.makeText(this, "OffLine", Toast.LENGTH_SHORT).show()
@@ -87,63 +73,54 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setViews() {
-        cityName?.setText(currentWeather?.name)
-        temp?.setText(currentWeather?.currentInfo?.temp)
-        country?.setText(currentWeather?.country)
-        description?.setText(currentWeather?.currentInfo?.description)
+        cityName!!.setText(currentWeather!!.name)
+        temp!!.setText(currentWeather!!.currentInfo.temp)
+        country!!.setText(currentWeather!!.country)
+        description!!.setText(currentWeather!!.currentInfo.description)
 
-        if(currentWeather?.currentInfo?.image != null){
+        if(currentWeather!!.currentInfo.image != null){
             Log.d("RESPONSE", "SETTING IMAGE")
-            image?.setImageBitmap(currentWeather?.currentInfo?.image!!)
+            image!!.setImageBitmap(currentWeather!!.currentInfo.image)
         }
     }
 
     private fun makeRequest() {
-        application.requestQueue.add(JsonObjectRequest(Request.Method.GET,
-                RequestUriFactory().getNowWeather(location!!, language), null,
-                object : Response.Listener<JSONObject> {
-                    override fun onResponse(response: JSONObject?) {
-
-                            currentWeather = DTO_MAPPER.mapCurrentDto(
-                                    JSON_MAPPER.mapWeatherInfoJson(response.toString()))
-
-                            if (currentWeather != null) {
-                                Log.d("RESPONSE ", currentWeather?.name + " " + currentWeather?.currentInfo?.temp)
-
-                                var icon = iconCache.pop(currentWeather!!.currentInfo._icon)
-
-                                if(icon != null){
-                                    currentWeather!!.currentInfo.image = icon
-                                }else{
-                                    application.requestQueue.add(getIconView(URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon)))
-                                }
-                                setViews()
-                            }
-                    }
-                }, object : Response.ErrorListener {
-            override fun onErrorResponse(error: VolleyError) {
-                Log.d("ERROR: ", error.toString())
-            }
-        }))
+        application.requestQueue.add(DataRequest(
+                RequestUriFactory().getNowWeather(location!!, language),
+                getResponseListener()))
     }
 
-    private fun getIconView(url: String): ImageRequest {
-        return ImageRequest(url,
-                object : Response.Listener<Bitmap> {
-                    override fun onResponse(bitmap: Bitmap) {
-                        Log.d("RESPONSE", "GOT ICON")
-                        iconCache.push(currentWeather!!.currentInfo!!._icon, bitmap)
-                        currentWeather?.currentInfo?.image = bitmap
-                        image?.setImageBitmap(currentWeather?.currentInfo?.image)
+    private fun getResponseListener(): Response.Listener<JSONObject> {
+        return object : Response.Listener<JSONObject> {
+            override fun onResponse(response: JSONObject?) {
+
+                currentWeather = DTO_MAPPER.mapCurrentDto(
+                        JSON_MAPPER.mapWeatherInfoJson(response.toString()))
+
+                if (currentWeather != null) {
+                    Log.d("RESPONSE ", currentWeather!!.name + " " + currentWeather!!.currentInfo.temp)
+
+                    var icon = iconCache.pop(currentWeather!!.currentInfo._icon)
+
+                    if (icon != null) {
+                        currentWeather!!.currentInfo.image = icon
+                    } else {
+                        application.requestQueue.add(IconRequest(
+                                URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon),
+                                object : VolleyIconCallback {
+                                    override fun  onSuccess(icon: Bitmap) {
+                                        Log.d("RESPONSE", "GOT ICON")
+                                        iconCache.push(currentWeather!!.currentInfo._icon, icon)
+                                        currentWeather!!.currentInfo.image = icon
+                                        image?.setImageBitmap(currentWeather!!.currentInfo.image)
+                                    }
+
+                                }))
                     }
-                }, 0, 0,
-                ImageView.ScaleType.CENTER_INSIDE,
-                null,
-                object : Response.ErrorListener {
-                    override fun onErrorResponse(error: VolleyError) {
-                        Log.d("ERROR: ", error.toString())
-                    }
-                })
+                    setViews()
+                }
+            }
+        }
     }
 
     fun onRefresh(view: View) {
@@ -190,7 +167,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onDbTest(view: View){
-        val intent = Intent(this, DbTestActivity::class.java)
+        val intent = Intent(this, PreferencesActivity::class.java)
         startActivity(intent)
     }
 

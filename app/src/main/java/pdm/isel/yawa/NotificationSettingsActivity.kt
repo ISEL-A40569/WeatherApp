@@ -1,16 +1,14 @@
 package pdm.isel.yawa
 
 import android.app.AlarmManager
-import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import pdm.isel.yawa.broadcast_receivers.NotificationsReceiver
-import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 import java.util.*
 
 var hourValue: Int = 0
