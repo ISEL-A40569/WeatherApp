@@ -7,7 +7,7 @@ import android.provider.BaseColumns
 object DbSchema {
 
     val DB_NAME = "yawa.db"
-    val DB_VERSION = 11
+    val DB_VERSION = 12
     val COL_ID = BaseColumns._ID
 
 
