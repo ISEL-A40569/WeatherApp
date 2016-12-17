@@ -9,16 +9,26 @@ import android.widget.ListView
 import android.widget.Toast
 import java.util.*
 
-val cityList = LinkedList<String?>()//TODO: store this or get it fill from database
+var cityList = LinkedList<String>()//TODO: store this or get it fill from database
 
 class CityListActivity : ListActivity() {
 
     private val cities = cityList.toArray()
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_city_list)
 
+        //TODO - falta conseguir ir buscar a primeira cidade
+        cityList = crud.queryCityNames(contentResolver, null, null, null, "'name' ASC")
+        cityList.add("Lisboa")
+        cityList.add("Porto")
+        cityList.add("ATENÇÃO!! Dados hard codded!!")
+
+
+
+        setContentView(R.layout.activity_city_list)
         Log.d("YAWA_TAG", "COUNTRY_onCreate")
 
         val adapter = ArrayAdapter<Any>(this, android.R.layout.simple_list_item_1, cities)

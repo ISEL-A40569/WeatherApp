@@ -30,8 +30,15 @@ class ForecastActivity : ListActivity() {
 
     override fun onStart() {
         super.onStart()
-        //forecast = crud.queryForecast(contentResolver, "", arrayOf(location, language)) TODO: after still have to get icons
 
+        /*
+        var cityId = crud.verifyIfCityExists(contentResolver,null
+                ,"name = '"+ location + "' and language = '"+ language+"'"
+                , null, null)
+
+        forecast = crud.queryForecast(contentResolver, null, null, null, null, cityId)
+        //TODO: after still have to get icons
+        */
         if (forecast != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
             setView()

@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
 
         var cityId = crud.verifyIfCityExists(contentResolver,null
-                ,"name = "+ location + " and language = "+ language
+                ,"name = '"+ location + "' and language = '"+ language+"'"
                 , null, null)
         if ( cityId > 0)
             currentWeather = crud.queryCurrent(contentResolver, null, null,null,null, cityId )

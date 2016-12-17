@@ -105,7 +105,7 @@ class WeatherCrudFunctions  {
 
         var cursor = cr.query(WeatherContract.City.CONTENT_URI, projection, selection, selectionArgs,sortOrder)
 
-        if(cursor == null)
+        if(cursor.count == 0)
             return -1
          return cursor.getInt(1)
     }
@@ -117,13 +117,13 @@ class WeatherCrudFunctions  {
                   , projection: Array<out String>?
                   , selection: String?
                   , selectionArgs: Array<out String>?
-                  , sortOrder: String?):LinkedList<String>{
+                  , sortOrder: String?): LinkedList<String> {
 
         var cursor = cr.query(WeatherContract.City.CONTENT_URI, projection, selection, selectionArgs, sortOrder) as Cursor
 
         if(cursor.count == 0) {
             Log.d("YAWA_TAG", "WeatherCrudFunctions - NULL CURSOR")
-            return null!!
+            return  LinkedList<String>()
         }
 
         var list = LinkedList<String>()
