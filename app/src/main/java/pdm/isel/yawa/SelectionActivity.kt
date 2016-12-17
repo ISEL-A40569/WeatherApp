@@ -20,7 +20,7 @@ class SelectionActivity : AppCompatActivity() {
             application.editor.putString("city", city)
             application.editor.commit()
             location = city
-            cityList.add(city)
+            cityList.add(city) //TODO: REMOVE WHEN LIST IS FILLED FROM DB
             currentWeather = null
         }
     }

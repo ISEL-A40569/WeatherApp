@@ -13,7 +13,7 @@ import java.util.*
 
 var hourValue: Int = 0
 var minutesValue: Int = 0
-var areNotificionsOn = true
+var areNotificionsOn = false
 
 class NotificationSettingsActivity : AppCompatActivity() {
 
@@ -27,15 +27,12 @@ class NotificationSettingsActivity : AppCompatActivity() {
         var minutes: EditText = findViewById(R.id.MinutesSelectionBox) as EditText
 
         var checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
+        checkBox.setChecked(areNotificionsOn)
 
         checkBox.setOnClickListener {
             Log.d("OnSettingNotifications", checkBox.isChecked.toString())
 
-            if (checkBox.isChecked) {
-                areNotificionsOn = true
-            }else{
-                areNotificionsOn = false
-            }
+            areNotificionsOn = !areNotificionsOn
 
             application.editor.putBoolean("areNotificionsOn", areNotificionsOn)
         }

@@ -36,13 +36,14 @@ class WeatherApp : Application() {
     val requestQueue by lazy { Volley.newRequestQueue(this) }
     var prefs: SharedPreferences? = null
 
-    var editor: SharedPreferences.Editor? =null
+    var editor: SharedPreferences.Editor? = null
 
     var alarmManager: AlarmManager? = null
 
     val connectivityManager by lazy {getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager}
 
     var isConnected = false
+
 
     override fun onCreate() {
         super.onCreate()
@@ -59,6 +60,7 @@ class WeatherApp : Application() {
 
         setWeatherReceiver()
 
+        if(areNotificionsOn)
         setNotificationsReceiver()
     }
 
