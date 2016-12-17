@@ -14,7 +14,7 @@ import java.util.*
 class WeatherCrudFunctions  {
 
 
-    fun insertNewCity(cr:ContentResolver, cityInfo: CityInfo){
+    fun insertNewCity(cr:ContentResolver, cityInfo: CityInfo): Int{
 
         var contentValues = ContentValues()
         contentValues.put("name", cityInfo.cityName)
@@ -23,16 +23,21 @@ class WeatherCrudFunctions  {
         contentValues.put("lat", cityInfo.lt)
         contentValues.put("language", cityInfo.language)
         cr.insert(WeatherContract.City.CONTENT_URI, contentValues)
+
+        var id = verifyIfCityExists(cr,null,
+                "name = "+cityInfo.cityName + "and country = "+ cityInfo.cityName + "and language = "+cityInfo.language,
+                null, null)
+        return id
     }
 
-    fun insertCurrentWeatherInfo(cr:ContentResolver, cwi: CurrentWeatherInfo, city_id: Int, language:String){
+    fun insertCurrentWeatherInfo(cr:ContentResolver, cwi: CurrentWeatherInfo, city_id: Int){
 
         var contentValues = ContentValues()
 
         contentValues.put("date", cwi.date)
         contentValues.put("pressure", cwi.pressure)
         contentValues.put("humidity", cwi.humidity)
-        contentValues.put("language", language)
+        //contentValues.put("language", language)
         contentValues.put("description", cwi.description)
         contentValues.put("temp", cwi.temp)
         contentValues.put("sunrise", cwi.sunrise)
@@ -43,13 +48,13 @@ class WeatherCrudFunctions  {
         cr.insert(WeatherContract.CurrentWeatherInfo.CONTENT_URI, contentValues)
 
     }
-    fun insertFutureWeatherInfo(cr:ContentResolver, fwi: FutureWeatherInfo, forecastid: Int, language:String){
+    fun insertFutureWeatherInfo(cr:ContentResolver, fwi: FutureWeatherInfo, forecastid: Int){
         var contentValues = ContentValues()
 
         contentValues.put("date", fwi.date)
         contentValues.put("pressure", fwi.pressure)
         contentValues.put("humidity", fwi.humidity)
-        contentValues.put("language", language)
+        //contentValues.put("language", language)
         contentValues.put("description", fwi.description)
         contentValues.put("forecastId", forecastid)
         contentValues.put("tempMin", fwi.tempMin)
@@ -77,8 +82,9 @@ class WeatherCrudFunctions  {
         return del
     }
 
+    /*
     fun updateCity(cr:ContentResolver,ci:CityInfo, selection: String?, selectionArgs: Array<out String>?) : Int{
-        //TODO
+        //TODO not necessary at this point
         return 0
     }
     fun updateCurrenteWeatherInfo(cr:ContentResolver,cwi: CurrentWeatherInfo, selection: String?, selectionArgs: Array<out String>?) : Int{
@@ -89,8 +95,25 @@ class WeatherCrudFunctions  {
         //TODO
         return 0
     }
+    */
 
-    fun queryCity(cr:ContentResolver
+    fun verifyIfCityExists(cr:ContentResolver
+                           , projection: Array<out String>?
+                           , selection: String?
+                           , selectionArgs: Array<out String>?
+                           , sortOrder: String?): Int{
+
+        var cursor = cr.query(WeatherContract.City.CONTENT_URI, projection, selection, selectionArgs,sortOrder)
+
+        if(cursor == null)
+            return -1
+         return cursor.getInt(1)
+    }
+
+    /**
+     * returns a list of all citys in the DB
+     */
+    fun queryCityNames(cr:ContentResolver
                   , projection: Array<out String>?
                   , selection: String?
                   , selectionArgs: Array<out String>?
@@ -112,11 +135,14 @@ class WeatherCrudFunctions  {
     }
 
 
-    fun queryCurrent(cr:ContentResolver, uri: Uri?, projection: Array<out String>?
-                     , selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Current??{
+    fun queryCurrent(cr:ContentResolver, projection: Array<out String>?
+                     , selection: String?
+                     , selectionArgs: Array<out String>?
+                     , sortOrder: String?
+                     ,id: Int): Current??{
 
-        var cursorwi = cr.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI,null,selection, selectionArgs, "_id")
-        var cursorCity = cr.query(WeatherContract.City.CONTENT_URI,projection,selection,selectionArgs,sortOrder)
+        var cursorwi = cr.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI,null,"_id = "+id, selectionArgs, "_id")
+        var cursorCity = cr.query(WeatherContract.City.CONTENT_URI,projection, selection,selectionArgs,sortOrder)
 
         if (cursorCity.count == 0 || cursorwi.count == 0) {
             Log.d("YAWA_TAG", "WeatherCrudFunctions - NULL CURSOR")
@@ -142,9 +168,9 @@ class WeatherCrudFunctions  {
         return curr
     }
     fun queryForecast(cr:ContentResolver, projection: Array<out String>?, selection: String?
-                      , selectionArgs: Array<out String>?, sortOrder: String?):Forecast??{
+                      , selectionArgs: Array<out String>?, sortOrder: String?, id:Int):Forecast??{
 
-        var cursorfwi = cr.query(WeatherContract.FutureWeatherInfo.CONTENT_URI,null,selection, selectionArgs, "_id")
+        var cursorfwi = cr.query(WeatherContract.FutureWeatherInfo.CONTENT_URI,null,"_id = "+id, selectionArgs, "_id")
         var cursorCity = cr.query(WeatherContract.City.CONTENT_URI,projection,selection,selectionArgs,sortOrder)
 
         if (cursorCity.count == 0 || cursorfwi.count == 0) {

@@ -19,7 +19,7 @@ import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
 var language = Locale.getDefault().displayLanguage
-var location: String? = null
+var location: String? = "Lisboa"
 
 var currentWeather: Current? = null
 
@@ -39,27 +39,27 @@ class MainActivity : AppCompatActivity() {
         Log.d("YAWA_TAG", "MAIN_onCreate")
 
         cityName = findViewById(R.id.main_city) as TextView
-        Log.d("YAWA_TAG", "MAIN_onCreate2")
         country = findViewById(R.id.main_country) as TextView
-        Log.d("YAWA_TAG", "MAIN_onCreate3")
         temp = findViewById(R.id.main_temp) as TextView
-        Log.d("YAWA_TAG", "MAIN_onCreate4")
         description = findViewById(R.id.main_description) as TextView
-        Log.d("YAWA_TAG", "MAIN_onCreate5")
         image = findViewById(R.id.main_view) as ImageView
-        Log.d("YAWA_TAG", "MAIN_onCreate6")
-
     }
 
     override fun onStart() {
         super.onStart()
 
-        if(location == null)
-        location = application.prefs.getString("city","")
+        if(location == null){
+            location = application.prefs.getString("city","")
+        }
 
         Log.d("RESPONSE", "ON START, location = " + location)
 
-        //currentWeather = crud.queryCurrent(contentResolver, "", arrayOf(location, language))
+
+        var cityId = crud.verifyIfCityExists(contentResolver,null
+                ,"name = "+ location + " and language = "+ language
+                , null, null)
+        if ( cityId > 0)
+            currentWeather = crud.queryCurrent(contentResolver, null, null,null,null, cityId )
 
         if (currentWeather != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
