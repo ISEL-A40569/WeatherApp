@@ -11,6 +11,7 @@ import pdm.isel.yawa.*
 import pdm.isel.yawa.model.Current
 import pdm.isel.yawa.model.Forecast
 import pdm.isel.yawa.provider.WeatherCrudFunctions
+import pdm.isel.yawa.requests.Callback
 import pdm.isel.yawa.requests.DataRequest
 import pdm.isel.yawa.uri.RequestUriFactory
 
@@ -37,12 +38,12 @@ class WeatherService() : IntentService("WeatherService") {
     private fun makeCurrentRequest() {
         application.requestQueue.add(DataRequest(
                 RequestUriFactory().getNowWeather(location!!, language),
-                getCurrentResponseListener()))
+                getCurrentResponseCallback()))
     }
 
-    private fun getCurrentResponseListener(): Response.Listener<JSONObject> {
-        return object : Response.Listener<JSONObject> {
-            override fun onResponse(response: JSONObject?) {
+    private fun getCurrentResponseCallback(): Callback<JSONObject> {
+        return object : Callback<JSONObject> {
+            override fun onSuccess(response: JSONObject) {
                 if (response != null) {
 
                     current = DTO_MAPPER.mapCurrentDto(
@@ -77,12 +78,12 @@ class WeatherService() : IntentService("WeatherService") {
     private fun makeForecastRequest() {
         application.requestQueue.add(DataRequest(
                 RequestUriFactory().getFutureWeather(location!!, language, NUMBER_OF_FORECAST_DAYS),
-                getForecastResponseListener()))
+                getForecastResponseCallback()))
     }
 
-    private fun getForecastResponseListener(): Response.Listener<JSONObject> {
-        return object : Response.Listener<JSONObject> {
-            override fun onResponse(response: JSONObject?) {
+    private fun getForecastResponseCallback(): Callback<JSONObject> {
+        return object : Callback<JSONObject> {
+            override fun onSuccess(response: JSONObject) {
 
                 if (response != null) {
                     forecast = DTO_MAPPER.mapForecastDto(

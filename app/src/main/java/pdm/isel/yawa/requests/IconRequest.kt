@@ -10,7 +10,7 @@ import com.android.volley.toolbox.ImageRequest
 /**
  * Created by Dani on 16-12-2016.
  */
-class IconRequest(uri: String, callback: VolleyIconCallback) : ImageRequest(
+class IconRequest(uri: String, callback: Callback<Bitmap>) : ImageRequest(
         uri,
         object : Response.Listener<Bitmap> {
             override fun onResponse(bitmap: Bitmap) {

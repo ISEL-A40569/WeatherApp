@@ -12,9 +12,10 @@ import com.android.volley.Response
 import org.json.JSONObject
 import pdm.isel.yawa.adapter.FutureWeatherInfoArrayAdapter
 import pdm.isel.yawa.model.Forecast
+import pdm.isel.yawa.model.FutureWeatherInfo
 import pdm.isel.yawa.requests.IconRequest
 import pdm.isel.yawa.requests.DataRequest
-import pdm.isel.yawa.requests.VolleyIconCallback
+import pdm.isel.yawa.requests.Callback
 import pdm.isel.yawa.uri.RequestUriFactory
 
 val NUMBER_OF_FORECAST_DAYS = 16
@@ -57,19 +58,17 @@ class ForecastActivity : ListActivity() {
     private fun makeRequest() {
         application.requestQueue.add(DataRequest(
                 RequestUriFactory().getFutureWeather(location!!, language, NUMBER_OF_FORECAST_DAYS),
-                getForecastResponseListener()))
+                getForecastResponseCallback()))
     }
 
-    private fun getForecastResponseListener(): Response.Listener<JSONObject> {
-        return object : Response.Listener<JSONObject> {
-            override fun onResponse(response: JSONObject?) {
-
+    private fun getForecastResponseCallback(): Callback<JSONObject> {
+        return object : Callback<JSONObject> {
+            override fun onSuccess(response: JSONObject) {
                 forecast = DTO_MAPPER.mapForecastDto(
                         JSON_MAPPER.mapForecastJson(response.toString()))
                 var count = 0
                 for (i in forecast!!.list.indices) {
                     var futureWI = forecast!!.list[i]
-
                     var icon: Bitmap? = iconCache.pop(futureWI._icon)
 
                     if (icon != null) {
@@ -78,32 +77,35 @@ class ForecastActivity : ListActivity() {
                         Log.d("GettingIcon" + count, "cache")
 
                         if (count == NUMBER_OF_FORECAST_DAYS) {
-                            setView()
+                            setView()////TODO: WHERE THIS IS CALLED MUST ALSO INSERT INTO DB
                         }
                     } else {
-                        application.requestQueue.add(IconRequest(
-                                URI_FACTORY.getIcon(futureWI.icon),
-                                object : VolleyIconCallback {
-                                    override fun onSuccess(icon: Bitmap) {
-                                        futureWI.image = icon;
-                                        iconCache.push(futureWI._icon, icon)
-                                        ++count
-                                        Log.d("GettingIcon" + count, "request")
-                                        if (count == NUMBER_OF_FORECAST_DAYS) {
-                                            setView()
-                                        }
-                                    }
-
-                                }
-                        )
-                        )
+                        count = makeIconRequest(count, futureWI)
                     }
-
                 }
             }
         }
     }
 
+    private fun makeIconRequest(count: Int, futureWI: FutureWeatherInfo): Int {
+        var count1 = count
+        application.requestQueue.add(IconRequest(
+                URI_FACTORY.getIcon(futureWI.icon),
+                object : Callback<Bitmap> {
+                    override fun onSuccess(icon: Bitmap) {
+                        futureWI.image = icon;
+                        iconCache.push(futureWI._icon, icon)
+                        ++count1
+                        Log.d("GettingIcon" + count1, "request")
+                        if (count1 == NUMBER_OF_FORECAST_DAYS) {
+                            setView()
+                        }
+                    }
+                }
+            )
+        )
+        return count1
+    }
 
     private fun setView() {
         listView.setAdapter(FutureWeatherInfoArrayAdapter(applicationContext, forecast?.list!!))

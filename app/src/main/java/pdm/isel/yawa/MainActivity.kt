@@ -14,7 +14,7 @@ import org.json.JSONObject
 import pdm.isel.yawa.model.Current
 import pdm.isel.yawa.requests.IconRequest
 import pdm.isel.yawa.requests.DataRequest
-import pdm.isel.yawa.requests.VolleyIconCallback
+import pdm.isel.yawa.requests.Callback
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
@@ -48,18 +48,17 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        if(location == null){
-            location = application.prefs.getString("city","")
+        if (location == null) {
+            location = application.prefs.getString("city", "")
         }
 
         Log.d("RESPONSE", "ON START, location = " + location)
 
-
-        var cityId = crud.verifyIfCityExists(contentResolver,null
-                ,"name = '"+ location + "' and language = '"+ language+"'"
+        var cityId = crud.verifyIfCityExists(contentResolver, null
+                , "name = '" + location + "' and language = '" + language + "'"
                 , null, null)
-        if ( cityId > 0)
-            currentWeather = crud.queryCurrent(contentResolver, null, null,null,null, cityId )
+        if (cityId > 0)
+            currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
 
         if (currentWeather != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
@@ -69,11 +68,11 @@ class MainActivity : AppCompatActivity() {
             setViews()
         } else {
 
-            if(application.isConnected && !isBatteryLow){
+            if (application.isConnected && !isBatteryLow) {
                 Log.d("OnStart", "Network Available")
                 Log.d("RESPONSE", "LOAD FROM REQUEST")
                 makeRequest()
-            }else{
+            } else {
                 Log.d("OnStart", "Network Not Available")
                 Toast.makeText(this, "OffLine", Toast.LENGTH_SHORT).show()
             }
@@ -86,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         country!!.setText(currentWeather!!.country)
         description!!.setText(currentWeather!!.currentInfo.description)
 
-        if(currentWeather!!.currentInfo.image != null){
+        if (currentWeather!!.currentInfo.image != null) {
             Log.d("RESPONSE", "SETTING IMAGE")
             image!!.setImageBitmap(currentWeather!!.currentInfo.image)
         }
@@ -95,12 +94,14 @@ class MainActivity : AppCompatActivity() {
     private fun makeRequest() {
         application.requestQueue.add(DataRequest(
                 RequestUriFactory().getNowWeather(location!!, language),
-                getResponseListener()))
+                getCurrentResponseCallback()
+            )
+        )
     }
 
-    private fun getResponseListener(): Response.Listener<JSONObject> {
-        return object : Response.Listener<JSONObject> {
-            override fun onResponse(response: JSONObject?) {
+    private fun getCurrentResponseCallback(): Callback<JSONObject> {
+        return object : Callback<JSONObject> {
+            override fun onSuccess(response: JSONObject) {
                 currentWeather = DTO_MAPPER.mapCurrentDto(
                         JSON_MAPPER.mapWeatherInfoJson(response.toString()))
 
@@ -114,72 +115,72 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         makeIconRequest()
                     }
-                    setViews()
                 }
+                //TODO: MUST INSERT INTO DB
             }
         }
     }
 
     private fun makeIconRequest() {
-        application.requestQueue.add(IconRequest(
-                URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon),
-                object : VolleyIconCallback {
-                    override fun onSuccess(icon: Bitmap) {
-                        Log.d("RESPONSE", "GOT ICON")
-                        iconCache.push(currentWeather!!.currentInfo._icon, icon)
-                        currentWeather!!.currentInfo.image = icon
-                        image?.setImageBitmap(currentWeather!!.currentInfo.image)
-                    }
+            application.requestQueue.add(IconRequest(
+                    URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon),
+                    object : Callback<Bitmap> {
+                        override fun onSuccess(icon: Bitmap) {
+                            Log.d("RESPONSE", "GOT ICON")
+                            iconCache.push(currentWeather!!.currentInfo._icon, icon)
+                            currentWeather!!.currentInfo.image = icon
+                            image?.setImageBitmap(currentWeather!!.currentInfo.image)
+                            setViews()
+                        }
+                    }))
+        }
 
-                }))
-    }
-
-    fun onRefresh(view: View) {
-        makeRequest()
-        setViews()
-    }
+        fun onRefresh(view: View) {
+            makeRequest()
+            setViews()
+        }
 
 
 //INTENTS
 // #############################################################################################
 
-    fun onCity(view: View) {
+        fun onCity(view: View) {
 
-        Log.d("YAWA_TAG", "onCity")
+            Log.d("YAWA_TAG", "onCity")
 
-        val intent = Intent(this, CityListActivity::class.java)
-        startActivity(intent)
-    }
-
-
-    fun onDetails(view: View) {
-
-        Log.d("YAWA_TAG", "onDetails")
-        if(currentWeather != null){
-            val intent = Intent(this, DetailedCurrentWeatherInfoActivity::class.java)
+            val intent = Intent(this, CityListActivity::class.java)
             startActivity(intent)
-        }else{
-            Toast.makeText(this, "Select a City First", Toast.LENGTH_SHORT).show()
         }
+
+
+        fun onDetails(view: View) {
+
+            Log.d("YAWA_TAG", "onDetails")
+            if (currentWeather != null) {
+                val intent = Intent(this, DetailedCurrentWeatherInfoActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Select a City First", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+        fun onNext(view: View) {
+
+            Log.d("YAWA_TAG", "onNext")
+            val intent = Intent(this, ForecastActivity::class.java)
+            startActivity(intent)
+        }
+
+
+        fun onCredits(view: View) {
+            val intent = Intent(this, CreditsActivity::class.java)
+            startActivity(intent)
+        }
+
+        fun onDbTest(view: View) {
+            val intent = Intent(this, PreferencesActivity::class.java)
+            startActivity(intent)
+        }
+
     }
-
-
-    fun onNext(view: View) {
-
-        Log.d("YAWA_TAG", "onNext")
-        val intent = Intent(this, ForecastActivity::class.java)
-        startActivity(intent)
-    }
-
-
-    fun onCredits(view: View) {
-        val intent = Intent(this, CreditsActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun onDbTest(view: View){
-        val intent = Intent(this, PreferencesActivity::class.java)
-        startActivity(intent)
-    }
-
-}

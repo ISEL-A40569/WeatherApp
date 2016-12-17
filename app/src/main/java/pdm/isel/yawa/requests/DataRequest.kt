@@ -1,20 +1,27 @@
 package pdm.isel.yawa.requests
 
+import android.graphics.Bitmap
 import android.util.Log
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
+import pdm.isel.yawa.model.CityInfo
 
 /**
  * Created by Dani on 16-12-2016.
  */
-class DataRequest(url: String, listener: Response.Listener<JSONObject>) : JsonObjectRequest(
+class DataRequest(url: String, callback: Callback<JSONObject>) : JsonObjectRequest(
         Method.GET,
         url,
         null,
-        listener,
+        object : Response.Listener<JSONObject>{
+            override fun onResponse(response: JSONObject) {
+                callback.onSuccess(response)
+            }
+
+        },
         object : Response.ErrorListener {
             override fun onErrorResponse(error: VolleyError) {
                 Log.d("ERROR: ", error.toString())

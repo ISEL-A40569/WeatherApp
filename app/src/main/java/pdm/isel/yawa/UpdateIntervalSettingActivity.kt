@@ -33,7 +33,7 @@ class UpdateIntervalSettingActivity : AppCompatActivity() {
 
         application.alarmManager.setRepeating(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 6000,
+                SystemClock.elapsedRealtime() + updateInterval,
                 updateInterval * 60000,
                 pendingAlarmIntent)
 

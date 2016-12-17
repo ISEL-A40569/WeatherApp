@@ -5,6 +5,6 @@ import android.graphics.Bitmap
 /**
  * Created by Dani on 16-12-2016.
  */
-interface VolleyIconCallback {
-    fun onSuccess(icon: android.graphics.Bitmap)
+interface Callback<T> {
+    fun onSuccess(response:T)
 }
