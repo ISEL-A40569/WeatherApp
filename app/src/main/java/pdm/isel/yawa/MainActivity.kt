@@ -63,6 +63,9 @@ class MainActivity : AppCompatActivity() {
 
         if (currentWeather != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
+            application.editor.putString("temp", currentWeather!!.currentInfo.temp)
+            application.editor.putString("description", currentWeather!!.currentInfo._description)
+
             setViews()
         } else {
 
@@ -98,7 +101,6 @@ class MainActivity : AppCompatActivity() {
     private fun getResponseListener(): Response.Listener<JSONObject> {
         return object : Response.Listener<JSONObject> {
             override fun onResponse(response: JSONObject?) {
-
                 currentWeather = DTO_MAPPER.mapCurrentDto(
                         JSON_MAPPER.mapWeatherInfoJson(response.toString()))
 
@@ -110,22 +112,26 @@ class MainActivity : AppCompatActivity() {
                     if (icon != null) {
                         currentWeather!!.currentInfo.image = icon
                     } else {
-                        application.requestQueue.add(IconRequest(
-                                URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon),
-                                object : VolleyIconCallback {
-                                    override fun  onSuccess(icon: Bitmap) {
-                                        Log.d("RESPONSE", "GOT ICON")
-                                        iconCache.push(currentWeather!!.currentInfo._icon, icon)
-                                        currentWeather!!.currentInfo.image = icon
-                                        image?.setImageBitmap(currentWeather!!.currentInfo.image)
-                                    }
-
-                                }))
+                        makeIconRequest()
                     }
                     setViews()
                 }
             }
         }
+    }
+
+    private fun makeIconRequest() {
+        application.requestQueue.add(IconRequest(
+                URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon),
+                object : VolleyIconCallback {
+                    override fun onSuccess(icon: Bitmap) {
+                        Log.d("RESPONSE", "GOT ICON")
+                        iconCache.push(currentWeather!!.currentInfo._icon, icon)
+                        currentWeather!!.currentInfo.image = icon
+                        image?.setImageBitmap(currentWeather!!.currentInfo.image)
+                    }
+
+                }))
     }
 
     fun onRefresh(view: View) {

@@ -28,10 +28,9 @@ class NotificationsService : IntentService("NotificationService"){
         var notifyID = 1;
 
         var mNotifyBuilder =  NotificationCompat.Builder(this)
-//                .setContentTitle("WEATHER APP")
-                .setContentText(application.prefs.getString("city", ""))
-//                .setContentTitle(currentWeather!!.name + " " + currentWeather!!.currentInfo.temp + "º\n")
-//                .setContentText(currentWeather!!.currentInfo._description)
+                .setContentTitle(application.prefs.getString("city", "") +
+                " " + application.prefs.getString("temp", "") + "º")
+                .setContentText(application.prefs.getString("description", ""))
                 .setSmallIcon(R.drawable.notification_template_icon_bg)
                 .setVibrate(longArrayOf(1000, 1000))
 

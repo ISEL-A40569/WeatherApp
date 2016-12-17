@@ -29,12 +29,16 @@ class NotificationSettingsActivity : AppCompatActivity() {
         var checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
         checkBox.setChecked(areNotificionsOn)
 
+        Log.d("OnSettingNotifications", checkBox.isChecked.toString())
+
+
         checkBox.setOnClickListener {
             Log.d("OnSettingNotifications", checkBox.isChecked.toString())
 
             areNotificionsOn = !areNotificionsOn
 
             application.editor.putBoolean("areNotificionsOn", areNotificionsOn)
+            application.editor.commit()
         }
             button.setOnClickListener {
                 Log.d("OnSettingNotifications", hourValue.toString())

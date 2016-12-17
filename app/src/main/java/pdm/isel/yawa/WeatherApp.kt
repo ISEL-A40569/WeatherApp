@@ -65,10 +65,20 @@ class WeatherApp : Application() {
     }
 
     fun getPreferences(prefs: SharedPreferences) {
+        Log.d("AppGetPrefs" , updateInterval.toString())
+        Log.d("AppGetPrefs" , areNotificionsOn.toString())
+        Log.d("AppGetPrefs" , hourValue.toString())
+        Log.d("AppGetPrefs" , minutesValue.toString())
+
         updateInterval = prefs.getLong("updateInterval", 1)
         areNotificionsOn = prefs.getBoolean("areNotificionsOn", true)
         hourValue = prefs.getInt("hour", 22)
         minutesValue = prefs.getInt("minutes", 26)
+
+        Log.d("AppGetPrefs" , updateInterval.toString())
+        Log.d("AppGetPrefs" , areNotificionsOn.toString())
+        Log.d("AppGetPrefs" , hourValue.toString())
+        Log.d("AppGetPrefs" , minutesValue.toString())
     }
 
     fun setNotificationsReceiver() {
@@ -82,10 +92,7 @@ class WeatherApp : Application() {
             Log.d("SettingNotifications", hourValue.toString())
             Log.d("SettingNotifications", minutesValue.toString())
 
-            val calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, hourValue!!)
-            calendar.set(Calendar.MINUTE, minutesValue!!)
-            calendar.set(Calendar.SECOND, 0)
+            val calendar = getCalendar(hourValue, minutesValue)
 
             alarmManager!!.setRepeating(
                     AlarmManager.RTC_WAKEUP,
@@ -94,6 +101,14 @@ class WeatherApp : Application() {
                     pendingAlarmIntent
             )
         }
+    }
+
+    private fun getCalendar(hour: Int, minutes: Int): Calendar {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minutes)
+        calendar.set(Calendar.SECOND, 0)
+        return calendar
     }
 
     fun setWeatherReceiver() {
@@ -106,7 +121,7 @@ class WeatherApp : Application() {
 
             alarmManager!!.setRepeating(
                     AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() + 6000,
+                    SystemClock.elapsedRealtime() + updateInterval,
                     updateInterval * 60000,
                     pendingAlarmIntent
             )

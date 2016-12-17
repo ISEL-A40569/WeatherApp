@@ -73,7 +73,8 @@
             android:name=".services.NotificationsService"
             android:exported="false" />
 
-        <activity android:name=".NotificationSettingsActivity"></activity>
+        <activity android:name=".NotificationSettingsActivity" />
+        <activity android:name=".AndroidDatabaseManager"></activity>
     </application>
 
 </manifest>
