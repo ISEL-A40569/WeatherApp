@@ -11,7 +11,9 @@ import pdm.isel.yawa.services.WeatherService
 class WeatherBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (!Intent.ACTION_BOOT_COMPLETED.equals(intent?.action)) {
-            context!!.startService(Intent(context, WeatherService::class.java))
+            var intent = Intent(context, WeatherService::class.java)
+            intent.putExtra("type", "both")
+            context!!.startService(intent)
         }
     }
 }

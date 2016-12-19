@@ -4,6 +4,8 @@ import android.app.ListActivity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
+import android.os.ResultReceiver
 import android.util.Log
 import android.view.View
 import android.widget.ListView
@@ -16,6 +18,7 @@ import pdm.isel.yawa.model.FutureWeatherInfo
 import pdm.isel.yawa.requests.IconRequest
 import pdm.isel.yawa.requests.DataRequest
 import pdm.isel.yawa.requests.Callback
+import pdm.isel.yawa.services.WeatherService
 import pdm.isel.yawa.uri.RequestUriFactory
 
 val NUMBER_OF_FORECAST_DAYS = 16
@@ -31,7 +34,7 @@ class ForecastActivity : ListActivity() {
 
     override fun onStart() {
         super.onStart()
-
+        startServiceForDataRequest()
         /*
         var cityId = crud.verifyIfCityExists(contentResolver,null
                 ,"name = '"+ location + "' and language = '"+ language+"'"
@@ -40,25 +43,38 @@ class ForecastActivity : ListActivity() {
         forecast = crud.queryForecast(contentResolver, null, null, null, null, cityId)
         //TODO: after still have to get icons
         */
-        if (forecast != null) {
-            Log.d("RESPONSE", "LOAD FROM CACHE")
-            setView()
-        } else {
-
-            if (application.isConnected && !isBatteryLow) {
-                Log.d("OnStart", "Network Available")
-                makeRequest()
-            } else {
-                Log.d("OnStart", "Network Not Available")
-                Toast.makeText(this, "OffLine", Toast.LENGTH_SHORT).show()
-            }
-        }
+//        if (forecast != null) {
+//            Log.d("RESPONSE", "LOAD FROM CACHE")
+//            setView()
+//        } else {
+//
+//            if (application.isConnected && !isBatteryLow) {
+//                Log.d("OnStart", "Network Available")
+//                makeRequest()
+//            } else {
+//                Log.d("OnStart", "Network Not Available")
+//                Toast.makeText(this, "OffLine", Toast.LENGTH_SHORT).show()
+//            }
+//        }
     }
 
-    private fun makeRequest() {
-        application.requestQueue.add(DataRequest(
-                RequestUriFactory().getFutureWeather(location!!, language, NUMBER_OF_FORECAST_DAYS),
-                getForecastResponseCallback()))
+    private fun startServiceForDataRequest() {
+        val intent = Intent(this, WeatherService::class.java)
+
+        var receiver = object : ResultReceiver(Handler()) {
+            override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+                super.onReceiveResult(resultCode, resultData)
+                forecast = resultData!!.getParcelable("forecast")
+                setView()
+                Log.d("TestResultReceiver", "Got weather for " + forecast!!.name)
+            }
+        }
+        intent.putExtra("type", "forecast")
+        intent.putExtra("receiver", receiver)
+        intent.putExtra("location", location)
+        intent.putExtra("language", language)
+
+        startService(intent)
     }
 
     private fun getForecastResponseCallback(): Callback<JSONObject> {

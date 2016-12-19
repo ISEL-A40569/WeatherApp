@@ -3,6 +3,8 @@ package pdm.isel.yawa
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
+import android.os.ResultReceiver
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
@@ -12,9 +14,11 @@ import android.widget.Toast
 import com.android.volley.Response
 import org.json.JSONObject
 import pdm.isel.yawa.model.Current
+import pdm.isel.yawa.model.MyParcelable
 import pdm.isel.yawa.requests.IconRequest
 import pdm.isel.yawa.requests.DataRequest
 import pdm.isel.yawa.requests.Callback
+import pdm.isel.yawa.services.WeatherService
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
@@ -45,6 +49,25 @@ class MainActivity : AppCompatActivity() {
         image = findViewById(R.id.main_view) as ImageView
     }
 
+    private fun startServiceForDataRequest() {
+        val intent = Intent(this, WeatherService::class.java)
+
+        var receiver = object : ResultReceiver(Handler()) {
+            override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+                super.onReceiveResult(resultCode, resultData)
+                currentWeather = resultData!!.getParcelable("current")
+                setViews()
+                Log.d("TestResultReceiver", "Got weather for " + currentWeather!!.name)
+            }
+        }
+        intent.putExtra("type", "current")
+        intent.putExtra("receiver", receiver)
+        intent.putExtra("location", location)
+        intent.putExtra("language", language)
+
+        startService(intent)
+    }
+
     override fun onStart() {
         super.onStart()
 
@@ -54,11 +77,11 @@ class MainActivity : AppCompatActivity() {
 
         Log.d("RESPONSE", "ON START, location = " + location)
 
-        var cityId = crud.verifyIfCityExists(contentResolver, null
-                , "name = '" + location + "' and language = '" + language + "'"
-                , null, null)
-        if (cityId > 0)
-            currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
+//        var cityId = crud.verifyIfCityExists(contentResolver, null
+//                , "name = '" + location + "' and language = '" + language + "'"
+//                , null, null)
+//        if (cityId > 0)
+//            currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
 
         if (currentWeather != null) {
             Log.d("RESPONSE", "LOAD FROM CACHE")
@@ -71,7 +94,8 @@ class MainActivity : AppCompatActivity() {
             if (application.isConnected && !isBatteryLow) {
                 Log.d("OnStart", "Network Available")
                 Log.d("RESPONSE", "LOAD FROM REQUEST")
-                makeRequest()
+                startServiceForDataRequest()
+
             } else {
                 Log.d("OnStart", "Network Not Available")
                 Toast.makeText(this, "OffLine", Toast.LENGTH_SHORT).show()
@@ -91,53 +115,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun makeRequest() {
-        application.requestQueue.add(DataRequest(
-                RequestUriFactory().getNowWeather(location!!, language),
-                getCurrentResponseCallback()
-            )
-        )
-    }
-
-    private fun getCurrentResponseCallback(): Callback<JSONObject> {
-        return object : Callback<JSONObject> {
-            override fun onSuccess(response: JSONObject) {
-                currentWeather = DTO_MAPPER.mapCurrentDto(
-                        JSON_MAPPER.mapWeatherInfoJson(response.toString()))
-
-                if (currentWeather != null) {
-                    Log.d("RESPONSE ", currentWeather!!.name + " " + currentWeather!!.currentInfo.temp)
-
-                    var icon = iconCache.pop(currentWeather!!.currentInfo._icon)
-
-                    if (icon != null) {
-                        currentWeather!!.currentInfo.image = icon
-                    } else {
-                        makeIconRequest()
-                    }
-                }
-                //TODO: MUST INSERT INTO DB
-            }
-        }
-    }
-
-    private fun makeIconRequest() {
-            application.requestQueue.add(IconRequest(
-                    URI_FACTORY.getIcon(currentWeather!!.currentInfo.icon),
-                    object : Callback<Bitmap> {
-                        override fun onSuccess(icon: Bitmap) {
-                            Log.d("RESPONSE", "GOT ICON")
-                            iconCache.push(currentWeather!!.currentInfo._icon, icon)
-                            currentWeather!!.currentInfo.image = icon
-                            image?.setImageBitmap(currentWeather!!.currentInfo.image)
-                            setViews()
-                        }
-                    }))
-        }
 
         fun onRefresh(view: View) {
-            makeRequest()
-            setViews()
+            startServiceForDataRequest()
+            //setViews()
         }
 
 
