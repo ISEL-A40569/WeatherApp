@@ -58,7 +58,7 @@ class WeatherApp : Application() {
 
         getPreferences(prefs!!)
 
-        setWeatherReceiver()
+        //setWeatherReceiver()
 
         if(areNotificionsOn)
         setNotificationsReceiver()
@@ -70,7 +70,7 @@ class WeatherApp : Application() {
         Log.d("AppGetPrefs" , hourValue.toString())
         Log.d("AppGetPrefs" , minutesValue.toString())
 
-        updateInterval = prefs.getLong("updateInterval", 1)
+        updateInterval = prefs.getLong("updateInterval", 60)
         areNotificionsOn = prefs.getBoolean("areNotificionsOn", true)
         hourValue = prefs.getInt("hour", 22)
         minutesValue = prefs.getInt("minutes", 26)

@@ -64,6 +64,7 @@ class ForecastActivity : ListActivity() {
         var receiver = object : ResultReceiver(Handler()) {
             override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                 super.onReceiveResult(resultCode, resultData)
+                stopService(intent)
                 forecast = resultData!!.getParcelable("forecast")
                 setView()
                 Log.d("TestResultReceiver", "Got weather for " + forecast!!.name)

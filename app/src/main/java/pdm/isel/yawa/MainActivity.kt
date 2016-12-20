@@ -23,7 +23,7 @@ import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
 var language = Locale.getDefault().displayLanguage
-var location: String? = "Lisboa"
+var location: String? = null
 
 var currentWeather: Current? = null
 
@@ -49,30 +49,12 @@ class MainActivity : AppCompatActivity() {
         image = findViewById(R.id.main_view) as ImageView
     }
 
-    private fun startServiceForDataRequest() {
-        val intent = Intent(this, WeatherService::class.java)
-
-        var receiver = object : ResultReceiver(Handler()) {
-            override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
-                super.onReceiveResult(resultCode, resultData)
-                currentWeather = resultData!!.getParcelable("current")
-                setViews()
-                Log.d("TestResultReceiver", "Got weather for " + currentWeather!!.name)
-            }
-        }
-        intent.putExtra("type", "current")
-        intent.putExtra("receiver", receiver)
-        intent.putExtra("location", location)
-        intent.putExtra("language", language)
-
-        startService(intent)
-    }
 
     override fun onStart() {
         super.onStart()
 
         if (location == null) {
-            location = application.prefs.getString("city", "")
+            location = application.prefs.getString("city", "Lisboa")
         }
 
         Log.d("RESPONSE", "ON START, location = " + location)
@@ -101,6 +83,34 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "OffLine", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun startServiceForDataRequest() {
+        val intent = Intent(this, WeatherService::class.java)
+
+        var receiver = object : ResultReceiver(Handler()) {
+            override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+                super.onReceiveResult(resultCode, resultData)
+                Log.d("TestResultReceiver", "Just got weather ")
+                stopService(intent)
+                Log.d("TestResultReceiver", "Serivce is Stoped")
+                currentWeather = resultData!!.getParcelable("current")
+                Log.d("TestResultReceiver", "Set currentWeather")
+                setViews()
+                Log.d("TestResultReceiver", "Set views for " + currentWeather!!.name)
+            }
+        }
+
+        Log.d("TestResultReceiver", "Want weather for " + location)
+        Log.d("TestResultReceiver", "Want weather for " + language)
+
+
+        intent.putExtra("type", "current")
+        intent.putExtra("receiver", receiver)
+        intent.putExtra("location", location)
+        intent.putExtra("language", language)
+
+        startService(intent)
     }
 
     private fun setViews() {

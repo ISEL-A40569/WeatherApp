@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
 import android.os.Parcel
 import android.os.ResultReceiver
 import android.util.Log
@@ -37,49 +38,62 @@ class WeatherService() : IntentService("WeatherService") {
 //            makeForecastRequest()
 //        }
         val type = intent!!.getStringExtra("type")
+        val lang = intent!!.getStringExtra("language")
+        val city = intent!!.getStringExtra("location")
+        val receiver: ResultReceiver = intent!!.getParcelableExtra("receiver")
+
+        Log.d("OnService", city)
+        Log.d("OnService", lang)
+
 
         if(type.equals("current") || type.equals("both"))
-        makeCurrentRequest(intent!!.getStringExtra("location"),
-                intent!!.getStringExtra("language"),
-                intent!!.getParcelableExtra("receiver")
-        )
+        makeCurrentRequest(city, lang, receiver)
 
         if(type.equals("forecast") || type.equals("both"))
-        makeForecastRequest(intent!!.getStringExtra("location"),
-                intent!!.getStringExtra("language"),
-                intent!!.getParcelableExtra("receiver")
-        )
+        makeForecastRequest(city, lang, receiver)
+
 
         //testResultReceiver(intent!!.getParcelableExtra("receiver"))
         Log.d("OnService", "onHandleIntent end")
     }
 
     private fun makeCurrentRequest(loc:String, lang: String, receiver: ResultReceiver) {
+        Log.d("OnService", "makeCurrentRequest start")
+
         application.requestQueue.add(DataRequest(
                 RequestUriFactory().getNowWeather(loc!!, lang),
                 getCurrentResponseCallback(receiver)))
+        Log.d("OnService", "makeCurrentRequest end")
+
     }
 
 
     private fun makeForecastRequest(loc:String, lang: String, receiver: ResultReceiver) {
+        Log.d("OnService", "makeForecastRequest start")
+
         application.requestQueue.add(DataRequest(
                 RequestUriFactory().getFutureWeather(loc, lang, NUMBER_OF_FORECAST_DAYS),
                 getForecastResponseCallback(receiver)))
+        Log.d("OnService", "makeForecastRequest end")
+
     }
 
     private fun getCurrentResponseCallback(receiver: ResultReceiver): Callback<JSONObject> {
+        Log.d("OnService", "getCurrentResponseCallback start")
         return object : Callback<JSONObject> {
             override fun onSuccess(response: JSONObject) {
                 if (response != null) {
 
                     current = DTO_MAPPER.mapCurrentDto(
                             JSON_MAPPER.mapWeatherInfoJson(response.toString()))
+                    Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)
 
                     //TODO: insertInDB(current)
                     val icon = current!!.currentInfo._icon
                     var image = iconCache.pop(icon)
                     if(image !=null){
                         current!!.currentInfo.image = image
+                        sendInfo(receiver, "current", current!!)
                     }else{
                         makeIconRequest(icon, getIconCallbackForCurrent(receiver))
                     }
@@ -109,7 +123,46 @@ class WeatherService() : IntentService("WeatherService") {
 //                }
             }
         }
+        Log.d("OnService", "getCurrentResponseCallback end")
+
     }
+
+
+
+    private fun getIconCallbackForCurrent(receiver: ResultReceiver): Callback<Bitmap> {
+        return object : Callback<Bitmap> {
+            override fun onSuccess(icon: Bitmap) {
+                Log.d("OnService", "GOT ICON")
+                current!!.currentInfo.image = icon
+                iconCache.push(current!!.currentInfo._icon, icon)
+                sendInfo(receiver, "current", current!!)
+            }
+        }
+    }
+
+
+    private fun sendInfo(receiver: ResultReceiver, key: String, info: CityInfo) {
+        Log.d("OnService", "sendInfo start")
+
+        val bundle = Bundle()
+        bundle.putParcelable(key, info)
+        receiver.send(200, bundle)
+        Log.d("OnService", "sendInfo end")
+
+    }
+
+
+
+    private fun makeIconRequest(uri:String, callback: Callback<Bitmap>) {
+        Log.d("OnService", "makeIconRequest start")
+
+        application.requestQueue.add(IconRequest(
+                URI_FACTORY.getIcon(uri),
+                callback))
+        Log.d("OnService", "makeIconRequest end")
+
+    }
+
 
 
     private fun getForecastResponseCallback(receiver: ResultReceiver): Callback<JSONObject> {
@@ -123,7 +176,7 @@ class WeatherService() : IntentService("WeatherService") {
                     Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
                     //TODO: INSERT FORECAST HERE
 
-                    sendInfo(receiver, "forecast", forecast!!)
+                    fillForecastIcons(forecast!!, receiver)
                 }
 //                    var id = crud.verifyIfCityExists(contentResolver,
 //                            null,
@@ -151,40 +204,68 @@ class WeatherService() : IntentService("WeatherService") {
         }
     }
 
-    private fun fillForecastIcons(){
 
+    private fun fillForecastIcons(forecast: Forecast, receiver: ResultReceiver){
+        var count = 0
+        for(i in forecast.list.indices) {
+            var futureWI = forecast.list[count]
+            var icon: Bitmap? = iconCache.pop(futureWI._icon)
+
+            if(icon != null){
+                futureWI.image = icon
+                ++count
+
+                if (count == pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS) {
+                    sendInfo(receiver, "forecast", forecast!!)
+                }
+            }else{
+                //count = makeIconRequest(receiver, count, futureWI)//TODO: NOT WORKING 100%, NEEDS SOMETHING LIKE CountDownLatch OR CREATING AN ICONSERVICE USING RESULTRECEIVER
+
+                val intent = Intent(this, IconService::class.java)
+
+                val receiver = object : ResultReceiver(Handler()) {
+                    override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+                        stopService(intent)
+                        futureWI.image = resultData!!.getParcelable("icon")
+                        ++count
+                        if (count == pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS) {
+                            sendInfo(receiver, "forecast", forecast!!)
+                        }
+                    }
+                }
+                intent.putExtra("receiver", receiver)
+                intent.putExtra("icon", futureWI._icon)
+
+                startService(intent)
+            }
+            Log.d("FillingForecastIcon", count.toString())
+        }
     }
 
-    private fun makeIconRequest(uri:String, callback: Callback<Bitmap>) {
+    private fun makeIconRequest(receiver: ResultReceiver, count: Int, futureWI: FutureWeatherInfo): Int {
+        var count1 = count
         application.requestQueue.add(IconRequest(
-                URI_FACTORY.getIcon(uri),
-                callback))
+                URI_FACTORY.getIcon(futureWI.icon),
+                getIconCallbackForForecast(receiver, count, futureWI)
+        )
+        )
+        return count1
     }
 
-    private fun getIconCallbackForCurrent(receiver: ResultReceiver): Callback<Bitmap> {
+
+    private fun getIconCallbackForForecast(receiver: ResultReceiver, count: Int, futureWI: FutureWeatherInfo): Callback<Bitmap> {
+        var count1 = count
         return object : Callback<Bitmap> {
             override fun onSuccess(icon: Bitmap) {
-                Log.d("RESPONSE", "GOT ICON")
-                current!!.currentInfo.image = icon
-                iconCache.push(current!!.currentInfo._icon, icon)
-                sendInfo(receiver, "current", current!!)
+                futureWI.image = icon;
+                iconCache.push(futureWI._icon, icon)
+                ++count1
+                Log.d("GettingIcon" + count1, "request")
+                if (count1 == pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS) {
+                    sendInfo(receiver, "forecast", forecast!!)
+                }
             }
         }
-    }
-
-    private fun getIconCallbackForForecast(receiver: ResultReceiver): Callback<Bitmap> {
-        return object : Callback<Bitmap> {
-            override fun onSuccess(icon: Bitmap) {
-                Log.d("RESPONSE", "GOT ICON")
-
-            }
-        }
-    }
-
-    private fun sendInfo(receiver: ResultReceiver, key: String, info: CityInfo) {
-        val bundle = Bundle()
-        bundle.putParcelable(key, info)
-        receiver.send(200, bundle)
     }
 
 }

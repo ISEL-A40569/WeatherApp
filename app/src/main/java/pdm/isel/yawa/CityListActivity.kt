@@ -21,10 +21,10 @@ class CityListActivity : ListActivity() {
         super.onCreate(savedInstanceState)
 
         //TODO - falta conseguir ir buscar a primeira cidade
-        cityList = crud.queryCityNames(contentResolver, null, null, null, "'name' ASC")
-        cityList.add("Lisboa")
-        cityList.add("Porto")
-        cityList.add("ATENÇÃO!! Dados hard codded!!")
+        //cityList = crud.queryCityNames(contentResolver, null, null, null, "'name' ASC")
+//        cityList.add("Lisboa")
+//        cityList.add("Porto")
+//        cityList.add("ATENÇÃO!! Dados hard codded!!")
 
 
 
