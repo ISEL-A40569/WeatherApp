@@ -20,7 +20,6 @@ import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.concurrent.CountDownLatch
 
 
-val NUMBER_OF_FORECAST_DAYS = 8
 
 /**
  *
@@ -88,17 +87,8 @@ class WeatherService() : IntentService("WeatherService") {
                     current = DTO_MAPPER.mapCurrentDto(
                             JSON_MAPPER.mapWeatherInfoJson(response.toString()))
                     Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)
-
+                    sendInfo(receiver, "current", current!!)
                     //TODO: insertInDB(current)
-                    val icon = current!!.currentInfo._icon
-                    var image = iconCache.pop(icon)
-                    if(image !=null){
-                        current!!.currentInfo.image = image
-                        sendInfo(receiver, "current", current!!)
-                    }else{
-                        //makeIconRequest(icon, getIconCallbackForCurrent(receiver))
-                    }
-
                 }
 //                    if (current != null) {
 //                        Log.d("OnService", "Updating " + current!!.name + " current info")
@@ -117,7 +107,6 @@ class WeatherService() : IntentService("WeatherService") {
 //                            crud.deleteCurrentWeatherInfo(contentResolver, "currentid = "+id, null)
 //                        }
 //                        crud.insertCurrentWeatherInfo(contentResolver, current!!.currentInfo, id)
-//                        //TODO: INSERT CURRENT HERE
 //                    }
 //                } else {
 //                    //TODO: throw some null response exception
@@ -129,17 +118,6 @@ class WeatherService() : IntentService("WeatherService") {
     }
 
 
-
-    private fun getIconCallbackForCurrent(receiver: ResultReceiver): Callback<Bitmap> {
-        return object : Callback<Bitmap> {
-            override fun onSuccess(icon: Bitmap) {
-                Log.d("OnService", "GOT ICON")
-                current!!.currentInfo.image = icon
-                iconCache.push(current!!.currentInfo._icon, icon)
-                sendInfo(receiver, "current", current!!)
-            }
-        }
-    }
 
 
     private fun sendInfo(receiver: ResultReceiver, key: String, info: CityInfo) {
@@ -174,10 +152,10 @@ class WeatherService() : IntentService("WeatherService") {
                     forecast = DTO_MAPPER.mapForecastDto(
                             JSON_MAPPER.mapForecastJson(response.toString()))
 
+                    sendInfo(receiver, "forecast", forecast!!)
                     Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
                     //TODO: INSERT FORECAST HERE
 
-                    fillForecastIcons(forecast!!, receiver)
                 }
 //                    var id = crud.verifyIfCityExists(contentResolver,
 //                            null,
@@ -206,78 +184,6 @@ class WeatherService() : IntentService("WeatherService") {
     }
 
 
-    private fun fillForecastIcons(forecast: Forecast, receiver: ResultReceiver){
-        var count = 0
-        for(i in forecast.list.indices) {
-            var futureWI = forecast.list[count]
-            var icon: Bitmap? = iconCache.pop(futureWI._icon)
 
-            if(icon != null){
-                futureWI.image = icon
-                ++count
-
-                if (count == NUMBER_OF_FORECAST_DAYS) {
-                    sendInfo(receiver, "forecast", forecast!!)
-                }
-            }else{
-                //count = makeIconRequest(receiver, count, futureWI)//TODO: NOT WORKING 100%, NEEDS SOMETHING LIKE CountDownLatch OR CREATING AN ICONSERVICE USING RESULTRECEIVER
-
-                val intent = Intent(this, IconService::class.java)
-
-                val receiver = object : ResultReceiver(Handler()) {
-                    override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
-                        Log.d("OnIconService", "receiving result")
-
-                        forecast.list[i].image = resultData!!.getParcelable("icon")
-                        Log.d("OnIconService", "just got icon for " + futureWI._date + "count is " + count.toString())
-                        ++count
-                        Log.d("OnIconService", "count is " + count.toString())
-
-
-                        if (count == NUMBER_OF_FORECAST_DAYS) {
-                            Log.d("OnIconService", "sending result")
-
-                            sendInfo(receiver, "forecast", forecast!!)
-                            Log.d("OnIconService", "result sent")
-
-                        }
-                        stopService(intent)
-                    }
-                }
-
-                intent.putExtra("receiver", receiver)
-                intent.putExtra("icon", futureWI._icon)
-
-                startService(intent)
-            }
-            Log.d("OnIconService", count.toString())
-        }
-    }
-
-//    private fun makeIconRequest(receiver: ResultReceiver, count: Int, futureWI: FutureWeatherInfo): Int {
-//        var count1 = count
-//        application.requestQueue.add(IconRequest(
-//                URI_FACTORY.getIcon(futureWI.icon),
-//                getIconCallbackForForecast(receiver, count, futureWI), latch
-//        )
-//        )
-//        return count1
-//    }
-
-
-    private fun getIconCallbackForForecast(receiver: ResultReceiver, count: Int, futureWI: FutureWeatherInfo): Callback<Bitmap> {
-        var count1 = count
-        return object : Callback<Bitmap> {
-            override fun onSuccess(icon: Bitmap) {
-                futureWI.image = icon;
-                iconCache.push(futureWI._icon, icon)
-                ++count1
-                Log.d("GettingIcon" + count1, "request")
-                if (count1 == NUMBER_OF_FORECAST_DAYS) {
-                    sendInfo(receiver, "forecast", forecast!!)
-                }
-            }
-        }
-    }
 
 }

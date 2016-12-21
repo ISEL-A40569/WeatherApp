@@ -28,7 +28,7 @@ class IconService : IntentService("IconService"){
 
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnIconService", "onHandleIntent start")
-        val receiver: ResultReceiver = intent!!.getParcelableExtra("receiver")
+        val receiver: ResultReceiver = intent!!.getParcelableExtra("iconReceiver")
         val icon = intent!!.getStringExtra("icon")
 
         makeIconRequest(icon, receiver)

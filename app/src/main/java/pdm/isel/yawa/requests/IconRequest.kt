@@ -17,7 +17,6 @@ class IconRequest(uri: String, callback: Callback<Bitmap>) : ImageRequest(
             override fun onResponse(bitmap: Bitmap) {
                 Log.d("RESPONSE", "GOT ICON ")
                 callback.onSuccess(bitmap)
-
             }
         },
         0, 0,

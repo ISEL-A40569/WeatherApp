@@ -18,12 +18,13 @@ import pdm.isel.yawa.model.MyParcelable
 import pdm.isel.yawa.requests.IconRequest
 import pdm.isel.yawa.requests.DataRequest
 import pdm.isel.yawa.requests.Callback
+import pdm.isel.yawa.services.IconService
 import pdm.isel.yawa.services.WeatherService
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
 var language = Locale.getDefault().displayLanguage
-var location: String? = null
+var location: String? = "Lisboa"
 
 var currentWeather: Current? = null
 
@@ -52,64 +53,64 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        if (application.isConnected && !isBatteryLow) {
+            Log.d("OnStart", "Network Available")
+            Log.d("RESPONSE", "LOAD FROM REQUEST")
+            startServiceForDataRequest()
 
-        if (location == null) {
-            location = application.prefs.getString("city", "Lisboa")
-        }
-
-        Log.d("RESPONSE", "ON START, location = " + location)
-
-//        var cityId = crud.verifyIfCityExists(contentResolver, null
-//                , "name = '" + location + "' and language = '" + language + "'"
-//                , null, null)
-//        if (cityId > 0)
-//            currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
-
-        if (currentWeather != null) {
-            Log.d("RESPONSE", "LOAD FROM CACHE")
-            application.editor.putString("temp", currentWeather!!.currentInfo.temp)
-            application.editor.putString("description", currentWeather!!.currentInfo._description)
-
-            setViews()
         } else {
-
-            if (application.isConnected && !isBatteryLow) {
-                Log.d("OnStart", "Network Available")
-                Log.d("RESPONSE", "LOAD FROM REQUEST")
-                startServiceForDataRequest()
-
-            } else {
-                Log.d("OnStart", "Network Not Available")
-                Toast.makeText(this, "OffLine", Toast.LENGTH_SHORT).show()
-            }
+            //TODO: load from data base
+//                var cityId = crud.verifyIfCityExists(contentResolver, null
+//                        , "name = '" + location + "' and language = '" + language + "'"
+//                        , null, null)
+//                if (cityId > 0)
+//                    currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
+            getIcon(currentWeather!!.currentInfo._icon)
         }
     }
 
     private fun startServiceForDataRequest() {
         val intent = Intent(this, WeatherService::class.java)
-
         var receiver = object : ResultReceiver(Handler()) {
             override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                 super.onReceiveResult(resultCode, resultData)
-                Log.d("TestResultReceiver", "Just got weather ")
-                stopService(intent)
-                Log.d("TestResultReceiver", "Serivce is Stoped")
                 currentWeather = resultData!!.getParcelable("current")
-                Log.d("TestResultReceiver", "Set currentWeather")
-                setViews()
-                Log.d("TestResultReceiver", "Set views for " + currentWeather!!.name)
+                application.editor.putString("temp", currentWeather!!.currentInfo.temp)
+                application.editor.putString("description", currentWeather!!.currentInfo._description)
+                getIcon(currentWeather!!.currentInfo._icon)
+                stopService(intent)
             }
         }
-
-        Log.d("TestResultReceiver", "Want weather for " + location)
-        Log.d("TestResultReceiver", "Want weather for " + language)
-
-
         intent.putExtra("type", "current")
         intent.putExtra("receiver", receiver)
         intent.putExtra("location", location)
         intent.putExtra("language", language)
+        startService(intent)
+    }
 
+    private fun getIcon(key: String) {
+        var icon = iconCache.pop(key)
+        if (icon != null) {
+            currentWeather!!.currentInfo.image = icon
+            setViews()
+        } else {
+            startServiceForIconRequest()
+        }
+    }
+
+    private fun startServiceForIconRequest() {
+        val intent = Intent(this, IconService::class.java)
+        var iconReceiver = object : ResultReceiver(Handler()) {
+            override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+                super.onReceiveResult(resultCode, resultData)
+                currentWeather!!.currentInfo.image = resultData!!.getParcelable("icon")
+                Log.d("RESPONSE", currentWeather!!.name)
+                setViews()
+                stopService(intent)
+            }
+        }
+        intent.putExtra("iconReceiver", iconReceiver)
+        intent.putExtra("icon", currentWeather!!.currentInfo._icon)
         startService(intent)
     }
 
@@ -126,52 +127,52 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-        fun onRefresh(view: View) {
-            startServiceForDataRequest()
-            //setViews()
-        }
+    fun onRefresh(view: View) {
+        startServiceForDataRequest()
+        //setViews()
+    }
 
 
 //INTENTS
 // #############################################################################################
 
-        fun onCity(view: View) {
+    fun onCity(view: View) {
 
-            Log.d("YAWA_TAG", "onCity")
+        Log.d("YAWA_TAG", "onCity")
 
-            val intent = Intent(this, CityListActivity::class.java)
-            startActivity(intent)
-        }
-
-
-        fun onDetails(view: View) {
-
-            Log.d("YAWA_TAG", "onDetails")
-            if (currentWeather != null) {
-                val intent = Intent(this, DetailedCurrentWeatherInfoActivity::class.java)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Select a City First", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-
-        fun onNext(view: View) {
-
-            Log.d("YAWA_TAG", "onNext")
-            val intent = Intent(this, ForecastActivity::class.java)
-            startActivity(intent)
-        }
-
-
-        fun onCredits(view: View) {
-            val intent = Intent(this, CreditsActivity::class.java)
-            startActivity(intent)
-        }
-
-        fun onDbTest(view: View) {
-            val intent = Intent(this, PreferencesActivity::class.java)
-            startActivity(intent)
-        }
-
+        val intent = Intent(this, CityListActivity::class.java)
+        startActivity(intent)
     }
+
+
+    fun onDetails(view: View) {
+
+        Log.d("YAWA_TAG", "onDetails")
+        if (currentWeather != null) {
+            val intent = Intent(this, DetailedCurrentWeatherInfoActivity::class.java)
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Select a City First", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    fun onNext(view: View) {
+
+        Log.d("YAWA_TAG", "onNext")
+        val intent = Intent(this, ForecastActivity::class.java)
+        startActivity(intent)
+    }
+
+
+    fun onCredits(view: View) {
+        val intent = Intent(this, CreditsActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun onDbTest(view: View) {//TODO: change this to onMenu after creating menu
+        val intent = Intent(this, PreferencesActivity::class.java)
+        startActivity(intent)
+    }
+
+}
