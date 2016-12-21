@@ -74,7 +74,10 @@
             android:exported="false" />
 
         <activity android:name=".NotificationSettingsActivity" />
-        <activity android:name=".AndroidDatabaseManager"></activity>
+
+        <service
+            android:name=".services.IconService"
+            android:exported="false" />
     </application>
 
 </manifest>

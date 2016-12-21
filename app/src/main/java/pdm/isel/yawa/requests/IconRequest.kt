@@ -6,6 +6,7 @@ import android.widget.ImageView
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.ImageRequest
+import java.util.concurrent.CountDownLatch
 
 /**
  * Created by Dani on 16-12-2016.
@@ -16,6 +17,7 @@ class IconRequest(uri: String, callback: Callback<Bitmap>) : ImageRequest(
             override fun onResponse(bitmap: Bitmap) {
                 Log.d("RESPONSE", "GOT ICON ")
                 callback.onSuccess(bitmap)
+
             }
         },
         0, 0,

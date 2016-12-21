@@ -64,8 +64,9 @@ class ForecastActivity : ListActivity() {
         var receiver = object : ResultReceiver(Handler()) {
             override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                 super.onReceiveResult(resultCode, resultData)
-                stopService(intent)
+                //stopService(intent)
                 forecast = resultData!!.getParcelable("forecast")
+                Log.d("OnCache", "seting view now")
                 setView()
                 Log.d("TestResultReceiver", "Got weather for " + forecast!!.name)
             }
@@ -84,8 +85,8 @@ class ForecastActivity : ListActivity() {
                 forecast = DTO_MAPPER.mapForecastDto(
                         JSON_MAPPER.mapForecastJson(response.toString()))
                 var count = 0
-                for (i in forecast!!.list.indices) {
-                    var futureWI = forecast!!.list[i]
+                while(count < NUMBER_OF_FORECAST_DAYS) {
+                    var futureWI = forecast!!.list[count]
                     var icon: Bitmap? = iconCache.pop(futureWI._icon)
 
                     if (icon != null) {
@@ -94,35 +95,36 @@ class ForecastActivity : ListActivity() {
                         Log.d("GettingIcon" + count, "cache")
 
                         if (count == NUMBER_OF_FORECAST_DAYS) {
+
                             setView()////TODO: WHERE THIS IS CALLED MUST ALSO INSERT INTO DB
                         }
                     } else {
-                        count = makeIconRequest(count, futureWI)
+                        //count = makeIconRequest(count, futureWI)
                     }
                 }
             }
         }
     }
-
-    private fun makeIconRequest(count: Int, futureWI: FutureWeatherInfo): Int {
-        var count1 = count
-        application.requestQueue.add(IconRequest(
-                URI_FACTORY.getIcon(futureWI.icon),
-                object : Callback<Bitmap> {
-                    override fun onSuccess(icon: Bitmap) {
-                        futureWI.image = icon;
-                        iconCache.push(futureWI._icon, icon)
-                        ++count1
-                        Log.d("GettingIcon" + count1, "request")
-                        if (count1 == NUMBER_OF_FORECAST_DAYS) {
-                            setView()
-                        }
-                    }
-                }
-            )
-        )
-        return count1
-    }
+//
+//    private fun makeIconRequest(count: Int, futureWI: FutureWeatherInfo): Int {
+//        var count1 = count
+//        application.requestQueue.add(IconRequest(
+//                URI_FACTORY.getIcon(futureWI.icon),
+//                object : Callback<Bitmap> {
+//                    override fun onSuccess(icon: Bitmap) {
+//                        futureWI.image = icon;
+//                        iconCache.push(futureWI._icon, icon)
+//                        ++count1
+//                        Log.d("GettingIcon" + count1, "request")
+//                        if (count1 == NUMBER_OF_FORECAST_DAYS) {
+//                            setView()
+//                        }
+//                    }
+//                }
+//        )
+//        )
+//        return count1
+//    }
 
     private fun setView() {
         listView.setAdapter(FutureWeatherInfoArrayAdapter(applicationContext, forecast?.list!!))

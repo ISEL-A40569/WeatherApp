@@ -4,13 +4,11 @@ import android.app.IntentService
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.Bundle
-import android.os.Handler
-import android.os.Parcel
-import android.os.ResultReceiver
+import android.os.*
 import android.util.Log
 import android.widget.Toast
 import com.android.volley.Response
+import com.android.volley.toolbox.RequestFuture
 import org.json.JSONObject
 import pdm.isel.yawa.*
 import pdm.isel.yawa.model.*
@@ -19,6 +17,9 @@ import pdm.isel.yawa.requests.Callback
 import pdm.isel.yawa.requests.DataRequest
 import pdm.isel.yawa.requests.IconRequest
 import pdm.isel.yawa.uri.RequestUriFactory
+import java.util.concurrent.CountDownLatch
+
+
 
 /**
  *
@@ -28,7 +29,7 @@ class WeatherService() : IntentService("WeatherService") {
 
     var current: Current? = null
     var forecast: Forecast? = null
-    val NUMBER_OF_FORECAST_DAYS = 16
+    val NUMBER_OF_FORECAST_DAYS = 2
 
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnService", "onHandleIntent start")
@@ -95,7 +96,7 @@ class WeatherService() : IntentService("WeatherService") {
                         current!!.currentInfo.image = image
                         sendInfo(receiver, "current", current!!)
                     }else{
-                        makeIconRequest(icon, getIconCallbackForCurrent(receiver))
+                        //makeIconRequest(icon, getIconCallbackForCurrent(receiver))
                     }
 
                 }
@@ -153,15 +154,15 @@ class WeatherService() : IntentService("WeatherService") {
 
 
 
-    private fun makeIconRequest(uri:String, callback: Callback<Bitmap>) {
-        Log.d("OnService", "makeIconRequest start")
-
-        application.requestQueue.add(IconRequest(
-                URI_FACTORY.getIcon(uri),
-                callback))
-        Log.d("OnService", "makeIconRequest end")
-
-    }
+//    private fun makeIconRequest(uri:String, callback: Callback<Bitmap>) {
+//        Log.d("OnService", "makeIconRequest start")
+//
+//        application.requestQueue.add(IconRequest(
+//                URI_FACTORY.getIcon(uri),
+//                callback, latch))
+//        Log.d("OnService", "makeIconRequest end")
+//
+//    }
 
 
 
@@ -225,32 +226,37 @@ class WeatherService() : IntentService("WeatherService") {
 
                 val receiver = object : ResultReceiver(Handler()) {
                     override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+                        Log.d("OnIconService", "receiving result")
+
+                        forecast.list[i].image = resultData!!.getParcelable("icon")
+                        Log.d("OnIconService", "just got icon for " + futureWI._date)
+
                         stopService(intent)
-                        futureWI.image = resultData!!.getParcelable("icon")
-                        ++count
                         if (count == pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS) {
                             sendInfo(receiver, "forecast", forecast!!)
                         }
                     }
                 }
+
                 intent.putExtra("receiver", receiver)
                 intent.putExtra("icon", futureWI._icon)
 
                 startService(intent)
+                ++count
             }
-            Log.d("FillingForecastIcon", count.toString())
+            Log.d("OnIconService", count.toString())
         }
     }
 
-    private fun makeIconRequest(receiver: ResultReceiver, count: Int, futureWI: FutureWeatherInfo): Int {
-        var count1 = count
-        application.requestQueue.add(IconRequest(
-                URI_FACTORY.getIcon(futureWI.icon),
-                getIconCallbackForForecast(receiver, count, futureWI)
-        )
-        )
-        return count1
-    }
+//    private fun makeIconRequest(receiver: ResultReceiver, count: Int, futureWI: FutureWeatherInfo): Int {
+//        var count1 = count
+//        application.requestQueue.add(IconRequest(
+//                URI_FACTORY.getIcon(futureWI.icon),
+//                getIconCallbackForForecast(receiver, count, futureWI), latch
+//        )
+//        )
+//        return count1
+//    }
 
 
     private fun getIconCallbackForForecast(receiver: ResultReceiver, count: Int, futureWI: FutureWeatherInfo): Callback<Bitmap> {

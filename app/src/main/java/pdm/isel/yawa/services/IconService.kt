@@ -14,43 +14,54 @@ import pdm.isel.yawa.model.FutureWeatherInfo
 import pdm.isel.yawa.requestQueue
 import pdm.isel.yawa.requests.Callback
 import pdm.isel.yawa.requests.IconRequest
+import java.util.concurrent.CountDownLatch
 
 /**
  * Created by Dani on 20-12-2016.
  */
 class IconService : IntentService("IconService"){
+    val s = "Inside Icon Service"
+    override fun onCreate() {
+        super.onCreate()
+        Log.d("OnIconService", s)
+    }
+
     override fun onHandleIntent(intent: Intent?) {
+        Log.d("OnIconService", "onHandleIntent start")
         val receiver: ResultReceiver = intent!!.getParcelableExtra("receiver")
         val icon = intent!!.getStringExtra("icon")
 
-        makeIconRequest(icon, getIconRequestCallback(icon, receiver))
+        makeIconRequest(icon, receiver)
+        Log.d("OnIconService", "onHandleIntent end")
     }
 
-    private fun makeIconRequest(iconCode:String, callback: Callback<Bitmap>) {
+    private fun makeIconRequest(iconCode:String,  receiver: ResultReceiver) {
         Log.d("OnIconService", "makeIconRequest start")
 
         application.requestQueue.add(IconRequest(
                 URI_FACTORY.getIcon(iconCode),
-                callback))
+                getIconRequestCallback(iconCode, receiver)
+                ))
         Log.d("OnIconService", "makeIconRequest end")
     }
 
     private fun getIconRequestCallback(iconCode: String, receiver: ResultReceiver): Callback<Bitmap> {
+        Log.d("OnIconService", "getIconRequestCallback start")
         return object : Callback<Bitmap> {
             override fun onSuccess(icon: Bitmap) {
+                Log.d("OnIconService", "getIconRequestCallback onSuccess")
                 iconCache.push(iconCode, icon)
                 sendInfo(receiver, "icon", icon)
             }
         }
+        Log.d("OnIconService", "getIconRequestCallback end")
     }
 
     private fun sendInfo(receiver: ResultReceiver, key: String, image: Bitmap) {
-        Log.d("OnService", "sendInfo start")
-
+        Log.d("OnIconService", "sendInfo start")
         val bundle = Bundle()
         bundle.putParcelable(key, image)
         receiver.send(200, bundle)
-        Log.d("OnService", "sendInfo end")
-
+        Log.d("OnIconService", "sendInfo end")
     }
 }
