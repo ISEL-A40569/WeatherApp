@@ -53,6 +53,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
+        location = application.prefs.getString("city", "Lisbon")
+
         if (application.isConnected && !isBatteryLow) {
             Log.d("OnStart", "Network Available")
             Log.d("RESPONSE", "LOAD FROM REQUEST")

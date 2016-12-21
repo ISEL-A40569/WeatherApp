@@ -33,15 +33,21 @@ class ForecastActivity : ListActivity() {
 
     override fun onStart() {
         super.onStart()
+<<<<<<< HEAD
         startServiceForDataRequest()
+        /*
+=======
 
+
+>>>>>>> 97f93b7724ee13719e34142a87b90b1c9f14c3f5
         var cityId = crud.verifyIfCityExists(contentResolver,null
                 ,"name = '"+ location + "' and language = '"+ language+"'"
                 , null, null)
 
         forecast = crud.queryForecast(contentResolver, null, null, null, null, cityId)
         //TODO: after still have to get icons
-
+<<<<<<< HEAD
+        */
 //        if (forecast != null) {
 //            Log.d("RESPONSE", "LOAD FROM CACHE")
 //            setView()
@@ -68,6 +74,20 @@ class ForecastActivity : ListActivity() {
                 fillForecastIcons(forecast!!)
 
                 stopService(intent)
+=======
+
+        if (forecast != null) {
+            Log.d("RESPONSE", "LOAD FROM CACHE")
+            setView()
+        } else {
+
+            if (application.isConnected && !isBatteryLow) {
+                Log.d("OnStart", "Network Available")
+                makeRequest()
+            } else {
+                Log.d("OnStart", "Network Not Available")
+                Toast.makeText(this, "OffLine", Toast.LENGTH_SHORT).show()
+>>>>>>> 97f93b7724ee13719e34142a87b90b1c9f14c3f5
             }
         }
         intent.putExtra("type", "forecast")

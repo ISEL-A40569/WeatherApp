@@ -20,6 +20,7 @@ import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.concurrent.CountDownLatch
 
 
+
 /**
  *
  *
@@ -45,18 +46,18 @@ class WeatherService() : IntentService("WeatherService") {
         Log.d("OnService", lang)
 
 
-        if (type.equals("current") || type.equals("both"))
-            makeCurrentRequest(city, lang, receiver)
+        if(type.equals("current") || type.equals("both"))
+        makeCurrentRequest(city, lang, receiver)
 
-        if (type.equals("forecast") || type.equals("both"))
-            makeForecastRequest(city, lang, receiver)
+        if(type.equals("forecast") || type.equals("both"))
+        makeForecastRequest(city, lang, receiver)
 
 
         //testResultReceiver(intent!!.getParcelableExtra("receiver"))
         Log.d("OnService", "onHandleIntent end")
     }
 
-    private fun makeCurrentRequest(loc: String, lang: String, receiver: ResultReceiver) {
+    private fun makeCurrentRequest(loc:String, lang: String, receiver: ResultReceiver) {
         Log.d("OnService", "makeCurrentRequest start")
 
         application.requestQueue.add(DataRequest(
@@ -67,7 +68,7 @@ class WeatherService() : IntentService("WeatherService") {
     }
 
 
-    private fun makeForecastRequest(loc: String, lang: String, receiver: ResultReceiver) {
+    private fun makeForecastRequest(loc:String, lang: String, receiver: ResultReceiver) {
         Log.d("OnService", "makeForecastRequest start")
 
         application.requestQueue.add(DataRequest(
@@ -81,38 +82,67 @@ class WeatherService() : IntentService("WeatherService") {
         Log.d("OnService", "getCurrentResponseCallback start")
         return object : Callback<JSONObject> {
             override fun onSuccess(response: JSONObject) {
+                if (response != null) {
+
                     current = DTO_MAPPER.mapCurrentDto(
                             JSON_MAPPER.mapWeatherInfoJson(response.toString()))
+<<<<<<< HEAD
                     Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)
                     sendInfo(receiver, "current", current!!)
-                    insertInDB(current)
+                    //TODO: insertInDB(current)
+=======
+
+                    if (current != null) {
+                        Log.d("OnService", "Updating " + current!!.name + " current info")
+
+                        var id = crud.verifyIfCityExists(contentResolver,
+                                null,
+                                "name = '"+current!!.cityName +"' and country = '"+current!!.cityCountry+"'",// + " language = "+current!!.language,
+                                null,null)
+
+                        if (id < 0){
+                            id = crud.insertNewCity(contentResolver, current!!)
+                        }
+
+                        var curr = crud.queryCurrent(contentResolver, null, "currentid = "+id, null, null, id)
+                        if (curr != null){
+                            crud.deleteCurrentWeatherInfo(contentResolver, "currentid = "+id, null)
+                        }
+                        crud.insertCurrentWeatherInfo(contentResolver, current!!.currentInfo, id)
+                        //TODO: INSERT CURRENT HERE
+                    }
+                } else {
+                    //TODO: throw some null response exception
+>>>>>>> 97f93b7724ee13719e34142a87b90b1c9f14c3f5
+                }
+//                    if (current != null) {
+//                        Log.d("OnService", "Updating " + current!!.name + " current info")
+//
+//                        var id = crud.verifyIfCityExists(contentResolver,
+//                                null,
+//                                "name = '" + location + "' and language = '" + language + "'",
+//                                null,null)
+//
+//                        if (id < 0){
+//                            id = crud.insertNewCity(contentResolver, current!!)
+//                        }
+//
+//                        var curr = crud.queryCurrent(contentResolver, null, "currentid = "+id, null, null, id)
+//                        if (curr != null){
+//                            crud.deleteCurrentWeatherInfo(contentResolver, "currentid = "+id, null)
+//                        }
+//                        crud.insertCurrentWeatherInfo(contentResolver, current!!.currentInfo, id)
+//                    }
+//                } else {
+//                    //TODO: throw some null response exception
+//                }
             }
         }
-
         Log.d("OnService", "getCurrentResponseCallback end")
 
     }
 
-    private fun insertInDB(current: Current?) {
-        if (current != null) {
-            Log.d("OnService", "Updating " + current!!.name + " current info")
 
-            var id = crud.verifyIfCityExists(contentResolver,
-                    null,
-                    "name = '" + location + "' and language = '" + language + "'",
-                    null, null)
-
-            if (id < 0) {
-                id = crud.insertNewCity(contentResolver, current!!)
-            }
-
-            var curr = crud.queryCurrent(contentResolver, null, "currentid = " + id, null, null, id)
-            if (curr != null) {
-                crud.deleteCurrentWeatherInfo(contentResolver, "currentid = " + id, null)
-            }
-            crud.insertCurrentWeatherInfo(contentResolver, current!!.currentInfo, id)
-        }
-    }
 
 
     private fun sendInfo(receiver: ResultReceiver, key: String, info: CityInfo) {
@@ -126,6 +156,7 @@ class WeatherService() : IntentService("WeatherService") {
     }
 
 
+
 //    private fun makeIconRequest(uri:String, callback: Callback<Bitmap>) {
 //        Log.d("OnService", "makeIconRequest start")
 //
@@ -135,6 +166,7 @@ class WeatherService() : IntentService("WeatherService") {
 //        Log.d("OnService", "makeIconRequest end")
 //
 //    }
+
 
 
     private fun getForecastResponseCallback(receiver: ResultReceiver): Callback<JSONObject> {
@@ -147,7 +179,34 @@ class WeatherService() : IntentService("WeatherService") {
 
                     sendInfo(receiver, "forecast", forecast!!)
                     Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
-                    //TODO: insertInDB(forecast)
+                    //TODO: INSERT FORECAST HERE
+<<<<<<< HEAD
+=======
+                    //var selection = null
+                    //if (forecast!!.cityName != null && forecast!!.cityCountry != null && forecast!!.language != null)
+                    //    selection = "name = "+forecast!!.cityName +" and country = "+forecast!!.cityCountry + "and language = "+forecast!!.language
+                    var id = crud.verifyIfCityExists(contentResolver,
+                            null,
+                            "name = '"+forecast!!.cityName +"' and country = '"+forecast!!.cityCountry + "'",
+                            null,null)
+
+                    if (id < 0){
+                        id = crud.insertNewCity(contentResolver, forecast!!)
+                    }
+
+                    var curr = crud.queryForecast(contentResolver, null, "forecastid = "+id, null, null, id)
+                    if (curr != null){
+                        crud.deleteFutureWeatherInfo(contentResolver, "forecastid = "+id, null)
+                    }
+
+                    for (list in forecast!!.list)
+                        crud.insertFutureWeatherInfo(contentResolver, list, id)
+
+                } else {
+                    //TODO: throw some null response exception
+
+                    Toast.makeText(applicationContext, "What a Terrible Failure", Toast.LENGTH_SHORT).show();
+>>>>>>> 97f93b7724ee13719e34142a87b90b1c9f14c3f5
 
                 }
 //                    var id = crud.verifyIfCityExists(contentResolver,
@@ -175,6 +234,8 @@ class WeatherService() : IntentService("WeatherService") {
             }
         }
     }
+
+
 
 
 }

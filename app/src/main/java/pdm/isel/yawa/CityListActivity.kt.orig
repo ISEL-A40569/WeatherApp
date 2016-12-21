@@ -9,23 +9,29 @@ import android.widget.ListView
 import android.widget.Toast
 import java.util.*
 
+var cityList = LinkedList<String>()//TODO: store this or get it fill from database
 
 class CityListActivity : ListActivity() {
 
-    var cities: Array<Any>? = null
+    private val cities = cityList.toArray()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var cityList = crud.getListOfAllCitys(contentResolver, null, null, null, "'name' ASC")
-
-        cities = cityList.toArray()!!
-
-
+        //TODO - falta conseguir ir buscar a primeira cidade
+<<<<<<< HEAD
+        //cityList = crud.queryCityNames(contentResolver, null, null, null, "'name' ASC")
 //        cityList.add("Lisboa")
 //        cityList.add("Porto")
 //        cityList.add("ATENÇÃO!! Dados hard codded!!")
+=======
+        cityList = crud.getListOfAllCitys(contentResolver, null, null, null, "'name' ASC")
+        cityList.add("Lisboa")
+        cityList.add("Porto")
+        cityList.add("ATENÇÃO!! Dados hard codded!!")
+>>>>>>> 97f93b7724ee13719e34142a87b90b1c9f14c3f5
 
 
 
@@ -41,7 +47,7 @@ class CityListActivity : ListActivity() {
 
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
         currentWeather = null
-        location = cities!![position] as String
+        location = cities[position] as String
         Toast.makeText(this, location, Toast.LENGTH_SHORT).show()
         application.editor.putString("city", location)
         application.editor.commit()

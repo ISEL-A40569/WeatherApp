@@ -9,9 +9,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
 import pdm.isel.yawa.model.CityInfo
 
-/**
- * Created by Dani on 16-12-2016.
- */
+
 class DataRequest(url: String, callback: Callback<JSONObject>) : JsonObjectRequest(
         Method.GET,
         url,
