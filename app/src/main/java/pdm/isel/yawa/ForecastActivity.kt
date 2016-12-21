@@ -18,10 +18,10 @@ import pdm.isel.yawa.model.FutureWeatherInfo
 import pdm.isel.yawa.requests.IconRequest
 import pdm.isel.yawa.requests.DataRequest
 import pdm.isel.yawa.requests.Callback
+import pdm.isel.yawa.services.NUMBER_OF_FORECAST_DAYS
 import pdm.isel.yawa.services.WeatherService
 import pdm.isel.yawa.uri.RequestUriFactory
 
-val NUMBER_OF_FORECAST_DAYS = 16
 
 class ForecastActivity : ListActivity() {
 

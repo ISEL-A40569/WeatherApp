@@ -20,6 +20,7 @@ import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.concurrent.CountDownLatch
 
 
+val NUMBER_OF_FORECAST_DAYS = 8
 
 /**
  *
@@ -29,7 +30,6 @@ class WeatherService() : IntentService("WeatherService") {
 
     var current: Current? = null
     var forecast: Forecast? = null
-    val NUMBER_OF_FORECAST_DAYS = 2
 
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnService", "onHandleIntent start")
@@ -216,7 +216,7 @@ class WeatherService() : IntentService("WeatherService") {
                 futureWI.image = icon
                 ++count
 
-                if (count == pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS) {
+                if (count == NUMBER_OF_FORECAST_DAYS) {
                     sendInfo(receiver, "forecast", forecast!!)
                 }
             }else{
@@ -229,12 +229,19 @@ class WeatherService() : IntentService("WeatherService") {
                         Log.d("OnIconService", "receiving result")
 
                         forecast.list[i].image = resultData!!.getParcelable("icon")
-                        Log.d("OnIconService", "just got icon for " + futureWI._date)
+                        Log.d("OnIconService", "just got icon for " + futureWI._date + "count is " + count.toString())
+                        ++count
+                        Log.d("OnIconService", "count is " + count.toString())
 
-                        stopService(intent)
-                        if (count == pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS) {
+
+                        if (count == NUMBER_OF_FORECAST_DAYS) {
+                            Log.d("OnIconService", "sending result")
+
                             sendInfo(receiver, "forecast", forecast!!)
+                            Log.d("OnIconService", "result sent")
+
                         }
+                        stopService(intent)
                     }
                 }
 
@@ -242,7 +249,6 @@ class WeatherService() : IntentService("WeatherService") {
                 intent.putExtra("icon", futureWI._icon)
 
                 startService(intent)
-                ++count
             }
             Log.d("OnIconService", count.toString())
         }
@@ -267,7 +273,7 @@ class WeatherService() : IntentService("WeatherService") {
                 iconCache.push(futureWI._icon, icon)
                 ++count1
                 Log.d("GettingIcon" + count1, "request")
-                if (count1 == pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS) {
+                if (count1 == NUMBER_OF_FORECAST_DAYS) {
                     sendInfo(receiver, "forecast", forecast!!)
                 }
             }

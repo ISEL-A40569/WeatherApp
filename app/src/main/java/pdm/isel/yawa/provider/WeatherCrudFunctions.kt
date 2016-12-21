@@ -6,8 +6,8 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.BaseColumns
 import android.util.Log
-import pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS
 import pdm.isel.yawa.model.*
+import pdm.isel.yawa.services.NUMBER_OF_FORECAST_DAYS
 import java.util.*
 
 
