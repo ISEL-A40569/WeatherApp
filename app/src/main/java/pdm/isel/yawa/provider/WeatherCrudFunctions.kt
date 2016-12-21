@@ -113,11 +113,11 @@ class WeatherCrudFunctions  {
     /**
      * returns a list of all citys in the DB
      */
-    fun queryCityNames(cr:ContentResolver
-                  , projection: Array<out String>?
-                  , selection: String?
-                  , selectionArgs: Array<out String>?
-                  , sortOrder: String?): LinkedList<String> {
+    fun getListOfAllCitys(cr:ContentResolver
+                          , projection: Array<out String>?
+                          , selection: String?
+                          , selectionArgs: Array<out String>?
+                          , sortOrder: String?): LinkedList<String> {
 
         var cursor = cr.query(WeatherContract.City.CONTENT_URI, projection, selection, selectionArgs, sortOrder) as Cursor
 
@@ -141,8 +141,8 @@ class WeatherCrudFunctions  {
                      , sortOrder: String?
                      ,id: Int): Current??{
 
-        var cursorwi = cr.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI,null,"_id = "+id, selectionArgs, "_id")
-        var cursorCity = cr.query(WeatherContract.City.CONTENT_URI,projection, selection,selectionArgs,sortOrder)
+        var cursorwi = cr.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI,null,"currentid = "+id, selectionArgs, "_id")
+        var cursorCity = cr.query(WeatherContract.City.CONTENT_URI,projection, "_id = "+id,selectionArgs,sortOrder)
 
         if (cursorCity.count == 0 || cursorwi.count == 0) {
             Log.d("YAWA_TAG", "WeatherCrudFunctions - NULL CURSOR")
@@ -170,8 +170,8 @@ class WeatherCrudFunctions  {
     fun queryForecast(cr:ContentResolver, projection: Array<out String>?, selection: String?
                       , selectionArgs: Array<out String>?, sortOrder: String?, id:Int):Forecast??{
 
-        var cursorfwi = cr.query(WeatherContract.FutureWeatherInfo.CONTENT_URI,null,"_id = "+id, selectionArgs, "_id")
-        var cursorCity = cr.query(WeatherContract.City.CONTENT_URI,projection,selection,selectionArgs,sortOrder)
+        var cursorfwi = cr.query(WeatherContract.FutureWeatherInfo.CONTENT_URI,null,"forecastId = "+id, selectionArgs, "_id")
+        var cursorCity = cr.query(WeatherContract.City.CONTENT_URI,projection,"_id = "+id,selectionArgs,sortOrder)
 
         if (cursorCity.count == 0 || cursorfwi.count == 0) {
             Log.d("YAWA_TAG", "WeatherCrudFunctions - NULL CURSOR")

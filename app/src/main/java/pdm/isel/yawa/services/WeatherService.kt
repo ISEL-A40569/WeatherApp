@@ -54,7 +54,7 @@ class WeatherService() : IntentService("WeatherService") {
 
                         var id = crud.verifyIfCityExists(contentResolver,
                                 null,
-                                "name = "+current!!.cityName +" and country = "+current!!.cityCountry + " language = "+current!!.language,
+                                "name = '"+current!!.cityName +"' and country = '"+current!!.cityCountry+"'",// + " language = "+current!!.language,
                                 null,null)
 
                         if (id < 0){
@@ -91,10 +91,12 @@ class WeatherService() : IntentService("WeatherService") {
 
                     Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
                     //TODO: INSERT FORECAST HERE
-
+                    //var selection = null
+                    //if (forecast!!.cityName != null && forecast!!.cityCountry != null && forecast!!.language != null)
+                    //    selection = "name = "+forecast!!.cityName +" and country = "+forecast!!.cityCountry + "and language = "+forecast!!.language
                     var id = crud.verifyIfCityExists(contentResolver,
                             null,
-                            "name = "+forecast!!.cityName +" and country = "+forecast!!.cityCountry + " language = "+forecast!!.language,
+                            "name = '"+forecast!!.cityName +"' and country = '"+forecast!!.cityCountry + "'",
                             null,null)
 
                     if (id < 0){
