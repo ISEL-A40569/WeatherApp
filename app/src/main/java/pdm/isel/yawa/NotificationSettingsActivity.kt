@@ -8,12 +8,13 @@ import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.Toast
 import pdm.isel.yawa.broadcast_receivers.NotificationsReceiver
 import java.util.*
 
 var hourValue: Int = 0
 var minutesValue: Int = 0
-var areNotificionsOn = false
+var areNotificationsOn = false
 
 class NotificationSettingsActivity : AppCompatActivity() {
 
@@ -27,7 +28,7 @@ class NotificationSettingsActivity : AppCompatActivity() {
         var minutes: EditText = findViewById(R.id.MinutesSelectionBox) as EditText
 
         var checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
-        checkBox.setChecked(areNotificionsOn)
+        checkBox.setChecked(areNotificationsOn)
 
         Log.d("OnSettingNotifications", checkBox.isChecked.toString())
 
@@ -35,9 +36,16 @@ class NotificationSettingsActivity : AppCompatActivity() {
         checkBox.setOnClickListener {
             Log.d("OnSettingNotifications", checkBox.isChecked.toString())
 
-            areNotificionsOn = !areNotificionsOn
+            areNotificationsOn = !areNotificationsOn
 
-            application.editor.putBoolean("areNotificionsOn", areNotificionsOn)
+            application.editor.putBoolean("areNotificationsOn", areNotificationsOn)
+
+            if(areNotificationsOn){
+                Toast.makeText(this, "Notifications On", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Notifications Off", Toast.LENGTH_SHORT).show()
+            }
+
             application.editor.commit()
         }
             button.setOnClickListener {
@@ -69,6 +77,7 @@ class NotificationSettingsActivity : AppCompatActivity() {
 
                 Log.d("OnSettingNotifications", hourValue.toString())
                 Log.d("OnSettingNotifications", minutesValue.toString())
+                Toast.makeText(this, hourValue.toString() + ":" + minutesValue.toString(), Toast.LENGTH_LONG).show()
 
         }
     }

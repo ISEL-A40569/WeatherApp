@@ -48,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         temp = findViewById(R.id.main_temp) as TextView
         description = findViewById(R.id.main_description) as TextView
         image = findViewById(R.id.main_view) as ImageView
+
+        application.editor.putString("language", language)
     }
 
 

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 
 var updateInterval: Long = 0
@@ -37,6 +38,7 @@ class UpdateIntervalSettingActivity : AppCompatActivity() {
                 updateInterval * 60000,
                 pendingAlarmIntent)
 
+        Toast.makeText(this, updateInterval.toString() + " min", Toast.LENGTH_LONG).show()
         Log.d("OnUpdatingInterval", updateInterval.toString())
     }
 }

@@ -27,7 +27,6 @@ val JSON_MAPPER = JsonToDtoMapper()
 
 val crud = WeatherCrudFunctions()
 
-
 var isBatteryLow = false
 
 class WeatherApp : Application() {
@@ -59,25 +58,25 @@ class WeatherApp : Application() {
 
         getPreferences(prefs!!)
 
-        //setWeatherReceiver()
+        setWeatherReceiver()
 
-        if(areNotificionsOn)
+        if(areNotificationsOn)
         setNotificationsReceiver()
     }
 
     fun getPreferences(prefs: SharedPreferences) {
         Log.d("AppGetPrefs" , updateInterval.toString())
-        Log.d("AppGetPrefs" , areNotificionsOn.toString())
+        Log.d("AppGetPrefs" , areNotificationsOn.toString())
         Log.d("AppGetPrefs" , hourValue.toString())
         Log.d("AppGetPrefs" , minutesValue.toString())
 
-        updateInterval = prefs.getLong("updateInterval", 60)
-        areNotificionsOn = prefs.getBoolean("areNotificionsOn", true)
+        updateInterval = prefs.getLong("updateInterval", 1)
+        areNotificationsOn = prefs.getBoolean("areNotificationsOn", true)
         hourValue = prefs.getInt("hour", 22)
         minutesValue = prefs.getInt("minutes", 26)
 
         Log.d("AppGetPrefs" , updateInterval.toString())
-        Log.d("AppGetPrefs" , areNotificionsOn.toString())
+        Log.d("AppGetPrefs" , areNotificationsOn.toString())
         Log.d("AppGetPrefs" , hourValue.toString())
         Log.d("AppGetPrefs" , minutesValue.toString())
     }

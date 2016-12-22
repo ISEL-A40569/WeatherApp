@@ -32,10 +32,6 @@ class WeatherService() : IntentService("WeatherService") {
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnService", "onHandleIntent start")
 
-//        if(application.isConnected && !isBatteryLow){
-//            makeCurrentRequest()
-//            makeForecastRequest()
-//        }
         val type = intent!!.getStringExtra("type")
         val lang = intent!!.getStringExtra("language")
         val city = intent!!.getStringExtra("location")
@@ -51,8 +47,6 @@ class WeatherService() : IntentService("WeatherService") {
         if (type.equals("forecast") || type.equals("both"))
             makeForecastRequest(city, lang, receiver)
 
-
-        //testResultReceiver(intent!!.getParcelableExtra("receiver"))
         Log.d("OnService", "onHandleIntent end")
     }
 
@@ -124,17 +118,6 @@ class WeatherService() : IntentService("WeatherService") {
         Log.d("OnService", "sendInfo end")
 
     }
-
-
-//    private fun makeIconRequest(uri:String, callback: Callback<Bitmap>) {
-//        Log.d("OnService", "makeIconRequest start")
-//
-//        application.requestQueue.add(IconRequest(
-//                URI_FACTORY.getIcon(uri),
-//                callback, latch))
-//        Log.d("OnService", "makeIconRequest end")
-//
-//    }
 
 
     private fun getForecastResponseCallback(receiver: ResultReceiver): Callback<JSONObject> {

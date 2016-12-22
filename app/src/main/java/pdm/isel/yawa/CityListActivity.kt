@@ -42,7 +42,7 @@ class CityListActivity : ListActivity() {
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
         currentWeather = null
         location = cities!![position] as String
-        Toast.makeText(this, location, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, location, Toast.LENGTH_LONG).show()
         application.editor.putString("city", location)
         application.editor.commit()
 
