@@ -14,12 +14,13 @@ class IconCache {
     fun pop(key: String): Bitmap? {
         Log.d("OnCache", "Pop key "+ key)
         Log.d("OnCache", "contains = "+ iconMap.containsKey(key).toString())
+        if(iconMap.containsKey(key))
+        return iconMap[key]
 
-        return iconMap.get(key)
+        return null
     }
 
     fun push(key: String, icon: Bitmap) {
-        Log.d("OnCache", "contains = "+ iconMap.containsKey(key).toString())
         if(!iconMap.containsKey(key)){
             Log.d("OnCache", "Pushing key "+ key)
             iconMap.put(key, icon)
