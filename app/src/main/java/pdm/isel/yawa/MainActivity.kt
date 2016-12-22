@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 //                        , null, null)
 //                if (cityId > 0)
 //                    currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
-            getIcon(currentWeather!!.currentInfo._icon)
+            getIcon(currentWeather!!.currentInfo.icon)
         }
     }
 
@@ -77,11 +77,11 @@ class MainActivity : AppCompatActivity() {
         var receiver = object : ResultReceiver(Handler()) {
             override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                 super.onReceiveResult(resultCode, resultData)
+                stopService(intent)
                 currentWeather = resultData!!.getParcelable("current")
                 application.editor.putString("temp", currentWeather!!.currentInfo.temp)
                 application.editor.putString("description", currentWeather!!.currentInfo._description)
                 getIcon(currentWeather!!.currentInfo._icon)
-                stopService(intent)
             }
         }
         intent.putExtra("type", "current")
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getIcon(key: String) {
-        var icon = iconCache.pop(key)
+        var icon = application.iconCache.pop(key)
         if (icon != null) {
             currentWeather!!.currentInfo.image = icon
             setViews()
@@ -105,15 +105,15 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, IconService::class.java)
         var iconReceiver = object : ResultReceiver(Handler()) {
             override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
-                super.onReceiveResult(resultCode, resultData)
-                currentWeather!!.currentInfo.image = resultData!!.getParcelable("icon")
-                Log.d("RESPONSE", currentWeather!!.name)
-                setViews()
                 stopService(intent)
+                super.onReceiveResult(resultCode, resultData)
+                var image: Bitmap = resultData!!.getParcelable("icon")
+                currentWeather!!.currentInfo.image = image
+                setViews()
             }
         }
         intent.putExtra("iconReceiver", iconReceiver)
-        intent.putExtra("icon", currentWeather!!.currentInfo._icon)
+        intent.putExtra("icon", currentWeather!!.currentInfo.icon)
         startService(intent)
     }
 

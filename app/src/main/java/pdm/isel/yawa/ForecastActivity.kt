@@ -34,12 +34,12 @@ class ForecastActivity : ListActivity() {
         super.onStart()
         startServiceForDataRequest()
 
-        var cityId = crud.verifyIfCityExists(contentResolver,null
-                ,"name = '"+ location + "' and language = '"+ language+"'"
-                , null, null)
-
-        forecast = crud.queryForecast(contentResolver, null, null, null, null, cityId)
-        //TODO: after still have to get icons
+//        var cityId = crud.verifyIfCityExists(contentResolver,null
+//                ,"name = '"+ location + "' and language = '"+ language+"'"
+//                , null, null)
+//
+//        forecast = crud.queryForecast(contentResolver, null, null, null, null, cityId)
+//        //TODO: after still have to get icons
 
 //        if (forecast != null) {
 //            Log.d("RESPONSE", "LOAD FROM CACHE")
@@ -77,14 +77,13 @@ class ForecastActivity : ListActivity() {
         startService(intent)
     }
 
-
     private fun startServiceForIconsRequest(count: Int, list: Array<FutureWeatherInfo>){
         if (count == NUMBER_OF_FORECAST_DAYS) {
             setView()
         }else{
             val futureWI = list[count]
-            Log.d("OnCache", futureWI._date+ "\n")
-            var icon: Bitmap? = iconCache.pop(futureWI._icon)
+            Log.d("OnCache", futureWI._icon+ "\n")
+            var icon: Bitmap? = application.iconCache.pop(futureWI.icon)
             if (icon != null) {
                 futureWI.image = icon
                 startServiceForIconsRequest(count+1, list)
@@ -94,16 +93,14 @@ class ForecastActivity : ListActivity() {
                 var iconReceiver = object : ResultReceiver(Handler()) {
                     override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                         super.onReceiveResult(resultCode, resultData)
+                        stopService(intent)
                         var image: Bitmap = resultData!!.getParcelable("icon")
                         futureWI.image = image
-                        iconCache.push(futureWI._icon, image)
-                        stopService(intent)
-
                         startServiceForIconsRequest(count+1, list)
                     }
                 }
                 intent.putExtra("iconReceiver", iconReceiver)
-                intent.putExtra("icon", currentWeather!!.currentInfo._icon)
+                intent.putExtra("icon", futureWI._icon)
 
                 startService(intent)
             }

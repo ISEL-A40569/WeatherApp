@@ -22,7 +22,7 @@ class IconCache {
 
     fun push(key: String, icon: Bitmap) {
         if(!iconMap.containsKey(key)){
-            Log.d("OnCache", "Pushing key "+ key)
+            Log.d("OnCache", "Push key "+ key)
             iconMap.put(key, icon)
         }
     }

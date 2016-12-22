@@ -26,7 +26,7 @@ val DTO_MAPPER = DtoToDomainMapper()
 val JSON_MAPPER = JsonToDtoMapper()
 
 val crud = WeatherCrudFunctions()
-val iconCache = IconCache()
+
 
 var isBatteryLow = false
 
@@ -44,6 +44,7 @@ class WeatherApp : Application() {
 
     var isConnected = false
 
+    val iconCache = IconCache()
 
     override fun onCreate() {
         super.onCreate()
@@ -145,3 +146,5 @@ val Application.alarmManager : AlarmManager
 val Application.isConnected : Boolean
     get() = (this as WeatherApp).isConnected
 
+val Application.iconCache : IconCache
+    get() = (this as WeatherApp).iconCache

@@ -30,6 +30,7 @@ class IconService : IntentService("IconService"){
         Log.d("OnIconService", "onHandleIntent start")
         val receiver: ResultReceiver = intent!!.getParcelableExtra("iconReceiver")
         val icon = intent!!.getStringExtra("icon")
+        Log.d("OnIconService", "icon is " + icon)
 
         makeIconRequest(icon, receiver)
         Log.d("OnIconService", "onHandleIntent end")
@@ -50,7 +51,7 @@ class IconService : IntentService("IconService"){
         return object : Callback<Bitmap> {
             override fun onSuccess(icon: Bitmap) {
                 Log.d("OnIconService", "getIconRequestCallback onSuccess")
-                iconCache.push(iconCode, icon)
+                application.iconCache.push(iconCode, icon)
                 sendInfo(receiver, "icon", icon)
             }
         }
