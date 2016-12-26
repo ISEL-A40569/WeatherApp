@@ -52,12 +52,6 @@
 
         <activity android:name=".UpdateIntervalSettingActivity" />
 
-        <receiver android:name=".broadcast_receivers.BatteryLevelReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BATTERY_LOW" />
-                <action android:name="android.intent.action.BATTERY_OKAY" />
-            </intent-filter>
-        </receiver>
         <receiver
             android:name=".broadcast_receivers.NotificationsReceiver"
             android:enabled="true"

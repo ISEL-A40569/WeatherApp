@@ -20,6 +20,13 @@ import pdm.isel.yawa.model.DtoToDomainMapper
 import pdm.isel.yawa.provider.WeatherCrudFunctions
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
+import android.content.IntentFilter
+
+import android.os.BatteryManager
+import android.os.BatteryManager.EXTRA_LEVEL
+
+
+
 
 val URI_FACTORY = RequestUriFactory()
 val DTO_MAPPER = DtoToDomainMapper()
@@ -57,6 +64,8 @@ class WeatherApp : Application() {
                 connectivityManager.activeNetworkInfo.isConnected
 
         getPreferences(prefs!!)
+
+        Log.d("BATTERY_LEVEL", getBatteryLevel().toString())
 
         //setWeatherReceiver()TODO
 
@@ -126,6 +135,16 @@ class WeatherApp : Application() {
                     pendingAlarmIntent
             )
         }
+    }
+
+    fun getBatteryLevel() : Int{
+        val ifilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        val batteryStatus = applicationContext.registerReceiver(null, ifilter)
+
+        val level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+        val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+
+        return ((level / scale.toFloat() ) * 100).toInt()
     }
 
 }
