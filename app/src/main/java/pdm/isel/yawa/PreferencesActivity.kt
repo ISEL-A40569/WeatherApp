@@ -27,4 +27,11 @@ class PreferencesActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun onBatteryLevelSettings(view: View){
+        val intent = Intent(this, BatteryLevelSettingsActivity::class.java)
+        startActivity(intent)
     }
+
+}
+
+

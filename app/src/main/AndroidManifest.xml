@@ -72,6 +72,8 @@
         <service
             android:name=".services.IconService"
             android:exported="false" />
+
+        <activity android:name=".BatteryLevelSettingsActivity"></activity>
     </application>
 
 </manifest>

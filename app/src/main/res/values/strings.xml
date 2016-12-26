@@ -50,6 +50,7 @@
     <!--STRINGS OF PREFERENCES ACTIVITY-->
     <string name="AutoUpdate">Set Auto Update</string>
     <string name="Notifications">Set Notifications</string>
+    <string name="BLevel">Set Minimum Battery Level</string>
 
     <!--STRINGS OF SELECTION ACTIVITY-->
     <string name="SelectCity">Select City</string>

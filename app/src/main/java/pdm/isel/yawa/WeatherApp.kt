@@ -61,7 +61,7 @@ class WeatherApp : Application() {
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
         isConnected = connectivityManager.activeNetworkInfo != null &&
-                connectivityManager.activeNetworkInfo.isConnected
+                connectivityManager.activeNetworkInfo.isConnected //TODO: do this in weather service, and also adjust isBatteryLow with battery level
 
         getPreferences(prefs!!)
 
