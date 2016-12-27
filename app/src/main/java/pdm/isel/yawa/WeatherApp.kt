@@ -23,7 +23,9 @@ import java.util.*
 import android.content.IntentFilter
 
 import android.os.BatteryManager
-import android.os.BatteryManager.EXTRA_LEVEL
+
+
+
 
 
 
@@ -63,9 +65,13 @@ class WeatherApp : Application() {
         isConnected = connectivityManager.activeNetworkInfo != null &&
                 connectivityManager.activeNetworkInfo.isConnected //TODO: do this in weather service, and also adjust isBatteryLow with battery level
 
+        var isWifi = connectivityManager.activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI
+
         getPreferences(prefs!!)
 
         Log.d("BATTERY_LEVEL", getBatteryLevel().toString())
+        Log.d("BATTERY_LEVEL", isCharging().toString())
+        Log.d("BATTERY_LEVEL", isWifi.toString())
 
         //setWeatherReceiver()TODO
 
@@ -83,6 +89,7 @@ class WeatherApp : Application() {
         areNotificationsOn = prefs.getBoolean("areNotificationsOn", true)
         hourValue = prefs.getInt("hour", 22)
         minutesValue = prefs.getInt("minutes", 26)
+        wifiOnly = prefs.getBoolean("wifiOnly", false)
 
         Log.d("AppGetPrefs" , updateInterval.toString())
         Log.d("AppGetPrefs" , areNotificationsOn.toString())
@@ -144,7 +151,16 @@ class WeatherApp : Application() {
         val level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
         val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
 
-        return ((level / scale.toFloat() ) * 100).toInt()
+                return ((level / scale.toFloat() ) * 100).toInt()
+    }
+
+    fun isCharging() : Boolean{
+        val ifilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        val batteryStatus = applicationContext.registerReceiver(null, ifilter)
+
+        val status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+
+        return status == BatteryManager.BATTERY_STATUS_CHARGING
     }
 
 }
