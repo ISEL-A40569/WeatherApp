@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun onDbTest(view: View) {//TODO: change this to onMenu after creating menu
+    fun onMenu(view: View) {
         val intent = Intent(this, PreferencesActivity::class.java)
         startActivity(intent)
     }

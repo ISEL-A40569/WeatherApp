@@ -53,6 +53,7 @@
     <!--STRINGS OF PREFERENCES ACTIVITY-->
     <string name="AutoUpdate">Definir Actualizações Automáticas</string>
     <string name="Notifications">Definir Notificações</string>
+    <string name="BLevel">Definir Nivel Mininmo de Bateria</string>
 
     <!--STRINGS OF SELECTION ACTIVITY-->
     <string name="SelectCity">Definir Cidade</string>

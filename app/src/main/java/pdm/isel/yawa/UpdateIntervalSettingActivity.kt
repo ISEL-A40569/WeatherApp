@@ -7,11 +7,13 @@ import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 
 var updateInterval: Long = 0
+var wifiOnly = false
 
 class UpdateIntervalSettingActivity : AppCompatActivity() {
     var editText: EditText? = null
@@ -20,6 +22,23 @@ class UpdateIntervalSettingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_interval_setting)
         editText = findViewById(R.id.UptdateTimeText) as EditText
+
+        var checkBox = findViewById(R.id.WifiCheckBox) as CheckBox
+        checkBox.setChecked(wifiOnly)
+        checkBox.setOnClickListener {
+
+            wifiOnly = !wifiOnly
+
+            application.editor.putBoolean("wifiOnly", wifiOnly)
+
+            if(wifiOnly){
+                Toast.makeText(this, "Only Wifi Allowed", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "All Connections Allowed", Toast.LENGTH_SHORT).show()
+            }
+
+            application.editor.commit()
+        }
     }
 
     fun onUpdateTime(view: View){

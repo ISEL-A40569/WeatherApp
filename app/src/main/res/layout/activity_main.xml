@@ -9,127 +9,125 @@
     tools:context="pdm.isel.yawa.MainActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:weightSum="1"
-            android:layout_weight="1.10">
-g
+            android:layout_weight="1.10"
+            android:orientation="vertical"
+            android:weightSum="1">
+            g
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:text="Db Test activity"
+                    android:id="@+id/menu_Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/DbTest"
                     android:layout_weight="1"
-                    android:onClick="onDbTest"/>
+                    android:onClick="onMenu"
+                    android:text="Menu" />
 
                 <Button
-                android:text="@string/refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/refresh_button"
-                android:layout_weight="1"
-                android:onClick="onRefresh"/>
+                    android:id="@+id/refresh_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onRefresh"
+                    android:text="@string/refresh" />
 
-            <Button
-                android:text="@string/seeCredits"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/credits_button"
-                android:layout_weight="1"
-                android:onClick="onCredits"/>
+                <Button
+                    android:id="@+id/credits_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onCredits"
+                    android:text="@string/seeCredits" />
 
             </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom|center"
-                android:textSize="45dp"
                 android:id="@+id/main_city"
+                style="@style/MainInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.24"
-                style="@style/MainInfo"/>
+                android:gravity="bottom|center"
+                android:textSize="45dp" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="15dp"
                 android:id="@+id/main_country"
-                style="@style/MainInfo"/>
-
-            <TextView
+                style="@style/MainInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="20dp"
+                android:textSize="15dp" />
+
+            <TextView
                 android:id="@+id/main_description"
                 style="@style/MainInfo"
-                />
-
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:id="@+id/main_temp"
-                android:elevation="1dp"
-                android:textSize="80dp"
-                android:layout_weight="0.24"
-                style="@style/MainInfo"/>
+                android:textSize="20dp" />
 
-            <ImageView
+            <TextView
+                android:id="@+id/main_temp"
+                style="@style/MainInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/dialog_frame"
+                android:layout_weight="0.24"
+                android:elevation="1dp"
+                android:gravity="center"
+                android:textSize="80dp" />
+
+            <ImageView
                 android:id="@+id/main_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.43"
-                />
+                app:srcCompat="@android:drawable/dialog_frame" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_height="58dp"
             android:layout_gravity="bottom"
-            android:layout_height="58dp">
+            android:orientation="horizontal">
 
             <Button
-                android:text="@string/detail"
+                android:id="@+id/detail_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/detail_button"
                 android:layout_weight="1"
                 android:onClick="onDetails"
-                />
+                android:text="@string/detail" />
 
             <Button
-                android:text="@string/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/more_button"
-                android:layout_weight="1"
-                android:onClick="onNext"/>
-
-            <Button
-                android:text="@string/choose_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/city_button"
                 android:layout_weight="1"
-                android:onClick="onCity"/>
+                android:onClick="onNext"
+                android:text="@string/next" />
+
+            <Button
+                android:id="@+id/city_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onCity"
+                android:text="@string/choose_city" />
 
 
         </LinearLayout>
