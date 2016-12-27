@@ -94,12 +94,13 @@ class WeatherService() : IntentService("WeatherService") {
 
             var id = crud.verifyIfCityExists(contentResolver,
                     null,
-                    "name = '" + location + "' and language = '" + language + "'",
+                    "name = '" + current.cityName + "' and language = '" + current.language + "' and country = '" + current.country+"'",
                     null, null)
 
             if (id < 0) {
                 id = crud.insertNewCity(contentResolver, current!!)
             }
+
 
             var curr = crud.queryCurrent(contentResolver, null, "currentid = " + id, null, null, id)
             if (curr != null) {
@@ -132,6 +133,7 @@ class WeatherService() : IntentService("WeatherService") {
                     sendInfo(receiver, "forecast", forecast!!)
                     Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
                     //TODO: insertInDB(forecast)
+                    saveForecast(forecast as Forecast)
 
                 }
 //                    var id = crud.verifyIfCityExists(contentResolver,
@@ -160,5 +162,21 @@ class WeatherService() : IntentService("WeatherService") {
         }
     }
 
+    private fun saveForecast(forecast: Forecast){
+        var id = crud.verifyIfCityExists(contentResolver,
+                            null,
+                            "name = '" + location + "' and language = '" + language + "'",
+                            null,null)
+
+        //if (id < 0){ id = crud.insertNewCity(contentResolver, forecast!!) }
+
+        var curr = crud.queryForecast(contentResolver, null, "forecastid = "+id, null, null, id)
+        if (curr != null){
+            crud.deleteFutureWeatherInfo(contentResolver, "forecastid = "+id, null)
+        }
+
+        for (list in forecast!!.list)
+            crud.insertFutureWeatherInfo(contentResolver, list, id)
+    }
 
 }
