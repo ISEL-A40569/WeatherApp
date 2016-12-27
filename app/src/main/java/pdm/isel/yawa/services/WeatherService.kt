@@ -77,6 +77,7 @@ class WeatherService() : IntentService("WeatherService") {
             override fun onSuccess(response: JSONObject) {
                     current = DTO_MAPPER.mapCurrentDto(
                             JSON_MAPPER.mapWeatherInfoJson(response.toString()))
+                    current!!.language = language
                     Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)
                     sendInfo(receiver, "current", current!!)
                     insertInDB(current)
@@ -127,7 +128,7 @@ class WeatherService() : IntentService("WeatherService") {
                 if (response != null) {
                     forecast = DTO_MAPPER.mapForecastDto(
                             JSON_MAPPER.mapForecastJson(response.toString()))
-
+                    forecast!!.language = language
                     sendInfo(receiver, "forecast", forecast!!)
                     Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
                     //TODO: insertInDB(forecast)
