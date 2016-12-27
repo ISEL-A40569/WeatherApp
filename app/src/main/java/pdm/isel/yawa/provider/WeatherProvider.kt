@@ -19,8 +19,6 @@ class WeatherProvider : ContentProvider() {
     private val CURRENT_WI_OBJ = 4
     private val FUTURE_WI_LST = 5
     private val FUTURE_WI_OBJ = 6
-    //TODO potencialmente aqui estará um erro
-    // um LST e um OBJ para cada objecto
 
     private val URI_MATCHER: UriMatcher
 

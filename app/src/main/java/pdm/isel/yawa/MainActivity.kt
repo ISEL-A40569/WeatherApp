@@ -65,11 +65,11 @@ class MainActivity : AppCompatActivity() {
 
         } else {
             //TODO: load from data base
-//                var cityId = crud.verifyIfCityExists(contentResolver, null
-//                        , "name = '" + location + "' and language = '" + language + "'"
-//                        , null, null)
-//                if (cityId > 0)
-//                    currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
+                var cityId = crud.verifyIfCityExists(contentResolver, null
+                        , "name = '" + location + "' and language = '" + language + "'"
+                        , null, null)
+                if (cityId > 0)
+                    currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
             getIcon(currentWeather!!.currentInfo.icon)
         }
     }
