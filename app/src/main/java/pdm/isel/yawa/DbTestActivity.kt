@@ -25,20 +25,20 @@ class DbTestActivity : ListActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
     override fun onCreateLoader(id: Int, args: Bundle?) =
 
-        when (id) {
-            WEATHER_LOADER -> CursorLoader(
-                    this,
-                    WeatherContract.City.CONTENT_URI,
-                    WeatherContract.City.SELECT_TEST,
-                    null,
-                    null,
-                    null
-            )
-            else -> {
-                Log.w("Profs", "Unknown id for loader")
-                throw IllegalArgumentException("id")
+            when (id) {
+                WEATHER_LOADER -> CursorLoader(
+                        this,
+                        WeatherContract.City.CONTENT_URI,
+                        WeatherContract.City.SELECT_TEST,
+                        null,
+                        null,
+                        null
+                )
+                else -> {
+                    Log.w("Profs", "Unknown id for loader")
+                    throw IllegalArgumentException("id")
+                }
             }
-        }
 
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
@@ -49,7 +49,7 @@ class DbTestActivity : ListActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
     val adapter by lazy {
         val from = arrayOf(WeatherContract.City.NAME, "_id")
-        val to   = intArrayOf(android.R.id.text1, android.R.id.text2)
+        val to = intArrayOf(android.R.id.text1, android.R.id.text2)
 
         SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, null, from, to, 0)
     }

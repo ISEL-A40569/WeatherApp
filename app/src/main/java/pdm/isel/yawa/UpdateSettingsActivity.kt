@@ -12,10 +12,10 @@ import android.widget.EditText
 import android.widget.Toast
 import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 
-var updateInterval: Long = 0
+var updateInterval: Int = 0
 var wifiOnly = false
 
-class UpdateIntervalSettingActivity : AppCompatActivity() {
+class UpdateSettingsActivity : AppCompatActivity() {
     var editText: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,9 +31,9 @@ class UpdateIntervalSettingActivity : AppCompatActivity() {
 
             application.editor.putBoolean("wifiOnly", wifiOnly)
 
-            if(wifiOnly){
+            if (wifiOnly) {
                 Toast.makeText(this, "Only Wifi Allowed", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 Toast.makeText(this, "All Connections Allowed", Toast.LENGTH_SHORT).show()
             }
 
@@ -41,20 +41,20 @@ class UpdateIntervalSettingActivity : AppCompatActivity() {
         }
     }
 
-    fun onUpdateTime(view: View){
+    fun onUpdateTime(view: View) {
         Log.d("OnUpdatingInterval", updateInterval.toString())
-        updateInterval =  editText!!.text.toString().toLong()
-        application.editor.putLong("updateInterval", updateInterval)
+        updateInterval = editText!!.text.toString().toInt()
+        application.editor.putInt("updateInterval", updateInterval)
         application.editor.commit()
 
-        var pendingAlarmIntent = android.app.PendingIntent.getBroadcast(applicationContext,0, Intent(applicationContext, WeatherBroadcastReceiver::class.java), 0)
+        var pendingAlarmIntent = android.app.PendingIntent.getBroadcast(applicationContext, 0, Intent(applicationContext, WeatherBroadcastReceiver::class.java), 0)
 
         application.alarmManager.cancel(pendingAlarmIntent)
 
         application.alarmManager.setRepeating(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() + updateInterval,
-                updateInterval * 60000,
+                updateInterval * 60000L,
                 pendingAlarmIntent)
 
         Toast.makeText(this, updateInterval.toString() + " min", Toast.LENGTH_LONG).show()

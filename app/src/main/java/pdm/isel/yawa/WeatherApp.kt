@@ -20,14 +20,6 @@ import pdm.isel.yawa.model.DtoToDomainMapper
 import pdm.isel.yawa.provider.WeatherCrudFunctions
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
-import android.content.IntentFilter
-
-import android.os.BatteryManager
-
-
-
-
-
 
 
 val URI_FACTORY = RequestUriFactory()
@@ -36,21 +28,18 @@ val JSON_MAPPER = JsonToDtoMapper()
 
 val crud = WeatherCrudFunctions()
 
-var isBatteryLow = false
-
 class WeatherApp : Application() {
     val MY_PREFS_NAME = "Prefs"
 
     val requestQueue by lazy { Volley.newRequestQueue(this) }
+
     var prefs: SharedPreferences? = null
 
     var editor: SharedPreferences.Editor? = null
 
     var alarmManager: AlarmManager? = null
 
-    val connectivityManager by lazy {getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager}
-
-    var isConnected = false
+    var connectivityManager: ConnectivityManager? = null
 
     val iconCache = IconCache()
 
@@ -62,39 +51,32 @@ class WeatherApp : Application() {
         editor = prefs!!.edit()
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
-        isConnected = connectivityManager.activeNetworkInfo != null &&
-                connectivityManager.activeNetworkInfo.isConnected //TODO: do this in weather service, and also adjust isBatteryLow with battery level
-
-        var isWifi = connectivityManager.activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         getPreferences(prefs!!)
 
-        Log.d("BATTERY_LEVEL", getBatteryLevel().toString())
-        Log.d("BATTERY_LEVEL", isCharging().toString())
-        Log.d("BATTERY_LEVEL", isWifi.toString())
-
         //setWeatherReceiver()TODO
 
-        if(areNotificationsOn)
-        setNotificationsReceiver()
+        if (areNotificationsOn)
+            setNotificationsReceiver()
     }
 
     fun getPreferences(prefs: SharedPreferences) {
-        Log.d("AppGetPrefs" , updateInterval.toString())
-        Log.d("AppGetPrefs" , areNotificationsOn.toString())
-        Log.d("AppGetPrefs" , hourValue.toString())
-        Log.d("AppGetPrefs" , minutesValue.toString())
+        Log.d("AppGetPrefs", updateInterval.toString())
+        Log.d("AppGetPrefs", areNotificationsOn.toString())
+        Log.d("AppGetPrefs", hourValue.toString())
+        Log.d("AppGetPrefs", minutesValue.toString())
 
-        updateInterval = prefs.getLong("updateInterval", 1)
+        updateInterval = prefs.getInt("updateInterval", 1)
         areNotificationsOn = prefs.getBoolean("areNotificationsOn", true)
         hourValue = prefs.getInt("hour", 22)
         minutesValue = prefs.getInt("minutes", 26)
         wifiOnly = prefs.getBoolean("wifiOnly", false)
 
-        Log.d("AppGetPrefs" , updateInterval.toString())
-        Log.d("AppGetPrefs" , areNotificationsOn.toString())
-        Log.d("AppGetPrefs" , hourValue.toString())
-        Log.d("AppGetPrefs" , minutesValue.toString())
+        Log.d("AppGetPrefs", updateInterval.toString())
+        Log.d("AppGetPrefs", areNotificationsOn.toString())
+        Log.d("AppGetPrefs", hourValue.toString())
+        Log.d("AppGetPrefs", minutesValue.toString())
     }
 
     fun setNotificationsReceiver() {
@@ -138,47 +120,28 @@ class WeatherApp : Application() {
             alarmManager!!.setRepeating(
                     AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     SystemClock.elapsedRealtime() + updateInterval,
-                    updateInterval * 60000,
+                    updateInterval * 60000L,
                     pendingAlarmIntent
             )
         }
     }
 
-    fun getBatteryLevel() : Int{
-        val ifilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        val batteryStatus = applicationContext.registerReceiver(null, ifilter)
-
-        val level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
-        val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
-
-                return ((level / scale.toFloat() ) * 100).toInt()
-    }
-
-    fun isCharging() : Boolean{
-        val ifilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        val batteryStatus = applicationContext.registerReceiver(null, ifilter)
-
-        val status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-
-        return status == BatteryManager.BATTERY_STATUS_CHARGING
-    }
-
 }
 
-val Application.requestQueue : RequestQueue
+val Application.requestQueue: RequestQueue
     get() = (this as WeatherApp).requestQueue
 
-val Application.prefs : SharedPreferences
+val Application.prefs: SharedPreferences
     get() = (this as WeatherApp).prefs!!
 
-val Application.editor : SharedPreferences.Editor
+val Application.editor: SharedPreferences.Editor
     get() = (this as WeatherApp).editor!!
 
-val Application.alarmManager : AlarmManager
+val Application.alarmManager: AlarmManager
     get() = (this as WeatherApp).alarmManager!!
 
-val Application.isConnected : Boolean
-    get() = (this as WeatherApp).isConnected
+val Application.connectivityManager: ConnectivityManager
+    get() = (this as WeatherApp).connectivityManager!!
 
-val Application.iconCache : IconCache
+val Application.iconCache: IconCache
     get() = (this as WeatherApp).iconCache

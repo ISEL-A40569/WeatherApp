@@ -48,8 +48,7 @@
                 android:orientation="vertical"
                 android:layout_width="162dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.64"
-                >
+                android:layout_weight="0.64">
 
                 <TextView
                     android:text="@string/detail_temperature"
@@ -57,7 +56,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/textView8"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -65,7 +64,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/d_temp"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
                 <TextView
                     android:text="@string/detail_city_name"
@@ -73,7 +72,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/detail_name"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -81,7 +80,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/d_city"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
                 <TextView
                     android:text="@string/detail_country"
@@ -89,7 +88,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/textView16"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -97,7 +96,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/d_country"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
                 <TextView
                     android:text="@string/detail_date"
@@ -105,7 +104,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/textView17"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -113,7 +112,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/d_date"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
                 <TextView
                     android:text="@string/detail_description"
@@ -121,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textView33"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -129,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/d_desc"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
             </LinearLayout>
 
@@ -145,7 +144,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/textView12"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -153,7 +152,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/d_lon"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
                 <TextView
                     android:text="@string/detail_lat"
@@ -161,7 +160,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/textView10"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -169,7 +168,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/d_lat"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
                 <TextView
                     android:text="@string/detail_curr_pressure"
@@ -177,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textView27"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -185,7 +184,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/d_press"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
                 <TextView
                     android:text="@string/detail_wind_speed"
@@ -193,7 +192,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textView28"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -201,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/d_wind"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
                 <TextView
                     android:text="@string/detail_curr_hum"
@@ -209,7 +208,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textView31"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -217,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/d_hum"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
             </LinearLayout>
 
@@ -242,7 +241,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textView24"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -250,7 +249,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/d_sunset"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
                 <TextView
                     android:text="@string/detail_sunrise"
@@ -258,7 +257,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textView26"
                     android:textAlignment="center"
-                    style="@style/Titles"/>
+                    style="@style/Titles" />
 
                 <TextView
                     android:text="TextView"
@@ -266,7 +265,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/d_sunrise"
                     android:textAlignment="center"
-                    style="@style/MainInfo"/>
+                    style="@style/MainInfo" />
 
             </LinearLayout>
         </LinearLayout>

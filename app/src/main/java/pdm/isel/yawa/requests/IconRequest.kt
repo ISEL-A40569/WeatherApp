@@ -6,7 +6,6 @@ import android.widget.ImageView
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.ImageRequest
-import java.util.concurrent.CountDownLatch
 
 /**
  * Created by Dani on 16-12-2016.

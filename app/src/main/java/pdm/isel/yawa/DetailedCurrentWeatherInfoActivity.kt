@@ -48,7 +48,7 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
         image = findViewById(R.id.detail_image) as ImageView?
     }
 
-    override fun onStart(){
+    override fun onStart() {
         super.onStart()
         setViews()
     }

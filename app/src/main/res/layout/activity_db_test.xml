@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/ins"
                 android:layout_weight="1"
-                android:onClick="onInsert"/>
+                android:onClick="onInsert" />
 
             <Button
                 android:text="delete"
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/del"
                 android:layout_weight="1"
-                android:onClick="onDelete"/>
+                android:onClick="onDelete" />
 
             <Button
                 android:text="update"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/update"
                 android:layout_weight="1"
-                android:onClick="onUpdate"/>
+                android:onClick="onUpdate" />
 
         </LinearLayout>
 
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/getCurrent"
                 android:layout_weight="1"
-                android:onClick="onGetCurrent"/>
+                android:onClick="onGetCurrent" />
 
             <Button
                 android:text="getForecast"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/getForecast"
                 android:layout_weight="1"
-                android:onClick="onGetForecast"/>
+                android:onClick="onGetForecast" />
 
             <Button
                 android:text="getCurrWI"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/getCurrWI"
                 android:layout_weight="1"
-                android:onClick="onGetCurrentWI"/>
+                android:onClick="onGetCurrentWI" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,7 +92,7 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@android:id/list"/>
+                android:id="@android:id/list" />
         </LinearLayout>
     </LinearLayout>
 

@@ -9,13 +9,12 @@
         android:id="@+id/item_date_view"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        style="@style/MainInfo"/>
+        style="@style/MainInfo" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/item_icon_view"
-        android:layout_toRightOf="@id/item_date_view"
-        />
+        android:layout_toRightOf="@id/item_date_view" />
 
 </RelativeLayout>

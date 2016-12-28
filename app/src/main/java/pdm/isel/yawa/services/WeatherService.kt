@@ -1,23 +1,18 @@
 package pdm.isel.yawa.services
 
 import android.app.IntentService
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.os.*
+import android.os.Bundle
+import android.os.ResultReceiver
 import android.util.Log
-import android.widget.Toast
-import com.android.volley.Response
-import com.android.volley.toolbox.RequestFuture
 import org.json.JSONObject
 import pdm.isel.yawa.*
-import pdm.isel.yawa.model.*
-import pdm.isel.yawa.provider.WeatherCrudFunctions
+import pdm.isel.yawa.model.CityInfo
+import pdm.isel.yawa.model.Current
+import pdm.isel.yawa.model.Forecast
 import pdm.isel.yawa.requests.Callback
 import pdm.isel.yawa.requests.DataRequest
-import pdm.isel.yawa.requests.IconRequest
 import pdm.isel.yawa.uri.RequestUriFactory
-import java.util.concurrent.CountDownLatch
 
 
 /**
@@ -80,7 +75,7 @@ class WeatherService() : IntentService("WeatherService") {
                     current!!.language = language
                     Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)
                     sendInfo(receiver, "current", current!!)
-                    insertInDB(current)
+                    //insertInDB(current)
             }
         }
 

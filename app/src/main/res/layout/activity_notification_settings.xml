@@ -20,14 +20,14 @@
         android:id="@+id/HourSelectionBox"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:shadowColor="@color/colorPrimary"/>
+        android:shadowColor="@color/colorPrimary" />
 
     <EditText
         android:layout_below="@+id/HourSelectionBox"
         android:id="@+id/MinutesSelectionBox"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:shadowColor="@color/colorPrimary"/>
+        android:shadowColor="@color/colorPrimary" />
 
 
     <Button
@@ -35,6 +35,6 @@
         android:id="@+id/DefineTimeButton"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:text="set"/>
+        android:text="set" />
 
 </RelativeLayout>

@@ -50,7 +50,7 @@
             android:name=".services.WeatherService"
             android:exported="false" />
 
-        <activity android:name=".UpdateIntervalSettingActivity" />
+        <activity android:name=".UpdateSettingsActivity" />
 
         <receiver
             android:name=".broadcast_receivers.NotificationsReceiver"

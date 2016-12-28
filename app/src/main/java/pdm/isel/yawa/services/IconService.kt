@@ -8,13 +8,9 @@ import android.os.ResultReceiver
 import android.util.Log
 import pdm.isel.yawa.URI_FACTORY
 import pdm.isel.yawa.iconCache
-import pdm.isel.yawa.model.BaseWeatherInfo
-import pdm.isel.yawa.model.CityInfo
-import pdm.isel.yawa.model.FutureWeatherInfo
 import pdm.isel.yawa.requestQueue
 import pdm.isel.yawa.requests.Callback
 import pdm.isel.yawa.requests.IconRequest
-import java.util.concurrent.CountDownLatch
 
 /**
  * Created by Dani on 20-12-2016.
