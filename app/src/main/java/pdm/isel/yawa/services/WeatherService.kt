@@ -76,6 +76,7 @@ class WeatherService() : IntentService("WeatherService") {
                     Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)
                     sendInfo(receiver, "current", current!!)
                     //insertInDB(current)
+                    application.DbApi.insert(current!!)
             }
         }
 
@@ -127,8 +128,9 @@ class WeatherService() : IntentService("WeatherService") {
                     forecast!!.language = language
                     sendInfo(receiver, "forecast", forecast!!)
                     Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
-                    //TODO: insertInDB(forecast)
-                    saveForecast(forecast as Forecast)
+                    //saveForecast(forecast as Forecast)
+
+                    application.DbApi.insert(forecast!!)
 
                 }
 //                    var id = crud.verifyIfCityExists(contentResolver,

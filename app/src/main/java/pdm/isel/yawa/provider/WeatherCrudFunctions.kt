@@ -145,14 +145,13 @@ class WeatherCrudFunctions {
         return list
     }
 
-
     fun queryCurrent(cr: ContentResolver, projection: Array<out String>?
                      , selection: String?
                      , selectionArgs: Array<out String>?
                      , sortOrder: String?
                      , id: Int): Current?? {
 
-        var cursorwi = cr.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI, null, "currentid = " + id, selectionArgs, "_id")
+        var cursorwi = cr.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI, projection, "currentid = " + id, selectionArgs, "_id")
         var cursorCity = cr.query(WeatherContract.City.CONTENT_URI, projection, "_id = " + id, selectionArgs, sortOrder)
 
         if (cursorCity.count == 0 || cursorwi.count == 0) {
@@ -211,7 +210,7 @@ class WeatherCrudFunctions {
                     , cursorfwi.getString(9)
                     , cursorfwi.getString(10)
             )
-            arrayOfFutureWeatherInfo[index++]
+            arrayOfFutureWeatherInfo[index++] = futureAux
         }
         var fwi = Forecast(cursorCity.getString(2)
                 , cursorCity.getString(3)

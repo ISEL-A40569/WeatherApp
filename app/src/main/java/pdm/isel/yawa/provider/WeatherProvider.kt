@@ -139,7 +139,7 @@ class WeatherProvider : ContentProvider() {
 
         Log.d("YAWA_TAG", "WeatherProvider - update")
         val table: String
-        if (selection != null) throw IllegalArgumentException("selection not supported")
+       // if (selection != null) throw IllegalArgumentException("selection not supported")
         when (URI_MATCHER.match(uri)) {
             CITY_LST -> table = DbSchema.City.TBL_NAME
             CURRENT_WI_LST -> table = DbSchema.CurrentWeatherInfo.TBL_NAME

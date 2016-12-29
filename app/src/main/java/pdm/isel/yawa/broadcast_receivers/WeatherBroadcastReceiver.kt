@@ -9,6 +9,7 @@ import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.ResultReceiver
+import android.support.v4.content.WakefulBroadcastReceiver
 import android.util.Log
 import pdm.isel.yawa.*
 import pdm.isel.yawa.services.WeatherService
@@ -16,7 +17,7 @@ import pdm.isel.yawa.services.WeatherService
 /**
  * Created by Dani on 08-12-2016.
  */
-class WeatherBroadcastReceiver : BroadcastReceiver() {
+class WeatherBroadcastReceiver : WakefulBroadcastReceiver() {
     var connectivityManager: ConnectivityManager? = null
     var cnxt: Context? = null
 
@@ -40,7 +41,6 @@ class WeatherBroadcastReceiver : BroadcastReceiver() {
             intent.putExtra("language", language)
             context!!.startService(intent)
 
-//            if (isConnected && !isBatteryLow)TODO: wheres the best place to do this!?
 
 //            TODO: Something like:
 //            foreach(CityInfo ci in list){}
@@ -94,7 +94,7 @@ class WeatherBroadcastReceiver : BroadcastReceiver() {
 
         Log.d("isCharging", (status == BatteryManager.BATTERY_STATUS_CHARGING).toString())
 
-        return status == BatteryManager.BATTERY_STATUS_CHARGING
+        return status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL
     }
 
 }

@@ -60,16 +60,17 @@ class MainActivity : AppCompatActivity() {
             startServiceForDataRequest()
 
         } else {
-            //TODO: load from data base
-            var cityId = crud.verifyIfCityExists(contentResolver, null
-                    , "name = '$location' and language = '$language'"
-                    , null, null)
-            if (cityId > 0)
-                currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
-            Log.d("DB_DEBUG", currentWeather!!.name)
-            Log.d("DB_DEBUG", currentWeather!!.language)
-            Log.d("DB_DEBUG", currentWeather!!.country)
+//            var cityId = crud.verifyIfCityExists(contentResolver, null
+//                    , "name = '$location' and language = '$language'"
+//                    , null, null)
+//            if (cityId > 0)
+//                currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
+//            Log.d("DB_DEBUG", currentWeather!!.name)
+//            Log.d("DB_DEBUG", currentWeather!!.language)
+//            Log.d("DB_DEBUG", currentWeather!!.country)
 
+
+            currentWeather = application.DbApi.getCurrent(location!!, language, "PT")
             getIcon(currentWeather!!.currentInfo.icon)
         }
     }
@@ -171,9 +172,9 @@ class MainActivity : AppCompatActivity() {
 
         val status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
-        Log.d("isCharging", (status == BatteryManager.BATTERY_STATUS_CHARGING).toString())
+        Log.d("isCharging", (status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL).toString())
 
-        return status == BatteryManager.BATTERY_STATUS_CHARGING
+        return status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL
     }
 
     fun onRefresh(view: View) {

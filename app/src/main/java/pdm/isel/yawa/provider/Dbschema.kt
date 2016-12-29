@@ -61,7 +61,7 @@ object DbSchema {
                             "PRIMARY KEY ("+COL_ID+", "+ COL_CITY_ID+"), " +
                             "FOREIGN KEY ("+COL_CITY_ID+") REFERENCES city("+ COL_ID +" ) " +
                             " );"
-        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME + ";"
+        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS $TBL_NAME;"
     }
 
     object CurrentWeatherInfo {

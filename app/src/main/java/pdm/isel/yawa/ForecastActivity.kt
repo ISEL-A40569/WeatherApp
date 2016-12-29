@@ -152,7 +152,7 @@ class ForecastActivity : ListActivity() {
 
         Log.d("isCharging", (status == BatteryManager.BATTERY_STATUS_CHARGING).toString())
 
-        return status == BatteryManager.BATTERY_STATUS_CHARGING
+        return status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL
     }
 }
 

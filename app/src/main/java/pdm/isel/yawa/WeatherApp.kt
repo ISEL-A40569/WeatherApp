@@ -18,6 +18,7 @@ import pdm.isel.yawa.icons.IconCache
 import pdm.isel.yawa.json.JsonToDtoMapper
 import pdm.isel.yawa.model.DtoToDomainMapper
 import pdm.isel.yawa.provider.WeatherCrudFunctions
+import pdm.isel.yawa.provider.WeatherDatabaseApi
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
@@ -43,6 +44,8 @@ class WeatherApp : Application() {
 
     val iconCache = IconCache()
 
+    var DbApi: WeatherDatabaseApi? = null
+
     override fun onCreate() {
         super.onCreate()
         Log.d("Weather/App", "WeatherApp onCreate")
@@ -50,8 +53,8 @@ class WeatherApp : Application() {
         prefs = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE)
         editor = prefs!!.edit()
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        DbApi = WeatherDatabaseApi(contentResolver)
 
         getPreferences(prefs!!)
 
@@ -145,3 +148,6 @@ val Application.connectivityManager: ConnectivityManager
 
 val Application.iconCache: IconCache
     get() = (this as WeatherApp).iconCache
+
+val Application.DbApi: WeatherDatabaseApi
+    get() = (this as WeatherApp).DbApi!!
