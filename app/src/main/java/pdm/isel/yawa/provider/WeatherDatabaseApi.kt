@@ -58,13 +58,13 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
                 null
         )
 
-        cursor.moveToFirst()
+        cursor.moveToNext()
 
-        return Current(cursor.getString(2)
+        return Current(cursor.getString(1)
+                , cursor.getString(2)
                 , cursor.getString(3)
                 , cursor.getString(4)
-                , cursor.getString(5)
-                , getCurrentWeatherInfo(cursor.getInt(1)))
+                , getCurrentWeatherInfo(cursor.getInt(0)))
 
     }
 
@@ -79,11 +79,11 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
 
         cursor.moveToNext()
 
-        return Forecast(cursor.getString(2)
+        return Forecast(cursor.getString(1)
+                , cursor.getString(2)
                 , cursor.getString(3)
                 , cursor.getString(4)
-                , cursor.getString(5)
-                , getFutureWeatherInfos(cursor.getInt(1)))
+                , getFutureWeatherInfos(cursor.getInt(0)))
     }
 
     private fun insert(cwi: CurrentWeatherInfo, cid: Int) {

@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
 //            Log.d("DB_DEBUG", currentWeather!!.language)
 //            Log.d("DB_DEBUG", currentWeather!!.country)
 
+            Log.d("RESPONSE", "LOAD CURRENT FROM DATABASE")
 
             currentWeather = application.DbApi.getCurrent(location!!, language, "PT")
             getIcon(currentWeather!!.currentInfo.icon)
