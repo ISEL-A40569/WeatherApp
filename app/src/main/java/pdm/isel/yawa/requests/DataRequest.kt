@@ -1,13 +1,10 @@
 package pdm.isel.yawa.requests
 
-import android.graphics.Bitmap
 import android.util.Log
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
-import pdm.isel.yawa.model.CityInfo
 
 
 class DataRequest(url: String, callback: Callback<JSONObject>) : JsonObjectRequest(

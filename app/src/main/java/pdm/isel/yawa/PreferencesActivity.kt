@@ -12,22 +12,22 @@ class PreferencesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_preferences)
     }
 
-    fun onUpdateIntervalSetting(view: View){
-        val intent = Intent(this, UpdateIntervalSettingActivity::class.java)
+    fun onUpdateIntervalSetting(view: View) {
+        val intent = Intent(this, UpdateSettingsActivity::class.java)
         startActivity(intent)
     }
 
-    fun onSelectCity(view: View){
+    fun onSelectCity(view: View) {
         val intent = Intent(this, SelectionActivity::class.java)
         startActivity(intent)
     }
 
-    fun onNotificationSettings(view: View){
+    fun onNotificationSettings(view: View) {
         val intent = Intent(this, NotificationSettingsActivity::class.java)
         startActivity(intent)
     }
 
-    fun onBatteryLevelSettings(view: View){
+    fun onBatteryLevelSettings(view: View) {
         val intent = Intent(this, BatteryLevelSettingsActivity::class.java)
         startActivity(intent)
     }

@@ -26,8 +26,7 @@
         android:layout_centerVertical="true"
         android:layout_below="@id/developedByTextView"
         android:id="@+id/fabioText"
-        android:text="@string/fabio"
-        />
+        android:text="@string/fabio" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,8 +35,7 @@
         android:layout_centerVertical="true"
         android:layout_below="@id/fabioText"
         android:id="@+id/daniText"
-        android:text="@string/dani"
-        />
+        android:text="@string/dani" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,7 +53,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_below="@id/datasourcetext"
-        android:text="@string/weathermap"
-        />
+        android:text="@string/weathermap" />
 
 </RelativeLayout>

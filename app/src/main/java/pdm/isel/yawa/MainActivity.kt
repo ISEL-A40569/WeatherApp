@@ -1,7 +1,10 @@
 package pdm.isel.yawa
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
+import android.net.ConnectivityManager
+import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.ResultReceiver
@@ -11,20 +14,13 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.android.volley.Response
-import org.json.JSONObject
 import pdm.isel.yawa.model.Current
-import pdm.isel.yawa.model.MyParcelable
-import pdm.isel.yawa.requests.IconRequest
-import pdm.isel.yawa.requests.DataRequest
-import pdm.isel.yawa.requests.Callback
 import pdm.isel.yawa.services.IconService
 import pdm.isel.yawa.services.WeatherService
-import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
 var language = Locale.getDefault().displayLanguage
-var location: String? = "Lisboa"
+var location: String? = null
 
 var currentWeather: Current? = null
 
@@ -58,21 +54,28 @@ class MainActivity : AppCompatActivity() {
 
         location = application.prefs.getString("city", "Lisbon")
 
-        if (application.isConnected && !isBatteryLow) {
+        if (isServiceAccessAllowed()) {
             Log.d("OnStart", "Network Available")
             Log.d("RESPONSE", "LOAD FROM REQUEST")
             startServiceForDataRequest()
 
         } else {
-            //TODO: load from data base
-                var cityId = crud.verifyIfCityExists(contentResolver, null
-                        , "name = '" + location + "' and language = '" + language + "'"
-                        , null, null)
-                if (cityId > 0)
-                    currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
+//            var cityId = crud.verifyIfCityExists(contentResolver, null
+//                    , "name = '$location' and language = '$language'"
+//                    , null, null)
+//            if (cityId > 0)
+//                currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
+//            Log.d("DB_DEBUG", currentWeather!!.name)
+//            Log.d("DB_DEBUG", currentWeather!!.language)
+//            Log.d("DB_DEBUG", currentWeather!!.country)
+
+            Log.d("RESPONSE", "LOAD CURRENT FROM DATABASE")
+
+            currentWeather = application.DbApi.getCurrent(location!!, language, "PT")
             getIcon(currentWeather!!.currentInfo.icon)
         }
     }
+
 
     private fun startServiceForDataRequest() {
         val intent = Intent(this, WeatherService::class.java)
@@ -81,6 +84,7 @@ class MainActivity : AppCompatActivity() {
                 super.onReceiveResult(resultCode, resultData)
                 stopService(intent)
                 currentWeather = resultData!!.getParcelable("current")
+                application.editor.putString("city", location)
                 application.editor.putString("temp", currentWeather!!.currentInfo.temp)
                 application.editor.putString("description", currentWeather!!.currentInfo._description)
                 getIcon(currentWeather!!.currentInfo._icon)
@@ -131,10 +135,51 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun isServiceAccessAllowed(): Boolean {
+        return isConnectionAvailable() && !isPowerLow()
+    }
+
+    private fun isConnectionAvailable(): Boolean {
+        var isConnected = application.connectivityManager!!.activeNetworkInfo != null &&
+                application.connectivityManager!!.activeNetworkInfo.isConnected
+
+        if (!isConnected) {
+            return false
+        } else {
+            if (wifiOnly)
+                return application.connectivityManager!!.activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI
+
+            return true
+        }
+    }
+
+    private fun isPowerLow(): Boolean {
+        return !isCharging() || getBatteryLevel() < minimumBatteryLevel
+    }
+
+    fun getBatteryLevel(): Int {
+        val ifilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        val batteryStatus = applicationContext.registerReceiver(null, ifilter)
+
+        val level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+        val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+
+        return ((level / scale.toFloat()) * 100).toInt()
+    }
+
+    fun isCharging(): Boolean {
+        val ifilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        val batteryStatus = applicationContext.registerReceiver(null, ifilter)
+
+        val status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+
+        Log.d("isCharging", (status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL).toString())
+
+        return status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL
+    }
 
     fun onRefresh(view: View) {
         startServiceForDataRequest()
-        //setViews()
     }
 
 

@@ -21,7 +21,7 @@
         android:id="@+id/UptdateTimeText"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:shadowColor="@color/colorPrimary"/>
+        android:shadowColor="@color/colorPrimary" />
 
     <Button
         android:layout_below="@+id/UptdateTimeText"
@@ -29,7 +29,7 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:text="Set"
-        android:onClick="onUpdateTime"/>
+        android:onClick="onUpdateTime" />
 
 
 </RelativeLayout>

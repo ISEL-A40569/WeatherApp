@@ -34,7 +34,7 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
         image = findViewById(R.id.future_image) as ImageView
     }
 
-    override fun onStart(){
+    override fun onStart() {
         super.onStart()
         setViews()
     }

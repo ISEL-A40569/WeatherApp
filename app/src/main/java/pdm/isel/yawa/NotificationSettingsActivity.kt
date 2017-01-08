@@ -40,44 +40,44 @@ class NotificationSettingsActivity : AppCompatActivity() {
 
             application.editor.putBoolean("areNotificationsOn", areNotificationsOn)
 
-            if(areNotificationsOn){
+            if (areNotificationsOn) {
                 Toast.makeText(this, "Notifications On", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 Toast.makeText(this, "Notifications Off", Toast.LENGTH_SHORT).show()
             }
 
             application.editor.commit()
         }
-            button.setOnClickListener {
-                Log.d("OnSettingNotifications", hourValue.toString())
-                Log.d("OnSettingNotifications", minutesValue.toString())
+        button.setOnClickListener {
+            Log.d("OnSettingNotifications", hourValue.toString())
+            Log.d("OnSettingNotifications", minutesValue.toString())
 
-                hourValue = Integer.valueOf(hour.text.toString())
-                minutesValue = Integer.valueOf(minutes.text.toString())
+            hourValue = Integer.valueOf(hour.text.toString())
+            minutesValue = Integer.valueOf(minutes.text.toString())
 
-                application.editor.putInt("hour", hourValue)
-                application.editor.putInt("minutes", minutesValue)
-                application.editor.commit()
+            application.editor.putInt("hour", hourValue)
+            application.editor.putInt("minutes", minutesValue)
+            application.editor.commit()
 
-                var pendingAlarmIntent = android.app.PendingIntent.getBroadcast(applicationContext,1, Intent(applicationContext, NotificationsReceiver::class.java), 0)
+            var pendingAlarmIntent = android.app.PendingIntent.getBroadcast(applicationContext, 1, Intent(applicationContext, NotificationsReceiver::class.java), 0)
 
-                application.alarmManager.cancel(pendingAlarmIntent)
+            application.alarmManager.cancel(pendingAlarmIntent)
 
-                val calendar = Calendar.getInstance()
-                calendar.set(Calendar.HOUR_OF_DAY, hourValue!!)
-                calendar.set(Calendar.MINUTE, minutesValue!!)
-                calendar.set(Calendar.SECOND, 0)
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, hourValue!!)
+            calendar.set(Calendar.MINUTE, minutesValue!!)
+            calendar.set(Calendar.SECOND, 0)
 
-                application.alarmManager!!.setRepeating(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.timeInMillis,
-                        AlarmManager.INTERVAL_DAY,
-                        pendingAlarmIntent
-                )
+            application.alarmManager!!.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY,
+                    pendingAlarmIntent
+            )
 
-                Log.d("OnSettingNotifications", hourValue.toString())
-                Log.d("OnSettingNotifications", minutesValue.toString())
-                Toast.makeText(this, hourValue.toString() + ":" + minutesValue.toString(), Toast.LENGTH_LONG).show()
+            Log.d("OnSettingNotifications", hourValue.toString())
+            Log.d("OnSettingNotifications", minutesValue.toString())
+            Toast.makeText(this, hourValue.toString() + ":" + minutesValue.toString(), Toast.LENGTH_LONG).show()
 
         }
     }

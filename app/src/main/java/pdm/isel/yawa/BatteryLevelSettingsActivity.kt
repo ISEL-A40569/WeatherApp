@@ -1,12 +1,13 @@
 package pdm.isel.yawa
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 
-var batteryLevel: Int = 0
+var minimumBatteryLevel: Int = 0
 
 class BatteryLevelSettingsActivity : AppCompatActivity() {
 
@@ -19,12 +20,15 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
         var button = findViewById(R.id.BatteryLevelButton) as Button
 
         button.setOnClickListener {
-            batteryLevel = editText!!.text.toString().toInt()
+            minimumBatteryLevel = editText!!.text.toString().toInt()
             //TODO: VALIDATIONS, HERE AND ELSEWHERE NEEDED
 
-            application.editor.putInt("batteryLevel", batteryLevel)
+            application.editor.putInt("minimumBatteryLevel", minimumBatteryLevel)
+            application.editor.commit()
+            Log.d("OnBatteryLevelButton", minimumBatteryLevel.toString())
 
-            Log.d("OnBatteryLevelButton", batteryLevel.toString())
+            Toast.makeText(this, "Minimum Battery Level: " + minimumBatteryLevel.toString(), Toast.LENGTH_SHORT).show()
+
         }
 
     }

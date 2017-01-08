@@ -34,21 +34,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_button"
-                android:onClick="onDetails"/>
+                android:onClick="onDetails" />
 
             <Button
                 android:text="@string/next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/more_button"
-                android:onClick="onNext"/>
+                android:onClick="onNext" />
 
             <Button
                 android:text="@string/choose_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/city_button"
-                android:onClick="onCity"/>
+                android:onClick="onCity" />
 
             <Button
                 android:text="@string/refresh"
@@ -56,14 +56,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/refresh_button"
 
-                android:onClick="onRefresh"/>
+                android:onClick="onRefresh" />
 
             <Button
                 android:text="@string/seeCredits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/credits_button"
-                android:onClick="onCredits"/>
+                android:onClick="onCredits" />
 
 
         </LinearLayout>
@@ -83,7 +83,7 @@
                 android:textSize="80dp"
                 android:gravity="center"
                 android:id="@+id/main_temp"
-                style="@style/MainInfo"/>
+                style="@style/MainInfo" />
 
             <TextView
                 android:text="city"
@@ -92,7 +92,7 @@
                 android:textSize="40dp"
                 android:gravity="center"
                 android:id="@+id/main_city"
-                style="@style/MainInfo"/>
+                style="@style/MainInfo" />
 
             <TextView
                 android:text="country"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:id="@+id/main_country"
-                style="@style/MainInfo"/>
+                style="@style/MainInfo" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -108,8 +108,7 @@
                 android:gravity="center"
                 android:textSize="20dp"
                 android:id="@+id/main_description"
-                style="@style/MainInfo"
-                />
+                style="@style/MainInfo" />
 
         </LinearLayout>
 

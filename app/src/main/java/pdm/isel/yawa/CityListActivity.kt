@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
-import java.util.*
 
 
 class CityListActivity : ListActivity() {
@@ -21,13 +20,6 @@ class CityListActivity : ListActivity() {
         var cityList = crud.getListOfAllCitys(contentResolver, null, null, null, "'name' ASC")
 
         cities = cityList.toArray()!!
-
-
-//        cityList.add("Lisboa")
-//        cityList.add("Porto")
-//        cityList.add("ATENÇÃO!! Dados hard codded!!")
-
-
 
         setContentView(R.layout.activity_city_list)
         Log.d("YAWA_TAG", "COUNTRY_onCreate")

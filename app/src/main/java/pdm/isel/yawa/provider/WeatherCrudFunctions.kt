@@ -3,8 +3,6 @@ package pdm.isel.yawa.provider
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.database.Cursor
-import android.net.Uri
-import android.provider.BaseColumns
 import android.util.Log
 import pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS
 import pdm.isel.yawa.language
@@ -53,7 +51,7 @@ class WeatherCrudFunctions {
         contentValues.put("sunrise", cwi.sunrise)
         contentValues.put("sunset", cwi.sunset)
         contentValues.put("windSpeed", cwi.windSpeed)
-        contentValues.put(BaseColumns._ID, city_id)
+        contentValues.put("currentid", city_id)
 
         cr.insert(WeatherContract.CurrentWeatherInfo.CONTENT_URI, contentValues)
 
@@ -146,17 +144,19 @@ class WeatherCrudFunctions {
         return list
     }
 
-
     fun queryCurrent(cr: ContentResolver, projection: Array<out String>?
                      , selection: String?
                      , selectionArgs: Array<out String>?
                      , sortOrder: String?
                      , id: Int): Current?? {
 
-        var cursorwi = cr.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI, null, "currentid = " + id, selectionArgs, "_id")
+        var cursorwi = cr.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI, projection, "currentid = " + id, selectionArgs, "_id")
         var cursorCity = cr.query(WeatherContract.City.CONTENT_URI, projection, "_id = " + id, selectionArgs, sortOrder)
 
         if (cursorCity.count == 0 || cursorwi.count == 0) {
+            Log.d("YAWA_TAG", "cursorCity.count = " + cursorCity.count.toString())
+            Log.d("YAWA_TAG", "cursorwi.count = " + cursorwi.count.toString())
+
             Log.d("YAWA_TAG", "WeatherCrudFunctions - NULL CURSOR")
             return null
         }
@@ -177,6 +177,11 @@ class WeatherCrudFunctions {
                 , cursorCity.getString(4)
                 , cursorCity.getString(5)
                 , currInfo)
+
+        Log.d("DB_DEBUG", curr.name)
+        Log.d("DB_DEBUG", curr.country)
+        Log.d("DB_DEBUG", curr.language)
+
         return curr
     }
 
@@ -204,7 +209,7 @@ class WeatherCrudFunctions {
                     , cursorfwi.getString(9)
                     , cursorfwi.getString(10)
             )
-            arrayOfFutureWeatherInfo[index++]
+            arrayOfFutureWeatherInfo[index++] = futureAux
         }
         var fwi = Forecast(cursorCity.getString(2)
                 , cursorCity.getString(3)
