@@ -16,8 +16,16 @@
         android:layout_height="50dp"
         android:shadowColor="@color/colorPrimary" />
 
+    <SeekBar
+        android:id="@+id/BatteryLevelBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BatteryLevelBox"
+        android:max="100"
+        />
+
     <Button
-        android:layout_below="@+id/BatteryLevelBox"
+        android:layout_below="@+id/batteryLevelBar"
         android:id="@+id/BatteryLevelButton"
         android:layout_width="100dp"
         android:layout_height="50dp"

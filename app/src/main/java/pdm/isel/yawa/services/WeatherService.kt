@@ -75,7 +75,6 @@ class WeatherService() : IntentService("WeatherService") {
                     current!!.language = language
                     Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)
                     sendInfo(receiver, "current", current!!)
-                    //insertInDB(current)
                     application.DbApi.insert(current!!)
             }
         }
@@ -84,27 +83,7 @@ class WeatherService() : IntentService("WeatherService") {
 
     }
 
-    private fun insertInDB(current: Current?) {
-        if (current != null) {
-            Log.d("OnService", "Updating " + current!!.name + " current info")
 
-            var id = crud.verifyIfCityExists(contentResolver,
-                    null,
-                    "name = '" + current.cityName + "' and language = '" + current.language + "' and country = '" + current.country+"'",
-                    null, null)
-
-            if (id < 0) {
-                id = crud.insertNewCity(contentResolver, current!!)
-            }
-
-
-            var curr = crud.queryCurrent(contentResolver, null, "currentid = " + id, null, null, id)
-            if (curr != null) {
-                crud.deleteCurrentWeatherInfo(contentResolver, "currentid = " + id, null)
-            }
-            crud.insertCurrentWeatherInfo(contentResolver, current!!.currentInfo, id)
-        }
-    }
 
 
     private fun sendInfo(receiver: ResultReceiver, key: String, info: CityInfo) {
@@ -128,52 +107,13 @@ class WeatherService() : IntentService("WeatherService") {
                     forecast!!.language = language
                     sendInfo(receiver, "forecast", forecast!!)
                     Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
-                    //saveForecast(forecast as Forecast)
 
                     application.DbApi.insert(forecast!!)
 
                 }
-//                    var id = crud.verifyIfCityExists(contentResolver,
-//                            null,
-//                            "name = '" + location + "' and language = '" + language + "'",
-//                            null,null)
-//
-//                    if (id < 0){
-//                        id = crud.insertNewCity(contentResolver, forecast!!)
-//                    }
-//
-//                    var curr = crud.queryForecast(contentResolver, null, "forecastid = "+id, null, null, id)
-//                    if (curr != null){
-//                        crud.deleteFutureWeatherInfo(contentResolver, "forecastid = "+id, null)
-//                    }
-//
-//                    for (list in forecast!!.list)
-//                        crud.insertFutureWeatherInfo(contentResolver, list, id)
-//
-//                } else {
-//                    //TODO: throw some null response exception
-//
-//                    Toast.makeText(applicationContext, "What a Terrible Failure", Toast.LENGTH_SHORT).show();
-//                }
             }
         }
     }
 
-    private fun saveForecast(forecast: Forecast){
-        var id = crud.verifyIfCityExists(contentResolver,
-                            null,
-                            "name = '" + location + "' and language = '" + language + "'",
-                            null,null)
-
-        //if (id < 0){ id = crud.insertNewCity(contentResolver, forecast!!) }
-
-        var curr = crud.queryForecast(contentResolver, null, "forecastid = "+id, null, null, id)
-        if (curr != null){
-            crud.deleteFutureWeatherInfo(contentResolver, "forecastid = "+id, null)
-        }
-
-        for (list in forecast!!.list)
-            crud.insertFutureWeatherInfo(contentResolver, list, id)
-    }
 
 }

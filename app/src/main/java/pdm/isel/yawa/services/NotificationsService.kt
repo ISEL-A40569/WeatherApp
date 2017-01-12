@@ -33,7 +33,7 @@ class NotificationsService : IntentService("NotificationService"){
                 .setContentText(application.prefs.getString("description", ""))
                 .setSmallIcon(R.drawable.notification_template_icon_bg)
                 .setVibrate(longArrayOf(1000, 1000))
-
+                //TODO: launch app?
         mNotificationManager.notify(
                 notifyID,
                 mNotifyBuilder.build());

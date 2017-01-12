@@ -1,5 +1,6 @@
 package pdm.isel.yawa.model
 
+import android.util.Log
 import java.util.*
 
 /**
@@ -8,6 +9,7 @@ import java.util.*
 class DtoToDomainMapper(){
 
     public fun mapCurrentDto(currentInfo: CurrentWeatherInfoDto): Current{
+        Log.d("TEMPTEST", currentInfo.main.temp.toString())
         return Current(currentInfo.name,
                 currentInfo.sys.country,
                 currentInfo.coord.lon.toString(),

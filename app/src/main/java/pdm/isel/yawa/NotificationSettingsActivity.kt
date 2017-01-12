@@ -5,10 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import pdm.isel.yawa.broadcast_receivers.NotificationsReceiver
 import java.util.*
 
@@ -24,8 +21,11 @@ class NotificationSettingsActivity : AppCompatActivity() {
 
         var button: Button = findViewById(R.id.DefineTimeButton) as Button
 
-        var hour: EditText = findViewById(R.id.HourSelectionBox) as EditText
-        var minutes: EditText = findViewById(R.id.MinutesSelectionBox) as EditText
+        var timepicker: TimePicker = findViewById(R.id.NotificationsTimePicker) as TimePicker
+
+        timepicker.hour = application.prefs.getInt("hour", 8)
+        timepicker.minute = application.prefs.getInt("minutes", 0)
+
 
         var checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
         checkBox.setChecked(areNotificationsOn)
@@ -52,8 +52,8 @@ class NotificationSettingsActivity : AppCompatActivity() {
             Log.d("OnSettingNotifications", hourValue.toString())
             Log.d("OnSettingNotifications", minutesValue.toString())
 
-            hourValue = Integer.valueOf(hour.text.toString())
-            minutesValue = Integer.valueOf(minutes.text.toString())
+            hourValue = timepicker.hour
+            minutesValue = timepicker.minute
 
             application.editor.putInt("hour", hourValue)
             application.editor.putInt("minutes", minutesValue)

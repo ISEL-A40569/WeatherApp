@@ -10,28 +10,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="pdm.isel.yawa.NotificationSettingsActivity">
 
+    <TextView
+        android:id="@+id/NotificationsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notifications On"/>
+
     <CheckBox
+        android:layout_toRightOf="@id/NotificationsTextView"
         android:id="@+id/NotificationsCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:layout_below="@id/NotificationsCheckBox"
-        android:id="@+id/HourSelectionBox"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:shadowColor="@color/colorPrimary" />
 
-    <EditText
-        android:layout_below="@+id/HourSelectionBox"
-        android:id="@+id/MinutesSelectionBox"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:shadowColor="@color/colorPrimary" />
+    <TimePicker
+        android:layout_below="@id/NotificationsTextView"
+        android:id="@+id/NotificationsTimePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
+    </TimePicker>
 
     <Button
-        android:layout_below="@+id/MinutesSelectionBox"
+        android:layout_below="@+id/NotificationsTimePicker"
         android:id="@+id/DefineTimeButton"
         android:layout_width="100dp"
         android:layout_height="50dp"

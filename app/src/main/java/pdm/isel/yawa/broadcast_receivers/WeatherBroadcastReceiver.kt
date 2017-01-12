@@ -33,6 +33,8 @@ class WeatherBroadcastReceiver : WakefulBroadcastReceiver() {
             var receiver = object : ResultReceiver(Handler()) {
                 override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                     super.onReceiveResult(resultCode, resultData)
+
+                    context!!.stopService(intent)
                 }
             }
             intent.putExtra("receiver", receiver)

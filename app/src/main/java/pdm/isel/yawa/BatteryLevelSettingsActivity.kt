@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.SeekBar
 import android.widget.Toast
 
 var minimumBatteryLevel: Int = 0
@@ -16,6 +17,26 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_battery_level_settings)
 
         var editText = findViewById(R.id.BatteryLevelBox) as EditText
+
+        var bar = findViewById(R.id.BatteryLevelBar) as SeekBar
+
+        bar.setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener{
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                        Toast.makeText(this@BatteryLevelSettingsActivity, bar.progress, Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+        )
+
 
         var button = findViewById(R.id.BatteryLevelButton) as Button
 
