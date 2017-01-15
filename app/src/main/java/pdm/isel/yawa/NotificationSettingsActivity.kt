@@ -80,5 +80,7 @@ class NotificationSettingsActivity : AppCompatActivity() {
             Toast.makeText(this, hourValue.toString() + ":" + minutesValue.toString(), Toast.LENGTH_LONG).show()
 
         }
+        findViewById(android.R.id.content)
+                .setBackgroundDrawable(resources.getDrawable(R.drawable.menu))
     }
 }

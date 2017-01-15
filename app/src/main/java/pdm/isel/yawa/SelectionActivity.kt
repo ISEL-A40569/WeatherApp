@@ -25,5 +25,7 @@ class SelectionActivity : AppCompatActivity() {
 
             Toast.makeText(this, location, Toast.LENGTH_LONG).show()
         }
+        findViewById(android.R.id.content)
+                .setBackgroundDrawable(resources.getDrawable(R.drawable.choose))
     }
 }

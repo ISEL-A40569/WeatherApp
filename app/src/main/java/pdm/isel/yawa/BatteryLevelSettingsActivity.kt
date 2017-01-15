@@ -30,6 +30,8 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
             Toast.makeText(this, "Minimum Battery Level: " + minimumBatteryLevel.toString(), Toast.LENGTH_SHORT).show()
 
         }
+        findViewById(android.R.id.content)
+                .setBackgroundDrawable(resources.getDrawable(R.drawable.battery))
 
     }
 }

@@ -182,7 +182,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     private fun verifyIfExists(cityInfo: CityInfo): Int {
         var cursor = contentResolver.query(WeatherContract.City.CONTENT_URI,
                 null,
-                "name = '" + cityInfo.cityName + "' and country = '" + cityInfo.cityCountry + "' and language = '" + cityInfo.language + "'",
+                "name = '" + cityInfo.cityName +"'", // "' and country = '" + cityInfo.cityCountry + "' and language = '" + cityInfo.language + "'",
                 null,
                 null)
 

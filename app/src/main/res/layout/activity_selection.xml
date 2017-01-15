@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:gravity="center"
     tools:context="pdm.isel.yawa.SelectionActivity">
 
 
@@ -15,7 +16,9 @@
         android:id="@+id/CitySelectionBox"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:shadowColor="@color/colorPrimary" />
+        android:shadowColor="@color/colorPrimary"
+        android:textSize="30dp"
+        android:textColor="@android:color/white"/>
 
     <Button
         android:layout_below="@+id/CitySelectionBox"

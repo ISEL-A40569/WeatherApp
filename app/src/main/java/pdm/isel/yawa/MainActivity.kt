@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import pdm.isel.yawa.model.Current
@@ -46,6 +47,9 @@ class MainActivity : AppCompatActivity() {
         image = findViewById(R.id.main_view) as ImageView
 
         application.editor.putString("language", language)
+
+        //findViewById(android.R.id.content).setBackgroundDrawable(resources.getDrawable(R.drawable.i02n))
+
     }
 
 
@@ -74,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             currentWeather = application.DbApi.getCurrent(location!!, language, "PT")
             getIcon(currentWeather!!.currentInfo.icon)
         }
+        //setBackGroundImage(currentWeather.currentInfo.icon)
     }
 
 
@@ -105,6 +110,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             startServiceForIconRequest()
         }
+        setBackGroundImage(currentWeather!!.currentInfo.icon)
     }
 
     private fun startServiceForIconRequest() {
@@ -225,4 +231,83 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+
+    private fun setBackGroundImage(str:String){
+
+        when(str){
+
+            "01d" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i01d))
+            }
+            "01n" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i01n))
+            }
+            "02d" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i02d))
+            }
+            "02n" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i02n))
+            }
+            "03d" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i03d))
+            }
+            "03n" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i03n))
+            }
+            "04d" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i04d))
+            }
+            "04n" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i04n))
+            }
+            "05d" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i05d))
+            }
+            "05n" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i05n))
+            }
+            "06d" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i06d))
+            }
+            "06n" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i06n))
+            }
+            "07d" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i07d))
+            }
+            "07n" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i07n))
+            }
+            "08d" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i08d))
+            }
+            "08n" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i08n))
+            }
+            "09d" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i09d))
+            }
+            "09n" -> {
+                findViewById(android.R.id.content)
+                        .setBackgroundDrawable(resources.getDrawable(R.drawable.i09n))
+            }
+        }
+    }
 }
