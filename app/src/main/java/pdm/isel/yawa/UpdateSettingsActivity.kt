@@ -39,6 +39,8 @@ class UpdateSettingsActivity : AppCompatActivity() {
 
             application.editor.commit()
         }
+        findViewById(android.R.id.content)
+                .setBackgroundDrawable(resources.getDrawable(R.drawable.menu))
     }
 
     fun onUpdateTime(view: View) {

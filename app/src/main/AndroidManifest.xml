@@ -73,7 +73,11 @@
             android:name=".services.IconService"
             android:exported="false" />
 
-        <activity android:name=".BatteryLevelSettingsActivity"></activity>
+        <activity android:name=".BatteryLevelSettingsActivity" />
+
+        <service
+            android:name=".services.backGroundService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

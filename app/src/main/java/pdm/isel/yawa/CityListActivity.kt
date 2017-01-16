@@ -1,12 +1,14 @@
 package pdm.isel.yawa
 
 import android.app.ListActivity
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
+
 
 
 class CityListActivity : ListActivity() {

@@ -20,11 +20,11 @@ class WeatherCrudFunctions {
         contentValues.put("country", cityInfo.cityCountry)
         contentValues.put("lon", cityInfo.ln)
         contentValues.put("lat", cityInfo.lt)
-        contentValues.put("language", language)
+        contentValues.put("language", cityInfo.language)
 
 
         var id = verifyIfCityExists(cr, null,
-                "name = '" + cityInfo.cityName + "' and country = '" + cityInfo.cityCountry + "' and language = '" + language + "'",
+                "name = '" + cityInfo.cityName + "' and country = '" + cityInfo.cityCountry + "' and language = '" + cityInfo.language + "'",
                 null, null)
 
         if (id > 0)
@@ -33,7 +33,7 @@ class WeatherCrudFunctions {
         cr.insert(WeatherContract.City.CONTENT_URI, contentValues)
 
         id = verifyIfCityExists(cr, null,
-                "name = '" + cityInfo.cityName + "' and country = '" + cityInfo.cityCountry + "' and language = '" + language + "'",
+                "name = '" + cityInfo.cityName + "' and country = '" + cityInfo.cityCountry + "' and language = '" + cityInfo.language + "'",
                 null, null)
         return id
     }
@@ -116,7 +116,6 @@ class WeatherCrudFunctions {
 
         if (cursor.count == 0)
             return -1
-
         cursor.moveToFirst()
         return cursor.getInt(0)
     }
