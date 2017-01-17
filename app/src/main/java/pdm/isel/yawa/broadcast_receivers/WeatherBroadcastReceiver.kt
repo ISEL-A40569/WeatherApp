@@ -12,7 +12,9 @@ import pdm.isel.yawa.*
 import pdm.isel.yawa.services.WeatherService
 
 /**
- * Created by Dani on 08-12-2016.
+ * This class is used to start WeatherService repeatedly who updates
+ * Current and Forecast weather info for the location and language
+ * stored in shared preferences.
  */
 class WeatherBroadcastReceiver : BroadcastReceiver() {
     var connectivityManager: ConnectivityManager? = null
@@ -44,13 +46,13 @@ class WeatherBroadcastReceiver : BroadcastReceiver() {
 
             Log.d("WEATHER RECEIVER", "STARTING SERVICE TO UPDATE")
 
-//            TODO: Something like:
+//            TODO: Update all cities, something like:
 //            foreach(CityInfo ci in list){}
 //            val intent = Intent(context, WeatherService::class.java)
 //            intent.putExtra("type", "both")
 //            intent.putExtra("location",ci.name )
 //            intent.putExtra("language", ci.language)
-//            intent.putExtra("receiver", receiver)   TODO: have to pass a receiver every time that wont be used!? maybe to close the service
+//            intent.putExtra("receiver", receiver)
 //            context!!.startService(intent)
         }
     }

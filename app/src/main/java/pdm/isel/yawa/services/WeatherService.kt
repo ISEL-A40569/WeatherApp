@@ -16,8 +16,7 @@ import pdm.isel.yawa.uri.RequestUriFactory
 
 
 /**
- *
- *
+ * Class used to execute a data request.
  */
 class WeatherService() : IntentService("WeatherService") {
 

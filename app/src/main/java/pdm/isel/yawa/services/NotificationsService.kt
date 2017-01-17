@@ -12,7 +12,7 @@ import pdm.isel.yawa.prefs
 
 
 /**
- * Created by Dani on 14-12-2016.
+ * Class used to send a notification message.
  */
 class NotificationsService : IntentService("NotificationService"){
     override fun onHandleIntent(intent: Intent?) {

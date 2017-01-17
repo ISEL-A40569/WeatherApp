@@ -13,7 +13,7 @@ import pdm.isel.yawa.requests.Callback
 import pdm.isel.yawa.requests.IconRequest
 
 /**
- * Created by Dani on 20-12-2016.
+ * Class used to execute a icon request.
  */
 class IconService : IntentService("IconService"){
     val s = "Inside Icon Service"

@@ -43,7 +43,7 @@ class WeatherApp : Application() {
 
     var connectivityManager: ConnectivityManager? = null
 
-    val iconCache = IconCache()
+    val iconCache = IconCache(this)
 
     var DbApi: WeatherDatabaseApi? = null
 

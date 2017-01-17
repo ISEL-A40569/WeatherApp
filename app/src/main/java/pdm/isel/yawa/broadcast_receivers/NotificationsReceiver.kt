@@ -7,7 +7,7 @@ import android.support.v4.content.WakefulBroadcastReceiver
 import pdm.isel.yawa.services.NotificationsService
 
 /**
- * Created by Dani on 14-12-2016.
+ * Class used to start a NotificationsService repeatedly.
  */
 class NotificationsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
