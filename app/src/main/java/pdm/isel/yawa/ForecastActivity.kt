@@ -32,18 +32,12 @@ class ForecastActivity : ListActivity() {
     override fun onStart() {
         super.onStart()
 
-
-
         if (isServiceAccessAllowed()) {
+            Log.d("RESPONSE", "LOAD FORECAST FROM REQUEST")
             startServiceForDataRequest()
         } else {
-//            var cityId = crud.verifyIfCityExists(contentResolver, null
-//                    , "name = '" + location + "' and language = '" + language + "'"
-//                    , null, null)
-//
-//            forecast = crud.queryForecast(contentResolver, null, null, null, null, cityId)
-            Log.d("RESPONSE", "LOAD FORECAST FROM DATABASE")
 
+            Log.d("RESPONSE", "LOAD FORECAST FROM DATABASE")
             forecast = application.DbApi.getForecast(location!!, language, "PT")//TODO: USE COUNTRY OR NOT?
             startServiceForIconsRequest(0, forecast!!.list)
         }
@@ -135,7 +129,9 @@ class ForecastActivity : ListActivity() {
     }
 
     private fun isPowerLow(): Boolean {
-        return !isCharging() || getBatteryLevel() < minimumBatteryLevel
+        if(isCharging()) return false
+
+        return getBatteryLevel() < application.prefs.getInt("minimumBatteryLevel", 25)
     }
 
     fun getBatteryLevel(): Int {

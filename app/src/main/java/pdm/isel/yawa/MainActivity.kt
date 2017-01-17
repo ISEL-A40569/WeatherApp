@@ -64,14 +64,6 @@ class MainActivity : AppCompatActivity() {
             startServiceForDataRequest()
 
         } else {
-//            var cityId = crud.verifyIfCityExists(contentResolver, null
-//                    , "name = '$location' and language = '$language'"
-//                    , null, null)
-//            if (cityId > 0)
-//                currentWeather = crud.queryCurrent(contentResolver, null, null, null, null, cityId)
-//            Log.d("DB_DEBUG", currentWeather!!.name)
-//            Log.d("DB_DEBUG", currentWeather!!.language)
-//            Log.d("DB_DEBUG", currentWeather!!.country)
 
             Log.d("RESPONSE", "LOAD CURRENT FROM DATABASE")
 
@@ -160,7 +152,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isPowerLow(): Boolean {
-        return !isCharging() || getBatteryLevel() < minimumBatteryLevel
+        if(isCharging()) return false
+
+        return getBatteryLevel() < application.prefs.getInt("minimumBatteryLevel", 25)
     }
 
     fun getBatteryLevel(): Int {

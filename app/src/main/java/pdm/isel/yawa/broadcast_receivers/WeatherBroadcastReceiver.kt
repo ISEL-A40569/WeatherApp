@@ -1,9 +1,6 @@
 package pdm.isel.yawa.broadcast_receivers
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.net.ConnectivityManager
 import android.os.BatteryManager
 import android.os.Bundle
@@ -17,17 +14,19 @@ import pdm.isel.yawa.services.WeatherService
 /**
  * Created by Dani on 08-12-2016.
  */
-class WeatherBroadcastReceiver : WakefulBroadcastReceiver() {
+class WeatherBroadcastReceiver : BroadcastReceiver() {
     var connectivityManager: ConnectivityManager? = null
     var cnxt: Context? = null
+    var prefs: SharedPreferences? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
         cnxt = context
+        prefs = cnxt!!.getSharedPreferences("Prefs", Context.MODE_PRIVATE)
+
         connectivityManager = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         if (isServiceAccessAllowed())
         if (!Intent.ACTION_BOOT_COMPLETED.equals(intent?.action)) {
-            //TODO: just for now, will only work if app is on and for current only
             val intent = Intent(context, WeatherService::class.java)
 
             var receiver = object : ResultReceiver(Handler()) {
@@ -39,10 +38,11 @@ class WeatherBroadcastReceiver : WakefulBroadcastReceiver() {
             }
             intent.putExtra("receiver", receiver)
             intent.putExtra("type", "both")
-            intent.putExtra("location", location)
-            intent.putExtra("language", language)
+            intent.putExtra("location", prefs!!.getString("location", "Lisboa"))
+            intent.putExtra("language", prefs!!.getString("language", "português"))
             context!!.startService(intent)
 
+            Log.d("WEATHER RECEIVER", "STARTING SERVICE TO UPDATE")
 
 //            TODO: Something like:
 //            foreach(CityInfo ci in list){}
@@ -75,7 +75,9 @@ class WeatherBroadcastReceiver : WakefulBroadcastReceiver() {
     }
 
     private fun isPowerLow(): Boolean {
-        return !isCharging() || getBatteryLevel() < minimumBatteryLevel//TODO: USE SHARED PREFERENCES ONLY!? EVERYWHERE POSSIBLE??
+        if(isCharging()) return false
+
+        return getBatteryLevel() < prefs!!.getInt("minimumBatteryLevel", 25)
     }
 
     fun getBatteryLevel(): Int {

@@ -83,9 +83,6 @@ class WeatherService() : IntentService("WeatherService") {
 
     }
 
-
-
-
     private fun sendInfo(receiver: ResultReceiver, key: String, info: CityInfo) {
         Log.d("OnService", "sendInfo start")
 

@@ -10,6 +10,7 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.SystemClock
 import android.util.Log
+import android.widget.Toast
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import pdm.isel.yawa.broadcast_receivers.NotificationsReceiver
@@ -69,6 +70,7 @@ class WeatherApp : Application() {
         Log.d("AppGetPrefs", areNotificationsOn.toString())
         Log.d("AppGetPrefs", hourValue.toString())
         Log.d("AppGetPrefs", minutesValue.toString())
+        Log.d("AppGetPrefs", wifiOnly.toString())
 
         updateInterval = prefs.getInt("updateInterval", 1)
         areNotificationsOn = prefs.getBoolean("areNotificationsOn", true)
@@ -80,6 +82,8 @@ class WeatherApp : Application() {
         Log.d("AppGetPrefs", areNotificationsOn.toString())
         Log.d("AppGetPrefs", hourValue.toString())
         Log.d("AppGetPrefs", minutesValue.toString())
+        Log.d("AppGetPrefs", wifiOnly.toString())
+
     }
 
     fun setNotificationsReceiver() {

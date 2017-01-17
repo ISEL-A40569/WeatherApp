@@ -42,7 +42,6 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             minimumBatteryLevel = bar.progress
-            //TODO: VALIDATIONS, HERE AND ELSEWHERE NEEDED
 
             application.editor.putInt("minimumBatteryLevel", minimumBatteryLevel)
             application.editor.commit()
@@ -52,7 +51,7 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
 
         }
         findViewById(android.R.id.content)
-                .setBackgroundDrawable(resources.getDrawable(R.drawable.battery))
+                .setBackgroundDrawable(resources.getDrawable(R.drawable.battery))//TODO: nao deviamos usar deprecated's
 
     }
 
