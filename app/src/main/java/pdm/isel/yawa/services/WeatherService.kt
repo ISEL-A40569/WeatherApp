@@ -102,8 +102,10 @@ class WeatherService() : IntentService("WeatherService") {
                     forecast = DTO_MAPPER.mapForecastDto(
                             JSON_MAPPER.mapForecastJson(response.toString()))
                     forecast!!.language = language
+                    
+                    Log.d("OnService", "JUST GOT FORECAST FOR: " + forecast!!.name)
+
                     sendInfo(receiver, "forecast", forecast!!)
-                    Log.d("OnService", "Updating " + forecast!!.name + " forecast info")
 
                     application.DbApi.insert(forecast!!)
 

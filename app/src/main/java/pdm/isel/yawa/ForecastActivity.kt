@@ -59,8 +59,8 @@ class ForecastActivity : ListActivity() {
         }
         intent.putExtra("type", "forecast")
         intent.putExtra("receiver", receiver)
-        intent.putExtra("location", location)
-        intent.putExtra("language", language)
+        intent.putExtra("location", application.prefs.getString("city", "Lisbon"))
+        intent.putExtra("language", application.prefs.getString("language", "português"))
 
         startService(intent)
     }
