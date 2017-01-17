@@ -69,7 +69,8 @@ class WeatherService() : IntentService("WeatherService") {
         Log.d("OnService", "getCurrentResponseCallback start")
         return object : Callback<JSONObject> {
             override fun onSuccess(response: JSONObject) {
-                    current = DTO_MAPPER.mapCurrentDto(
+
+                current = DTO_MAPPER.mapCurrentDto(
                             JSON_MAPPER.mapWeatherInfoJson(response.toString()))
                     current!!.language = language
                     Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)

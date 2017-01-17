@@ -53,7 +53,7 @@ class IconCache(ctx: Context) {
 
         if(!file.exists()) {
             val outputStream = FileOutputStream(file)
-            icon.compress(Bitmap.CompressFormat.JPEG, 85, outputStream)
+            icon.compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
             outputStream.flush()
             outputStream.close()
         }

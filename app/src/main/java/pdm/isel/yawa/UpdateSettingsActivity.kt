@@ -2,6 +2,7 @@ package pdm.isel.yawa
 
 import android.app.AlarmManager
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 
@@ -23,7 +25,12 @@ class UpdateSettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_update_interval_setting)
         editText = findViewById(R.id.UptdateTimeText) as EditText
 
+        var text = findViewById(R.id.UpdateTextView) as TextView
+        text.setTextColor(Color.GREEN)
+
+
         var checkBox = findViewById(R.id.WifiCheckBox) as CheckBox
+        checkBox.setBackgroundColor(Color.WHITE)
         checkBox.setChecked(wifiOnly)
         checkBox.setOnClickListener {
 

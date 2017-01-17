@@ -15,13 +15,14 @@
         android:id="@+id/NotificationsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notifications On"/>
+        android:text="Notifications On"
+        />
 
     <CheckBox
         android:layout_toRightOf="@id/NotificationsTextView"
         android:id="@+id/NotificationsCheckBox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="30dp" />
 
     <EditText
         android:layout_below="@id/NotificationsCheckBox"
