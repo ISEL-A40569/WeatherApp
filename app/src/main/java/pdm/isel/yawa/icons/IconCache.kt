@@ -31,9 +31,10 @@ class IconCache(ctx: Context) {
         if(file.exists()){
             val icon = BitmapFactory.decodeFile(file.path)
 
-            if(icon != null) return icon
-
-            Log.d("OnCache", "icon exists " + (icon != null).toString())
+            if(icon != null){
+                Log.d("OnCache", "icon exists " + (icon != null).toString())
+                return icon
+            }
         }
 
         return null

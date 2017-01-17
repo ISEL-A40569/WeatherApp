@@ -28,6 +28,8 @@ val URI_FACTORY = RequestUriFactory()
 val DTO_MAPPER = DtoToDomainMapper()
 val JSON_MAPPER = JsonToDtoMapper()
 
+val NUMBER_OF_FORECAST_DAYS = 16
+
 val crud = WeatherCrudFunctions()
 
 class WeatherApp : Application() {

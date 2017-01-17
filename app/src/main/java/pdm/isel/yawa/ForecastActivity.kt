@@ -18,7 +18,6 @@ import pdm.isel.yawa.model.FutureWeatherInfo
 import pdm.isel.yawa.services.IconService
 import pdm.isel.yawa.services.WeatherService
 
-val NUMBER_OF_FORECAST_DAYS = 16
 
 class ForecastActivity : ListActivity() {
 
@@ -39,6 +38,8 @@ class ForecastActivity : ListActivity() {
 
             Log.d("RESPONSE", "LOAD FORECAST FROM DATABASE")
             forecast = application.DbApi.getForecast(location!!, language, "PT")//TODO: USE COUNTRY OR NOT?
+            Log.d("RESPONSE", "FWI COUNT: " + forecast!!.list.size)
+
             startServiceForIconsRequest(0, forecast!!.list)
         }
     }

@@ -83,12 +83,12 @@ class WeatherService() : IntentService("WeatherService") {
     }
 
     private fun sendInfo(receiver: ResultReceiver, key: String, info: CityInfo) {
-        Log.d("OnService", "sendInfo start")
+        Log.d("OnService", key + " sendInfo start")
 
         val bundle = Bundle()
         bundle.putParcelable(key, info)
         receiver.send(200, bundle)
-        Log.d("OnService", "sendInfo end")
+        Log.d("OnService", key + "sendInfo end")
 
     }
 
