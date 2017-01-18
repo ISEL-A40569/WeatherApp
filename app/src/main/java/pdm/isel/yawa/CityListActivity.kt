@@ -15,7 +15,6 @@ class CityListActivity : ListActivity() {
 
     var cities: Array<Any>? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -34,12 +33,11 @@ class CityListActivity : ListActivity() {
 
 
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
-        currentWeather = null
-        location = cities!![position] as String
-        Toast.makeText(this, location, Toast.LENGTH_LONG).show()
+        val location = cities!![position] as String
         application.editor.putString("city", location)
         application.editor.commit()
 
+        Toast.makeText(this, location, Toast.LENGTH_LONG).show()
     }
 
 }

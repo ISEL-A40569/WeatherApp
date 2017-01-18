@@ -23,23 +23,25 @@ class WeatherService() : IntentService("WeatherService") {
     var current: Current? = null
     var forecast: Forecast? = null
 
+    var language: String? = null
+    var location: String? = null
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnService", "onHandleIntent start")
 
         val type = intent!!.getStringExtra("type")
-        val lang = intent!!.getStringExtra("language")
-        val city = intent!!.getStringExtra("location")
-        val receiver: ResultReceiver = intent!!.getParcelableExtra("receiver")
+        language = intent.getStringExtra("language")
+        location = intent.getStringExtra("location")
+        val receiver: ResultReceiver = intent.getParcelableExtra("receiver")
 
-        Log.d("OnService", city)
-        Log.d("OnService", lang)
+        Log.d("OnService", location)
+        Log.d("OnService", language)
 
 
-        if (type.equals("current") || type.equals("both"))
-            makeCurrentRequest(city, lang, receiver)
+        if (type == "current" || type.equals("both"))
+            makeCurrentRequest(location!!, language!!, receiver)
 
-        if (type.equals("forecast") || type.equals("both"))
-            makeForecastRequest(city, lang, receiver)
+        if (type == "forecast" || type.equals("both"))
+            makeForecastRequest(location!!, language!!, receiver)
 
         Log.d("OnService", "onHandleIntent end")
     }
@@ -48,7 +50,7 @@ class WeatherService() : IntentService("WeatherService") {
         Log.d("OnService", "makeCurrentRequest start")
 
         application.requestQueue.add(DataRequest(
-                RequestUriFactory().getNowWeather(loc!!, lang),
+                RequestUriFactory().getNowWeather(loc, lang),
                 getCurrentResponseCallback(receiver)))
         Log.d("OnService", "makeCurrentRequest end")
 
@@ -79,7 +81,7 @@ class WeatherService() : IntentService("WeatherService") {
             }
         }
 
-        Log.d("OnService", "getCurrentResponseCallback end")
+//        Log.d("OnService", "getCurrentResponseCallback end") unreachable
 
     }
 
@@ -97,8 +99,6 @@ class WeatherService() : IntentService("WeatherService") {
     private fun getForecastResponseCallback(receiver: ResultReceiver): Callback<JSONObject> {
         return object : Callback<JSONObject> {
             override fun onSuccess(response: JSONObject) {
-
-                if (response != null) {
                     forecast = DTO_MAPPER.mapForecastDto(
                             JSON_MAPPER.mapForecastJson(response.toString()))
                     forecast!!.language = language
@@ -108,8 +108,6 @@ class WeatherService() : IntentService("WeatherService") {
                     sendInfo(receiver, "forecast", forecast!!)
 
                     application.DbApi.insert(forecast!!)
-
-                }
             }
         }
     }

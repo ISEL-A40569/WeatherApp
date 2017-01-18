@@ -19,19 +19,19 @@ class RequestUriFactory {
         LANGUAGES.put("português", "&lang=pt")
     }
 
-    public fun getNowWeather(locationName: String, language: String): String{
-       return String.format(WEATHERINFO_REQUEST_BASE_URL, "weather", prepareLocationName(locationName) + LANGUAGES.get(language))
+    fun getNowWeather(locationName: String, language: String): String{
+       return String.format(WEATHERINFO_REQUEST_BASE_URL, "weather", prepareLocationName(locationName) + LANGUAGES[language])
     }
 
-    public fun getFutureWeather(locationName: String, language: String, count: Int): String{
-        return String.format(WEATHERINFO_REQUEST_BASE_URL, "forecast/daily", prepareLocationName(locationName) + LANGUAGES.get(language) + "&cnt=" + count )
+    fun getFutureWeather(locationName: String, language: String, count: Int): String{
+        return String.format(WEATHERINFO_REQUEST_BASE_URL, "forecast/daily", prepareLocationName(locationName) + LANGUAGES[language] + "&cnt=" + count )
     }
 
     private fun prepareLocationName(locationName: String): String {
         return locationName.replace(" ", "+", false)
     }
 
-    public fun getIcon(iconId: String): String {
+    fun getIcon(iconId: String): String {
         return String.format(ICON_REQUEST_BASE_URL, iconId)
     }
 

@@ -8,7 +8,7 @@ import java.util.*
  */
 class DtoToDomainMapper(){
 
-    public fun mapCurrentDto(currentInfo: CurrentWeatherInfoDto): Current{
+    fun mapCurrentDto(currentInfo: CurrentWeatherInfoDto): Current{
         Log.d("TEMPTEST", currentInfo.main.temp.toString())
         return Current(currentInfo.name,
                 currentInfo.sys.country,
@@ -27,7 +27,7 @@ class DtoToDomainMapper(){
                 ))
     }
 
-    public fun mapForecastDto(forecastDto: ForecastDto): Forecast{
+    fun mapForecastDto(forecastDto: ForecastDto): Forecast{
         var infoElements = arrayOfNulls<FutureWeatherInfo>(forecastDto.list.size) as Array<FutureWeatherInfo>
 
         for(i in forecastDto.list.indices){
@@ -57,13 +57,13 @@ class DtoToDomainMapper(){
     }
 
     private fun getDate(dateValue: Long):String{
-        var d = formatDateValue(dateValue).split(" ")
+        val d = formatDateValue(dateValue).split(" ")
         return d[2] + " " + d[1] + " "+ d[5]
     }
 
     private fun getSunriseOrSunsetString(riseOrSetDateValue: Long): String{
-        var date:String = formatDateValue(riseOrSetDateValue)
-        var d = date.split(" ")
+        val date:String = formatDateValue(riseOrSetDateValue)
+        val d = date.split(" ")
         return d[3]
     }
 

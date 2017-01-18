@@ -61,7 +61,7 @@ class WeatherApp : Application() {
 
         getPreferences(prefs!!)
 
-        setWeatherReceiver()
+//        setWeatherReceiver()
 
         if (areNotificationsOn)
             setNotificationsReceiver()

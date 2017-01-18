@@ -13,6 +13,8 @@ class DataRequest(url: String, callback: Callback<JSONObject>) : JsonObjectReque
         null,
         object : Response.Listener<JSONObject>{
             override fun onResponse(response: JSONObject) {
+                Log.d("OnService: ", response.toString())
+
                 callback.onSuccess(response)
             }
 

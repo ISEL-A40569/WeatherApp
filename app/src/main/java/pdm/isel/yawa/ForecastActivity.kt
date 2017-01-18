@@ -22,6 +22,8 @@ import pdm.isel.yawa.services.WeatherService
 class ForecastActivity : ListActivity() {
 
     var forecast: Forecast? = null
+    var language: String? = null
+    var location: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +33,16 @@ class ForecastActivity : ListActivity() {
     override fun onStart() {
         super.onStart()
 
+        location = application.prefs.getString("city", "Lisbon")
+        language = application.prefs.getString("language", "português")
+
         if (isServiceAccessAllowed()) {
             Log.d("RESPONSE", "LOAD FORECAST FROM REQUEST")
             startServiceForDataRequest()
         } else {
 
             Log.d("RESPONSE", "LOAD FORECAST FROM DATABASE")
-            forecast = application.DbApi.getForecast(location!!, language, "PT")//TODO: USE COUNTRY OR NOT?
+            forecast = application.DbApi.getForecast(location!!, language!!, "PT")//TODO: USE COUNTRY OR NOT?
             Log.d("RESPONSE", "FWI COUNT: " + forecast!!.list.size)
 
             startServiceForIconsRequest(0, forecast!!.list)
@@ -47,7 +52,7 @@ class ForecastActivity : ListActivity() {
     private fun startServiceForDataRequest() {
         val intent = Intent(this, WeatherService::class.java)
 
-        var receiver = object : ResultReceiver(Handler()) {
+        val receiver = object : ResultReceiver(Handler()) {
             override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                 super.onReceiveResult(resultCode, resultData)
                 forecast = resultData!!.getParcelable("forecast")
@@ -71,18 +76,18 @@ class ForecastActivity : ListActivity() {
         } else {
             val futureWI = list[count]
             Log.d("OnCache", futureWI._icon + "\n")
-            var icon: Bitmap? = application.iconCache.pop(futureWI.icon)
+            val icon: Bitmap? = application.iconCache.pop(futureWI.icon)
             if (icon != null) {
                 futureWI.image = icon
                 startServiceForIconsRequest(count + 1, list)
             } else {
                 val intent = Intent(this, IconService::class.java)
 
-                var iconReceiver = object : ResultReceiver(Handler()) {
+                val iconReceiver = object : ResultReceiver(Handler()) {
                     override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                         super.onReceiveResult(resultCode, resultData)
                         stopService(intent)
-                        var image: Bitmap = resultData!!.getParcelable("icon")
+                        val image: Bitmap = resultData!!.getParcelable("icon")
                         futureWI.image = image
                         startServiceForIconsRequest(count + 1, list)
                     }
@@ -116,14 +121,14 @@ class ForecastActivity : ListActivity() {
     }
 
     private fun isConnectionAvailable(): Boolean {
-        var isConnected = application.connectivityManager!!.activeNetworkInfo != null &&
-                application.connectivityManager!!.activeNetworkInfo.isConnected
+        val isConnected = application.connectivityManager.activeNetworkInfo != null &&
+                application.connectivityManager.activeNetworkInfo.isConnected
 
         if (!isConnected) {
             return false
         } else {
             if (wifiOnly)
-                return application.connectivityManager!!.activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI
+                return application.connectivityManager.activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI
 
             return true
         }

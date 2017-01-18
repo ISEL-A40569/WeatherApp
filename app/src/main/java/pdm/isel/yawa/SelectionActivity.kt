@@ -12,16 +12,14 @@ class SelectionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selection)
 
-        var selectButton = findViewById(R.id.SelectButton) as Button
+        val selectButton = findViewById(R.id.SelectButton) as Button
 
-        var editText = findViewById(R.id.CitySelectionBox) as EditText
+        val editText = findViewById(R.id.CitySelectionBox) as EditText
 
         selectButton.setOnClickListener {
-            var city = editText.text.toString()
-            application.editor.putString("city", city)
+            val location = editText.text.toString()
+            application.editor.putString("city", location)
             application.editor.commit()
-            location = city
-            currentWeather = null
 
             Toast.makeText(this, location, Toast.LENGTH_LONG).show()
         }

@@ -5,13 +5,11 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.util.Log
 import pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS
-import pdm.isel.yawa.language
 import pdm.isel.yawa.model.*
 import java.util.*
 
 
 class WeatherCrudFunctions {
-
 
     fun insertNewCity(cr: ContentResolver, cityInfo: CityInfo): Int {
 

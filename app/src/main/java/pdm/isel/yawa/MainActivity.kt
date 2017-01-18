@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import pdm.isel.yawa.model.Current
@@ -20,20 +19,21 @@ import pdm.isel.yawa.services.IconService
 import pdm.isel.yawa.services.WeatherService
 import java.util.*
 
-var language = Locale.getDefault().displayLanguage
-var location: String? = null
-
-var currentWeather: Current? = null
-
 class MainActivity : AppCompatActivity() {
 
-    //INFORMATION IN TEXTVIEWS
+    //Textviews
     var temp: TextView? = null
     var cityName: TextView? = null
     var country: TextView? = null
     var description: TextView? = null
     var image: ImageView? = null
 
+    //location and language strings
+    var location: String? = null
+    var language: String? = null
+
+    //Current instance
+    var currentWeather: Current? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
         description = findViewById(R.id.main_description) as TextView
         image = findViewById(R.id.main_view) as ImageView
 
-        application.editor.putString("language", language)
-
         //findViewById(android.R.id.content).setBackgroundDrawable(resources.getDrawable(R.drawable.i02n))
 
     }
@@ -55,6 +53,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        language = Locale.getDefault().displayLanguage
+        application.editor.putString("language", language)
 
         location = application.prefs.getString("city", "Lisbon")
 
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
             Log.d("RESPONSE", "LOAD CURRENT FROM DATABASE")
 
-            currentWeather = application.DbApi.getCurrent(location!!, language, "PT")
+            currentWeather = application.DbApi.getCurrent(location!!, language!!, "PT")
             getIcon(currentWeather!!.currentInfo.icon)
         }
         //setBackGroundImage(currentWeather.currentInfo.icon)
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun startServiceForDataRequest() {
         val intent = Intent(this, WeatherService::class.java)
-        var receiver = object : ResultReceiver(Handler()) {
+        val receiver = object : ResultReceiver(Handler()) {
             override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                 super.onReceiveResult(resultCode, resultData)
                 stopService(intent)
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getIcon(key: String) {
-        var icon = application.iconCache.pop(key)
+        val icon = application.iconCache.pop(key)
         if (icon != null) {
             currentWeather!!.currentInfo.image = icon
             setViews()
@@ -107,11 +107,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun startServiceForIconRequest() {
         val intent = Intent(this, IconService::class.java)
-        var iconReceiver = object : ResultReceiver(Handler()) {
+        val iconReceiver = object : ResultReceiver(Handler()) {
             override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                 stopService(intent)
                 super.onReceiveResult(resultCode, resultData)
-                var image: Bitmap = resultData!!.getParcelable("icon")
+                val image: Bitmap = resultData!!.getParcelable("icon")
                 currentWeather!!.currentInfo.image = image
                 setViews()
             }
@@ -122,10 +122,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setViews() {
-        cityName!!.setText(currentWeather!!.name)
-        temp!!.setText(currentWeather!!.currentInfo.temp)
-        country!!.setText(currentWeather!!.country)
-        description!!.setText(currentWeather!!.currentInfo.description)
+        cityName!!.text = currentWeather!!.name
+        temp!!.text = currentWeather!!.currentInfo.temp
+        country!!.text = currentWeather!!.country
+        description!!.text = currentWeather!!.currentInfo.description
 
         if (currentWeather!!.currentInfo.image != null) {
             Log.d("RESPONSE", "SETTING IMAGE")
@@ -138,14 +138,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isConnectionAvailable(): Boolean {
-        var isConnected = application.connectivityManager!!.activeNetworkInfo != null &&
-                application.connectivityManager!!.activeNetworkInfo.isConnected
+        val isConnected = application.connectivityManager.activeNetworkInfo != null &&
+                application.connectivityManager.activeNetworkInfo.isConnected
 
         if (!isConnected) {
             return false
         } else {
             if (wifiOnly)
-                return application.connectivityManager!!.activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI
+                return application.connectivityManager.activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI
 
             return true
         }
