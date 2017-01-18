@@ -152,14 +152,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isPowerLow(): Boolean {
-        if(isCharging()) return false
+        if (isCharging()) return false
 
         return getBatteryLevel() < application.prefs.getInt("minimumBatteryLevel", 25)
     }
 
     fun getBatteryLevel(): Int {
-        val ifilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        val batteryStatus = applicationContext.registerReceiver(null, ifilter)
+        val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        val batteryStatus = applicationContext.registerReceiver(null, iFilter)
 
         val level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
         val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
@@ -198,12 +198,24 @@ class MainActivity : AppCompatActivity() {
     fun onDetails(view: View) {
 
         Log.d("YAWA_TAG", "onDetails")
-        if (currentWeather != null) {
-            val intent = Intent(this, DetailedCurrentWeatherInfoActivity::class.java)
-            startActivity(intent)
-        } else {
-            Toast.makeText(this, "Select a City First", Toast.LENGTH_SHORT).show()
-        }
+        val intent = Intent(this, DetailedCurrentWeatherInfoActivity::class.java)
+        intent.putExtra("name", currentWeather!!.name)
+        intent.putExtra("country", currentWeather!!.country)
+        intent.putExtra("lat", currentWeather!!.lat)
+        intent.putExtra("long", currentWeather!!.lon)
+        intent.putExtra("date", currentWeather!!.currentInfo.date)
+        intent.putExtra("desc", currentWeather!!.currentInfo.description)
+        intent.putExtra("hum", currentWeather!!.currentInfo.humidity)
+        intent.putExtra("press", currentWeather!!.currentInfo.pressure)
+        intent.putExtra("temp", currentWeather!!.currentInfo.temp)
+        intent.putExtra("sunr", currentWeather!!.currentInfo.sunrise)
+        intent.putExtra("suns", currentWeather!!.currentInfo.sunset)
+        intent.putExtra("ws", currentWeather!!.currentInfo.windSpeed)
+        intent.putExtra("image", currentWeather!!.currentInfo.image)
+        intent.putExtra("icon", currentWeather!!.currentInfo.icon)
+
+        startActivity(intent)
+
     }
 
 
@@ -226,9 +238,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun setBackGroundImage(str:String){
+    private fun setBackGroundImage(str: String) {
 
-        when(str){
+        when (str) {
 
             "01d" -> {
                 findViewById(android.R.id.content)

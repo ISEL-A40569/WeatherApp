@@ -38,9 +38,10 @@ class ForecastActivity : ListActivity() {
 
         if (isServiceAccessAllowed()) {
             Log.d("RESPONSE", "LOAD FORECAST FROM REQUEST")
+            Log.d("RESPONSE", "FORECAST FOR $location in $language")
+
             startServiceForDataRequest()
         } else {
-
             Log.d("RESPONSE", "LOAD FORECAST FROM DATABASE")
             forecast = application.DbApi.getForecast(location!!, language!!, "PT")//TODO: USE COUNTRY OR NOT?
             Log.d("RESPONSE", "FWI COUNT: " + forecast!!.list.size)
@@ -101,17 +102,29 @@ class ForecastActivity : ListActivity() {
     }
 
     private fun setView() {
-        listView.setAdapter(FutureWeatherInfoArrayAdapter(applicationContext, forecast?.list!!))
+        listView.adapter = FutureWeatherInfoArrayAdapter(applicationContext, forecast!!.list)
     }
 
     override fun onListItemClick(l: ListView?, v: View?, position: Int, id: Long) {
         super.onListItemClick(l, v, position, id)
         Log.d("RESPONSE", "CLICKING " + position)
 
-        futureWeatherInfo = forecast!!.list[position]
-        Log.d("RESPONSE", "HERE!")
+        val futureWeatherInfo = forecast!!.list[position]
 
         val intent = Intent(this, BasicWeatherInfoActivity::class.java)
+
+        intent.putExtra("date", futureWeatherInfo.date)
+        intent.putExtra("press", futureWeatherInfo.pressure)
+        intent.putExtra("hum", futureWeatherInfo.humidity)
+        intent.putExtra("desc", futureWeatherInfo.description)
+        intent.putExtra("icon", futureWeatherInfo.icon)
+        intent.putExtra("tmin", futureWeatherInfo.tempMin)
+        intent.putExtra("tmax", futureWeatherInfo.tempMax)
+        intent.putExtra("image", futureWeatherInfo.image)
+
+
+
+
         startActivity(intent)
     }
 

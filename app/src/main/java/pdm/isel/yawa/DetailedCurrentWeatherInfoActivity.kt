@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import pdm.isel.yawa.model.Current
+import pdm.isel.yawa.model.CurrentWeatherInfo
 
 class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
 
@@ -31,7 +32,6 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detailed_current_weather_info)
 
         initViews()
-        setBackGroundImage(currentWeather!!.currentInfo.icon)
     }
 
     private fun initViews() {
@@ -52,11 +52,32 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        val intent = intent
+        currentWeather = Current(
+                intent.getStringExtra("name"),
+                intent.getStringExtra("country"),
+                intent.getStringExtra("long"),
+                intent.getStringExtra("lat"),
+                CurrentWeatherInfo(
+                        intent.getStringExtra("date"),
+                        intent.getStringExtra("press"),
+                        intent.getStringExtra("hum"),
+                        intent.getStringExtra("desc"),
+                        intent.getStringExtra("icon"),
+                        intent.getStringExtra("temp"),
+                        intent.getStringExtra("sunr"),
+                        intent.getStringExtra("suns"),
+                        intent.getStringExtra("ws")
+                )
+        )
 
-//        currentWeather = ??? TODO: get it from main activity
+        currentWeather!!.currentInfo.image = intent.getParcelableExtra("image")
+
         Log.d("RESPONSE", "WEATHER INFO FOR: " + currentWeather!!.name)
 
         setViews()
+        setBackGroundImage(currentWeather!!.currentInfo.icon)
+
     }
 
     private fun setViews() {

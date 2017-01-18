@@ -6,7 +6,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import pdm.isel.yawa.model.FutureWeatherInfo
 
-var futureWeatherInfo: FutureWeatherInfo? = null
 
 class BasicWeatherInfoActivity : AppCompatActivity() {
     var date: TextView? = null
@@ -16,6 +15,7 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
     var humidity: TextView? = null
     var description: TextView? = null
     var image: ImageView? = null
+    var futureWeatherInfo: FutureWeatherInfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,19 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        val intent = intent
+        futureWeatherInfo = FutureWeatherInfo(
+                intent.getStringExtra("date"),
+                intent.getStringExtra("press"),
+                intent.getStringExtra("hum"),
+                intent.getStringExtra("desc"),
+                intent.getStringExtra("icon"),
+                intent.getStringExtra("tmin"),
+                intent.getStringExtra("tmax")
+        )
+
+        futureWeatherInfo!!.image = intent.getParcelableExtra("image")
+
         setViews()
     }
 
@@ -50,7 +63,7 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
         setBackGroundImage(futureWeatherInfo?.icon!!)
     }
 
-    private fun setBackGroundImage(str:String) {
+    private fun setBackGroundImage(str: String) {
 
         when (str) {
 

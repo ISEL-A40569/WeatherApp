@@ -3,6 +3,7 @@ package pdm.isel.yawa.provider
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.provider.BaseColumns
+import android.util.Log
 import pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS
 import pdm.isel.yawa.model.*
 
@@ -57,6 +58,8 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
                 null,
                 null
         )
+
+        Log.d("GetCurrent", location + " " + language + " " + country)
 
         cursor.moveToNext()
 
@@ -153,7 +156,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     }
 
     private fun getFutureWeatherInfos(fid: Int): Array<FutureWeatherInfo> {
-        var cursorfwi = contentResolver.query(
+        val cursorfwi = contentResolver.query(
                 WeatherContract.FutureWeatherInfo.CONTENT_URI,
                 null,
                 "forecastId = " + fid.toString(),
@@ -161,10 +164,10 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
                 null
         )
 
-        var arrayOfFutureWeatherInfo = kotlin.arrayOfNulls<FutureWeatherInfo>(NUMBER_OF_FORECAST_DAYS) as Array<FutureWeatherInfo>
+        val arrayOfFutureWeatherInfo = kotlin.arrayOfNulls<FutureWeatherInfo>(NUMBER_OF_FORECAST_DAYS) as Array<FutureWeatherInfo>
         var index = 0
         while (cursorfwi.moveToNext()) {
-            var futureAux = FutureWeatherInfo(
+            val futureAux = FutureWeatherInfo(
                     cursorfwi.getString(2)
                     , cursorfwi.getString(3)
                     , cursorfwi.getString(4)
@@ -180,7 +183,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     }
 
     private fun verifyIfExists(cityInfo: CityInfo): Int {
-        var cursor = contentResolver.query(WeatherContract.City.CONTENT_URI,
+        val cursor = contentResolver.query(WeatherContract.City.CONTENT_URI,
                 null,
                 "name = '" + cityInfo.cityName +"'", // "' and country = '" + cityInfo.cityCountry + "' and language = '" + cityInfo.language + "'",
                 null,
@@ -194,7 +197,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     }
 
     private fun verifyIfExists(cwi: CurrentWeatherInfo, cid: Int): Int {
-        var cursor = contentResolver.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI,
+        val cursor = contentResolver.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI,
                 null,
                 "date = '" + cwi.date + "' and currentid = " + cid.toString(),
                 null,
@@ -208,7 +211,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     }
 
     private fun verifyIfExists(fwi: FutureWeatherInfo, fid: Int): Int {
-        var cursor = contentResolver.query(WeatherContract.FutureWeatherInfo.CONTENT_URI,
+        val cursor = contentResolver.query(WeatherContract.FutureWeatherInfo.CONTENT_URI,
                 null,
                 "date = '" + fwi.date + "' and forecastId = " + fid.toString(),
                 null,
