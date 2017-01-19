@@ -65,11 +65,15 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
 
         cursor.moveToNext()
 
-        return Current(cursor.getString(1)
+        val current = Current(cursor.getString(1)
                 , cursor.getString(2)
                 , cursor.getString(3)
                 , cursor.getString(4)
                 , getCurrentWeatherInfo(cursor.getInt(0)))
+
+        cursor.close()
+
+        return current
 
     }
 
@@ -84,11 +88,15 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
 
         cursor.moveToNext()
 
-        return Forecast(cursor.getString(1)
+        val forecast = Forecast(cursor.getString(1)
                 , cursor.getString(2)
                 , cursor.getString(3)
                 , cursor.getString(4)
                 , getFutureWeatherInfos(cursor.getInt(0)))
+
+        cursor.close()
+
+        return forecast
     }
 
     private fun insert(cwi: CurrentWeatherInfo, cid: Int) {
@@ -145,7 +153,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
 
         cursorWi.moveToNext()
 
-        return CurrentWeatherInfo(cursorWi.getString(2)
+        val cwi = CurrentWeatherInfo(cursorWi.getString(2)
                 , cursorWi.getString(3)
                 , cursorWi.getString(4)
                 , cursorWi.getString(5)
@@ -155,10 +163,14 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
                 , cursorWi.getString(9)
                 , cursorWi.getString(10)
         )
+
+        cursorWi.close()
+
+        return cwi
     }
 
     private fun getFutureWeatherInfos(fid: Int): Array<FutureWeatherInfo> {
-        val cursorfwi = contentResolver.query(
+        val cursorFwi = contentResolver.query(
                 WeatherContract.FutureWeatherInfo.CONTENT_URI,
                 null,
                 "forecastId = " + fid.toString(),
@@ -168,18 +180,20 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
 
         val arrayOfFutureWeatherInfo = kotlin.arrayOfNulls<FutureWeatherInfo>(NUMBER_OF_FORECAST_DAYS) as Array<FutureWeatherInfo>
         var index = 0
-        while (cursorfwi.moveToNext()) {
+        while (cursorFwi.moveToNext()) {
             val futureAux = FutureWeatherInfo(
-                    cursorfwi.getString(2)
-                    , cursorfwi.getString(3)
-                    , cursorfwi.getString(4)
-                    , cursorfwi.getString(5)
-                    , cursorfwi.getString(6)
-                    , cursorfwi.getString(7)
-                    , cursorfwi.getString(8)
+                    cursorFwi.getString(2)
+                    , cursorFwi.getString(3)
+                    , cursorFwi.getString(4)
+                    , cursorFwi.getString(5)
+                    , cursorFwi.getString(6)
+                    , cursorFwi.getString(7)
+                    , cursorFwi.getString(8)
             )
             arrayOfFutureWeatherInfo[index++] = futureAux
         }
+
+        cursorFwi.close()
 
         return arrayOfFutureWeatherInfo
     }
@@ -195,7 +209,12 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
             return -1
 
         cursor.moveToFirst()
-        return cursor.getInt(0)
+
+        val aux = cursor.getInt(0)
+
+        cursor.close()
+
+        return aux
     }
 
     private fun verifyIfExists(cwi: CurrentWeatherInfo, cid: Int): Int {
@@ -209,13 +228,17 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
             return -1
 
         cursor.moveToFirst()
-        return cursor.getInt(0)
+        val aux = cursor.getInt(0)
+
+        cursor.close()
+
+        return aux
     }
 
     private fun verifyIfExists(fwi: FutureWeatherInfo, fid: Int): Int {
         val cursor = contentResolver.query(WeatherContract.FutureWeatherInfo.CONTENT_URI,
                 null,
-                "date = '" + fwi.date + "' and forecastId = " + fid.toString(),
+                "date = '${fwi.date}' and forecastId = $fid",
                 null,
                 null)
 
@@ -223,7 +246,11 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
             return -1
 
         cursor.moveToFirst()
-        return cursor.getInt(0)
+        val aux = cursor.getInt(0)
+
+        cursor.close()
+
+        return aux
     }
 
 
@@ -244,22 +271,25 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     }
 
     /*
-     * returns a list of all citys in the DB
+     * returns a list of all cities in the DB
      */
     fun getListOfAllCities(cr: ContentResolver): LinkedList<String> {
 
-        var cursor = cr.query(WeatherContract.City.CONTENT_URI, null, null, null, "'name' ASC")
+        val cursor = cr.query(WeatherContract.City.CONTENT_URI, null, null, null, "'name' ASC")
 
         if (cursor.count == 0) {
             Log.d("YAWA_TAG", "WeatherCrudFunctions - NULL CURSOR")
             return LinkedList<String>()
         }
 
-        var list = LinkedList<String>()
+        val list = LinkedList<String>()
 
         while (cursor.moveToNext()) {
             list.add(cursor.getString(1))
         }
+
+        cursor.close()
+
         return list
     }
 }
