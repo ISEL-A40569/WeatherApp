@@ -17,28 +17,23 @@ class NotificationSettingsActivity : AppCompatActivity() {
     var minutesValue: Int = 0
     var areNotificationsOn = false
 
+    var text: TextView? = null
+    var button: Button? = null
+    var timePicker: TimePicker? = null
+    var checkBox: CheckBox? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification_settings)
 
-        val text = findViewById(R.id.NotificationsTextView) as TextView
-        text.setTextColor(Color.GREEN)
+        text = findViewById(R.id.NotificationsTextView) as TextView
+        text!!.setTextColor(Color.GREEN)
+        button = findViewById(R.id.DefineTimeButton) as Button
+        timePicker = findViewById(R.id.NotificationsTimePicker) as TimePicker
+        checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
 
-        val button: Button = findViewById(R.id.DefineTimeButton) as Button
-
-        val timePicker: TimePicker = findViewById(R.id.NotificationsTimePicker) as TimePicker
-
-        timePicker.hour = application.prefs.getInt("hour", 8)
-        timePicker.minute = application.prefs.getInt("minutes", 0)
-        areNotificationsOn = application.prefs.getBoolean("areNotificationsOn", false)
-
-        val checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
-        checkBox.isChecked = areNotificationsOn
-
-        Log.d("OnSettingNotifications", checkBox.isChecked.toString())
-
-        checkBox.setOnClickListener {
-            Log.d("OnSettingNotifications", checkBox.isChecked.toString())
+        checkBox!!.setOnClickListener {
+            Log.d("OnSettingNotifications", checkBox!!.isChecked.toString())
 
             areNotificationsOn = !areNotificationsOn
 
@@ -52,12 +47,12 @@ class NotificationSettingsActivity : AppCompatActivity() {
 
             application.editor.commit()
         }
-        button.setOnClickListener {
+        button!!.setOnClickListener {
             Log.d("OnSettingNotifications", hourValue.toString())
             Log.d("OnSettingNotifications", minutesValue.toString())
 
-            hourValue = timePicker.hour
-            minutesValue = timePicker.minute
+            hourValue = timePicker!!.hour
+            minutesValue = timePicker!!.minute
 
             application.editor.putInt("hour", hourValue)
             application.editor.putInt("minutes", minutesValue)
@@ -86,6 +81,18 @@ class NotificationSettingsActivity : AppCompatActivity() {
         }
         findViewById(android.R.id.content)
                 .background = ResourcesCompat.getDrawable(resources, R.drawable.menu, null)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        timePicker!!.hour = application.prefs.getInt("hour", 8)
+        timePicker!!.minute = application.prefs.getInt("minutes", 0)
+        areNotificationsOn = application.prefs.getBoolean("areNotificationsOn", false)
+
+        checkBox!!.isChecked = areNotificationsOn
+        Log.d("OnSettingNotifications", checkBox!!.isChecked.toString())
 
     }
+
 }

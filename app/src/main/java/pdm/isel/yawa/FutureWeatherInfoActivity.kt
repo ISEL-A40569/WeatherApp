@@ -37,7 +37,7 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val intent = intent
+
         futureWeatherInfo = FutureWeatherInfo(
                 intent.getStringExtra("date"),
                 intent.getStringExtra("press"),

@@ -15,21 +15,18 @@ class CityListActivity : ListActivity() {
     var cities: Array<Any>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val cityList = application.DbApi.getListOfAllCities(contentResolver)
-
-        cities = cityList.toArray()!!
-
-        setContentView(R.layout.activity_city_list)
         Log.d("YAWA_TAG", "COUNTRY_onCreate")
-
-        val adapter = ArrayAdapter<Any>(this, android.R.layout.simple_list_item_1, cities)
-        //val listView = findViewById(android.R.id.list) as ListView    // tmb funciona
-        listView.adapter = adapter
-
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_city_list)
     }
 
+    override fun onStart() {
+        Log.d("YAWA_TAG", "COUNTRY_onStart")
+        super.onStart()
+        cities = application.DbApi.getListOfAllCities(contentResolver).toArray()
+        val adapter = ArrayAdapter<Any>(this, android.R.layout.simple_list_item_1, cities)
+        listView.adapter = adapter
+    }
 
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
         val location = cities!![position] as String

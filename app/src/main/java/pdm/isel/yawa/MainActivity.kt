@@ -49,8 +49,6 @@ class MainActivity : AppCompatActivity() {
         description = findViewById(R.id.main_description) as TextView
         image = findViewById(R.id.main_view) as ImageView
 
-        //findViewById(android.R.id.content).setBackgroundDrawable(resources.getDrawable(R.drawable.i02n))
-
     }
 
 
@@ -74,7 +72,6 @@ class MainActivity : AppCompatActivity() {
             currentWeather = application.DbApi.getCurrent(location!!, language!!, "PT")
             getIcon(currentWeather!!.currentInfo.icon)
         }
-        //setBackGroundImage(currentWeather.currentInfo.icon)
     }
 
 

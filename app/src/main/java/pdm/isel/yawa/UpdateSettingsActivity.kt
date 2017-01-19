@@ -13,6 +13,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import org.w3c.dom.Text
 import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 
 
@@ -20,23 +21,20 @@ class UpdateSettingsActivity : AppCompatActivity() {
     var updateInterval: Int = 1
     var wifiOnly = false
     var editText: EditText? = null
+    var text: TextView? = null
+    var checkBox: CheckBox? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_interval_setting)
         editText = findViewById(R.id.UptdateTimeText) as EditText
 
-        val text = findViewById(R.id.UpdateTextView) as TextView
-        text.setTextColor(Color.GREEN)
+        text = findViewById(R.id.UpdateTextView) as TextView
+        text!!.setTextColor(Color.GREEN)
+        checkBox = findViewById(R.id.WifiCheckBox) as CheckBox
+        checkBox!!.setBackgroundColor(Color.WHITE)
 
-
-        val checkBox = findViewById(R.id.WifiCheckBox) as CheckBox
-        checkBox.setBackgroundColor(Color.WHITE)
-
-        wifiOnly = application.prefs.getBoolean("wifiOnly", false)
-
-        checkBox.isChecked = wifiOnly
-        checkBox.setOnClickListener {
+        checkBox!!.setOnClickListener {
 
             wifiOnly = !wifiOnly
 
@@ -47,11 +45,19 @@ class UpdateSettingsActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "All Connections Allowed", Toast.LENGTH_SHORT).show()
             }
-
             application.editor.commit()
         }
+
         findViewById(android.R.id.content)
                 .background = ResourcesCompat.getDrawable(resources, R.drawable.menu, null)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        wifiOnly = application.prefs.getBoolean("wifiOnly", false)
+
+        checkBox!!.isChecked = wifiOnly
     }
 
     fun onUpdateTime(view: View) {

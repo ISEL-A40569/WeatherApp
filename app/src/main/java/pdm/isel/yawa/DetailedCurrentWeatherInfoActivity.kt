@@ -53,7 +53,6 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val intent = intent
         currentWeather = Current(
                 intent.getStringExtra("name"),
                 intent.getStringExtra("country"),
