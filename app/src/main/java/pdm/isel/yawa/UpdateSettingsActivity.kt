@@ -15,10 +15,10 @@ import android.widget.TextView
 import android.widget.Toast
 import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 
-var updateInterval: Int = 0
-var wifiOnly = false
 
 class UpdateSettingsActivity : AppCompatActivity() {
+    var updateInterval: Int = 1
+    var wifiOnly = false
     var editText: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +32,9 @@ class UpdateSettingsActivity : AppCompatActivity() {
 
         val checkBox = findViewById(R.id.WifiCheckBox) as CheckBox
         checkBox.setBackgroundColor(Color.WHITE)
+
+        wifiOnly = application.prefs.getBoolean("wifiOnly", false)
+
         checkBox.isChecked = wifiOnly
         checkBox.setOnClickListener {
 

@@ -24,6 +24,7 @@ class ForecastActivity : ListActivity() {
     var forecast: Forecast? = null
     var language: String? = null
     var location: String? = null
+    var wifiOnly: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,7 @@ class ForecastActivity : ListActivity() {
 
         location = application.prefs.getString("city", "Lisbon")
         language = application.prefs.getString("language", "português")
+        wifiOnly = application.prefs.getBoolean("wifiOnly", false)
 
         if (isServiceAccessAllowed()) {
             Log.d("RESPONSE", "LOAD FORECAST FROM REQUEST")
@@ -121,9 +123,6 @@ class ForecastActivity : ListActivity() {
         intent.putExtra("tmin", futureWeatherInfo.tempMin)
         intent.putExtra("tmax", futureWeatherInfo.tempMax)
         intent.putExtra("image", futureWeatherInfo.image)
-
-
-
 
         startActivity(intent)
     }

@@ -11,11 +11,11 @@ import android.widget.*
 import pdm.isel.yawa.broadcast_receivers.NotificationsReceiver
 import java.util.*
 
-var hourValue: Int = 0
-var minutesValue: Int = 0
-var areNotificationsOn = false
 
 class NotificationSettingsActivity : AppCompatActivity() {
+    var hourValue: Int = 0
+    var minutesValue: Int = 0
+    var areNotificationsOn = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,17 +26,16 @@ class NotificationSettingsActivity : AppCompatActivity() {
 
         val button: Button = findViewById(R.id.DefineTimeButton) as Button
 
-        val timepicker: TimePicker = findViewById(R.id.NotificationsTimePicker) as TimePicker
+        val timePicker: TimePicker = findViewById(R.id.NotificationsTimePicker) as TimePicker
 
-        timepicker.hour = application.prefs.getInt("hour", 8)
-        timepicker.minute = application.prefs.getInt("minutes", 0)
-
+        timePicker.hour = application.prefs.getInt("hour", 8)
+        timePicker.minute = application.prefs.getInt("minutes", 0)
+        areNotificationsOn = application.prefs.getBoolean("areNotificationsOn", false)
 
         val checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
         checkBox.isChecked = areNotificationsOn
 
         Log.d("OnSettingNotifications", checkBox.isChecked.toString())
-
 
         checkBox.setOnClickListener {
             Log.d("OnSettingNotifications", checkBox.isChecked.toString())
@@ -57,8 +56,8 @@ class NotificationSettingsActivity : AppCompatActivity() {
             Log.d("OnSettingNotifications", hourValue.toString())
             Log.d("OnSettingNotifications", minutesValue.toString())
 
-            hourValue = timepicker.hour
-            minutesValue = timepicker.minute
+            hourValue = timePicker.hour
+            minutesValue = timePicker.minute
 
             application.editor.putInt("hour", hourValue)
             application.editor.putInt("minutes", minutesValue)

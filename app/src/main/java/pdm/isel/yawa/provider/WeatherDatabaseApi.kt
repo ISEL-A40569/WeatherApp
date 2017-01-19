@@ -2,10 +2,12 @@ package pdm.isel.yawa.provider
 
 import android.content.ContentResolver
 import android.content.ContentValues
+import android.database.Cursor
 import android.provider.BaseColumns
 import android.util.Log
 import pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS
 import pdm.isel.yawa.model.*
+import java.util.*
 
 /**
  * Created by Dani on 29-12-2016.
@@ -239,5 +241,25 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
                 BaseColumns._ID + " = ? and forecastId = ?",
                 arrayOf(id.toString(), fid.toString())
         )
+    }
+
+    /*
+     * returns a list of all citys in the DB
+     */
+    fun getListOfAllCities(cr: ContentResolver): LinkedList<String> {
+
+        var cursor = cr.query(WeatherContract.City.CONTENT_URI, null, null, null, "'name' ASC")
+
+        if (cursor.count == 0) {
+            Log.d("YAWA_TAG", "WeatherCrudFunctions - NULL CURSOR")
+            return LinkedList<String>()
+        }
+
+        var list = LinkedList<String>()
+
+        while (cursor.moveToNext()) {
+            list.add(cursor.getString(1))
+        }
+        return list
     }
 }

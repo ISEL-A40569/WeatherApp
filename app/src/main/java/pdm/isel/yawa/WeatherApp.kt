@@ -30,38 +30,37 @@ val JSON_MAPPER = JsonToDtoMapper()
 
 val NUMBER_OF_FORECAST_DAYS = 16
 
-val crud = WeatherCrudFunctions()
-
 class WeatherApp : Application() {
     val MY_PREFS_NAME = "Prefs"
-
-    val requestQueue by lazy { Volley.newRequestQueue(this) }
-
-    var prefs: SharedPreferences? = null
-
-    var editor: SharedPreferences.Editor? = null
-
-    var alarmManager: AlarmManager? = null
-
-    var connectivityManager: ConnectivityManager? = null
-
+    val requestQueue: RequestQueue by lazy { Volley.newRequestQueue(this) }
     val iconCache = IconCache(this)
 
     var DbApi: WeatherDatabaseApi? = null
+    var prefs: SharedPreferences? = null
+    var editor: SharedPreferences.Editor? = null
+    var alarmManager: AlarmManager? = null
+    var connectivityManager: ConnectivityManager? = null
+
+    var hour = 0
+    var minutes = 0
+    var areNotificationsOn = false
+
+    var updateInterval: Int = 1
+    var wifiOnly = false
 
     override fun onCreate() {
         super.onCreate()
         Log.d("Weather/App", "WeatherApp onCreate")
 
+        DbApi = WeatherDatabaseApi(contentResolver)
         prefs = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE)
         editor = prefs!!.edit()
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        DbApi = WeatherDatabaseApi(contentResolver)
 
         getPreferences(prefs!!)
 
-//        setWeatherReceiver()
+        setWeatherReceiver()
 
         if (areNotificationsOn)
             setNotificationsReceiver()
@@ -70,20 +69,21 @@ class WeatherApp : Application() {
     fun getPreferences(prefs: SharedPreferences) {
         Log.d("AppGetPrefs", updateInterval.toString())
         Log.d("AppGetPrefs", areNotificationsOn.toString())
-        Log.d("AppGetPrefs", hourValue.toString())
-        Log.d("AppGetPrefs", minutesValue.toString())
+        Log.d("AppGetPrefs", hour.toString())
+        Log.d("AppGetPrefs", minutes.toString())
         Log.d("AppGetPrefs", wifiOnly.toString())
 
+
+        areNotificationsOn = prefs.getBoolean("areNotificationsOn", false)
+        hour = prefs.getInt("hour", 22)
+        minutes = prefs.getInt("minutes", 26)
         updateInterval = prefs.getInt("updateInterval", 1)
-        areNotificationsOn = prefs.getBoolean("areNotificationsOn", true)
-        hourValue = prefs.getInt("hour", 22)
-        minutesValue = prefs.getInt("minutes", 26)
         wifiOnly = prefs.getBoolean("wifiOnly", false)
 
         Log.d("AppGetPrefs", updateInterval.toString())
         Log.d("AppGetPrefs", areNotificationsOn.toString())
-        Log.d("AppGetPrefs", hourValue.toString())
-        Log.d("AppGetPrefs", minutesValue.toString())
+        Log.d("AppGetPrefs", hour.toString())
+        Log.d("AppGetPrefs", minutes.toString())
         Log.d("AppGetPrefs", wifiOnly.toString())
 
     }
@@ -96,10 +96,10 @@ class WeatherApp : Application() {
 
             val pendingAlarmIntent = PendingIntent.getBroadcast(this, 1, alarmIntentForNotificationsService, 0)
 
-            Log.d("SettingNotifications", hourValue.toString())
-            Log.d("SettingNotifications", minutesValue.toString())
+            Log.d("SettingNotifications", hour.toString())
+            Log.d("SettingNotifications", minutes.toString())
 
-            val calendar = getCalendar(hourValue, minutesValue)
+            val calendar = getCalendar(hour, minutes)
 
             alarmManager!!.setRepeating(
                     AlarmManager.RTC_WAKEUP,

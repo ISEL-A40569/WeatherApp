@@ -20,12 +20,13 @@ class WeatherBroadcastReceiver : WakefulBroadcastReceiver() {
     var connectivityManager: ConnectivityManager? = null
     var cnxt: Context? = null
     var prefs: SharedPreferences? = null
+    var wifiOnly: Boolean = false
 
     override fun onReceive(context: Context?, intent: Intent?) {
         cnxt = context
         prefs = cnxt!!.getSharedPreferences("Prefs", Context.MODE_PRIVATE)
-
         connectivityManager = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        wifiOnly = prefs!!.getBoolean("wifiOnly", false)
 
         if (isServiceAccessAllowed())
         if (Intent.ACTION_BOOT_COMPLETED != intent?.action) {

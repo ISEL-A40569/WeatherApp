@@ -7,7 +7,6 @@ import android.content.Intent
 import android.support.v7.app.NotificationCompat
 import android.util.Log
 import pdm.isel.yawa.R
-import pdm.isel.yawa.areNotificationsOn
 import pdm.isel.yawa.prefs
 
 
@@ -15,8 +14,12 @@ import pdm.isel.yawa.prefs
  * Class used to send a notification message.
  */
 class NotificationsService : IntentService("NotificationService"){
+    var areNotificationsOn: Boolean = false
+
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnNotificationsService", "OnNotificationsService")
+        areNotificationsOn = application.prefs.getBoolean("areNotificationsOn", false)
+
         if(areNotificationsOn)
         generateNotification()
     }

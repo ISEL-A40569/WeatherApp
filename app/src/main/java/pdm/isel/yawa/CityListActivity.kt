@@ -17,7 +17,7 @@ class CityListActivity : ListActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val cityList = crud.getListOfAllCitys(contentResolver, null, null, null, "'name' ASC")
+        val cityList = application.DbApi.getListOfAllCities(contentResolver)
 
         cities = cityList.toArray()!!
 

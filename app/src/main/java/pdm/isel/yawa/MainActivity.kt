@@ -32,6 +32,9 @@ class MainActivity : AppCompatActivity() {
     var location: String? = null
     var language: String? = null
 
+    //wifiOnly
+    var wifiOnly: Boolean = false
+
     //Current instance
     var currentWeather: Current? = null
 
@@ -57,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         application.editor.putString("language", language)
 
         location = application.prefs.getString("city", "Lisbon")
+        wifiOnly = application.prefs.getBoolean("wifiOnly", false)
 
         if (isServiceAccessAllowed()) {
             Log.d("OnStart", "Network Available")
