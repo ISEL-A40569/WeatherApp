@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.SystemClock
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
@@ -47,7 +48,7 @@ class UpdateSettingsActivity : AppCompatActivity() {
             application.editor.commit()
         }
         findViewById(android.R.id.content)
-                .setBackgroundDrawable(resources.getDrawable(R.drawable.menu))
+                .background = ResourcesCompat.getDrawable(resources, R.drawable.menu, null)
     }
 
     fun onUpdateTime(view: View) {

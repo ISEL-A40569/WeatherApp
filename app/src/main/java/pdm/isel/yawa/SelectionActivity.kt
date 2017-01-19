@@ -1,6 +1,7 @@
 package pdm.isel.yawa
 
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.EditText
@@ -24,6 +25,7 @@ class SelectionActivity : AppCompatActivity() {
             Toast.makeText(this, location, Toast.LENGTH_LONG).show()
         }
         findViewById(android.R.id.content)
-                .setBackgroundDrawable(resources.getDrawable(R.drawable.choose))
+                .background = ResourcesCompat.getDrawable(resources, R.drawable.choose, null)
+
     }
 }

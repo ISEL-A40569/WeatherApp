@@ -1,6 +1,7 @@
 package pdm.isel.yawa
 
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.*
@@ -51,7 +52,7 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
 
         }
         findViewById(android.R.id.content)
-                .setBackgroundDrawable(resources.getDrawable(R.drawable.battery))//TODO: nao deviamos usar deprecated's
+                .background = ResourcesCompat.getDrawable(resources, R.drawable.battery, null)
 
     }
 

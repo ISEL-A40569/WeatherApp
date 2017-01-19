@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.*
@@ -85,6 +86,7 @@ class NotificationSettingsActivity : AppCompatActivity() {
 
         }
         findViewById(android.R.id.content)
-                .setBackgroundDrawable(resources.getDrawable(R.drawable.menu))
+                .background = ResourcesCompat.getDrawable(resources, R.drawable.menu, null)
+
     }
 }
