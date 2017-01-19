@@ -25,13 +25,13 @@ class UpdateSettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_update_interval_setting)
         editText = findViewById(R.id.UptdateTimeText) as EditText
 
-        var text = findViewById(R.id.UpdateTextView) as TextView
+        val text = findViewById(R.id.UpdateTextView) as TextView
         text.setTextColor(Color.GREEN)
 
 
-        var checkBox = findViewById(R.id.WifiCheckBox) as CheckBox
+        val checkBox = findViewById(R.id.WifiCheckBox) as CheckBox
         checkBox.setBackgroundColor(Color.WHITE)
-        checkBox.setChecked(wifiOnly)
+        checkBox.isChecked = wifiOnly
         checkBox.setOnClickListener {
 
             wifiOnly = !wifiOnly

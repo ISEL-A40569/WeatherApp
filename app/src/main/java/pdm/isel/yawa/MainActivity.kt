@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import pdm.isel.yawa.model.Current
 import pdm.isel.yawa.services.IconService
 import pdm.isel.yawa.services.WeatherService

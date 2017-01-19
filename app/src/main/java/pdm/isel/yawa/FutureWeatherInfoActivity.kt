@@ -53,14 +53,14 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
     }
 
     private fun setViews() {
-        date?.setText(futureWeatherInfo?._date)
-        tmin?.setText(futureWeatherInfo?.tempMin)
-        tmax?.setText(futureWeatherInfo?.tempMax)
-        pressure?.setText(futureWeatherInfo?._pressure)
-        humidity?.setText(futureWeatherInfo?._humidity)
-        description?.setText(futureWeatherInfo?.description)
-        image?.setImageBitmap(futureWeatherInfo?.image)
-        setBackGroundImage(futureWeatherInfo?.icon!!)
+        date!!.text = futureWeatherInfo!!._date
+        tmin!!.text = futureWeatherInfo!!.tempMin
+        tmax!!.text = futureWeatherInfo!!.tempMax
+        pressure!!.text = futureWeatherInfo!!._pressure
+        humidity!!.text = futureWeatherInfo!!._humidity
+        description!!.text = futureWeatherInfo!!.description
+        image!!.setImageBitmap(futureWeatherInfo!!.image)
+        setBackGroundImage(futureWeatherInfo!!.icon)
     }
 
     private fun setBackGroundImage(str: String) {

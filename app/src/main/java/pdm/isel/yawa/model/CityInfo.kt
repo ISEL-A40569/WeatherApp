@@ -11,6 +11,6 @@ abstract class CityInfo(
                          val ln: String,
                          val lt: String
                          ) : MyParcelable(Parcel.obtain()){
-    var language: String? = null;
+    var language: String? = null
 
 }

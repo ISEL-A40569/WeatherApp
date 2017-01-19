@@ -11,14 +11,12 @@ import pdm.isel.yawa.model.ForecastDto
 class JsonToDtoMapper {
     val gson = Gson()
 
-    val fcToken = object : TypeToken<ForecastDto>() {}.type
-
-    public fun mapWeatherInfoJson(weatherInfoJsonString: String): CurrentWeatherInfoDto {
+    fun mapWeatherInfoJson(weatherInfoJsonString: String): CurrentWeatherInfoDto {
         val wiToken = object : TypeToken<CurrentWeatherInfoDto>() {}.type
         return gson.fromJson<CurrentWeatherInfoDto>(weatherInfoJsonString, wiToken)
     }
 
-    public fun mapForecastJson(forecastJsonString: String): ForecastDto {
+    fun mapForecastJson(forecastJsonString: String): ForecastDto {
         val fcToken = object : TypeToken<ForecastDto>() {}.type
         return gson.fromJson<ForecastDto>(forecastJsonString, fcToken)
     }

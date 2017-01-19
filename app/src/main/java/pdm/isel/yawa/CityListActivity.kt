@@ -1,7 +1,6 @@
 package pdm.isel.yawa
 
 import android.app.ListActivity
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -18,7 +17,7 @@ class CityListActivity : ListActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var cityList = crud.getListOfAllCitys(contentResolver, null, null, null, "'name' ASC")
+        val cityList = crud.getListOfAllCitys(contentResolver, null, null, null, "'name' ASC")
 
         cities = cityList.toArray()!!
 
@@ -27,7 +26,7 @@ class CityListActivity : ListActivity() {
 
         val adapter = ArrayAdapter<Any>(this, android.R.layout.simple_list_item_1, cities)
         //val listView = findViewById(android.R.id.list) as ListView    // tmb funciona
-        listView.setAdapter(adapter)
+        listView.adapter = adapter
 
     }
 

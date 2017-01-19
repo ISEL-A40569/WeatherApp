@@ -37,10 +37,10 @@ class WeatherService() : IntentService("WeatherService") {
         Log.d("OnService", language)
 
 
-        if (type == "current" || type.equals("both"))
+        if (type == "current" || type == "both")
             makeCurrentRequest(location!!, language!!, receiver)
 
-        if (type == "forecast" || type.equals("both"))
+        if (type == "forecast" || type == "both")
             makeForecastRequest(location!!, language!!, receiver)
 
         Log.d("OnService", "onHandleIntent end")

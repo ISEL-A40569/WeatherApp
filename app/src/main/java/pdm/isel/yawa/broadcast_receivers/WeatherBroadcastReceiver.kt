@@ -16,7 +16,7 @@ import pdm.isel.yawa.services.WeatherService
  * Current and Forecast weather info for the location and language
  * stored in shared preferences.
  */
-class WeatherBroadcastReceiver : BroadcastReceiver() {
+class WeatherBroadcastReceiver : WakefulBroadcastReceiver() {
     var connectivityManager: ConnectivityManager? = null
     var cnxt: Context? = null
     var prefs: SharedPreferences? = null
@@ -28,32 +28,23 @@ class WeatherBroadcastReceiver : BroadcastReceiver() {
         connectivityManager = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         if (isServiceAccessAllowed())
-        if (!Intent.ACTION_BOOT_COMPLETED.equals(intent?.action)) {
+        if (Intent.ACTION_BOOT_COMPLETED != intent?.action) {
             val intent = Intent(context, WeatherService::class.java)
 
-            var receiver = object : ResultReceiver(Handler()) {
+            val receiver = object : ResultReceiver(Handler()) {
                 override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                     super.onReceiveResult(resultCode, resultData)
 
-                    context!!.stopService(intent)
+                    context.stopService(intent)
                 }
             }
             intent.putExtra("receiver", receiver)
             intent.putExtra("type", "both")
-            intent.putExtra("location", prefs!!.getString("location", "Lisboa"))
+            intent.putExtra("location", prefs!!.getString("city", "Lisboa"))
             intent.putExtra("language", prefs!!.getString("language", "português"))
-            context!!.startService(intent)
 
-            Log.d("WEATHER RECEIVER", "STARTING SERVICE TO UPDATE")
-
-//            TODO: Update all cities, something like:
-//            foreach(CityInfo ci in list){}
-//            val intent = Intent(context, WeatherService::class.java)
-//            intent.putExtra("type", "both")
-//            intent.putExtra("location",ci.name )
-//            intent.putExtra("language", ci.language)
-//            intent.putExtra("receiver", receiver)
-//            context!!.startService(intent)
+            Log.d("WEATHER RECEIVER", "STARTING SERVICE")
+            context.startService(intent)
         }
     }
 
@@ -63,7 +54,7 @@ class WeatherBroadcastReceiver : BroadcastReceiver() {
     }
 
     private fun isConnectionAvailable(): Boolean {
-        var isConnected = connectivityManager!!.activeNetworkInfo != null &&
+        val isConnected = connectivityManager!!.activeNetworkInfo != null &&
                 connectivityManager!!.activeNetworkInfo.isConnected
 
         if (!isConnected) {

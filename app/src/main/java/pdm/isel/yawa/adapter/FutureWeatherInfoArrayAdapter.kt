@@ -23,13 +23,13 @@ class FutureWeatherInfoArrayAdapter(context: Context, val futureWeatherInfos: Ar
         if (convertView == null) {
             convertView = inflater!!.inflate(R.layout.list_entry_layout, parent, false)
             vh = ViewHolder(convertView!!)
-            convertView!!.setTag(vh)
+            convertView.tag = vh
         } else {
-            vh = convertView!!.getTag() as ViewHolder
+            vh = convertView.tag as ViewHolder
         }
 
-        var fwi: FutureWeatherInfo = getItem(position)
-        vh.textView?.setText(fwi.date)
+        val fwi: FutureWeatherInfo = getItem(position)
+        vh.textView!!.text = fwi.date
         vh.imageView!!.setImageBitmap(fwi.image!!)
 
         return convertView

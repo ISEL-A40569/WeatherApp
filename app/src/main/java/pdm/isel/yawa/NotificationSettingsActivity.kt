@@ -20,19 +20,19 @@ class NotificationSettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification_settings)
 
-        var text = findViewById(R.id.NotificationsTextView) as TextView
+        val text = findViewById(R.id.NotificationsTextView) as TextView
         text.setTextColor(Color.GREEN)
 
-        var button: Button = findViewById(R.id.DefineTimeButton) as Button
+        val button: Button = findViewById(R.id.DefineTimeButton) as Button
 
-        var timepicker: TimePicker = findViewById(R.id.NotificationsTimePicker) as TimePicker
+        val timepicker: TimePicker = findViewById(R.id.NotificationsTimePicker) as TimePicker
 
         timepicker.hour = application.prefs.getInt("hour", 8)
         timepicker.minute = application.prefs.getInt("minutes", 0)
 
 
-        var checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
-        checkBox.setChecked(areNotificationsOn)
+        val checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
+        checkBox.isChecked = areNotificationsOn
 
         Log.d("OnSettingNotifications", checkBox.isChecked.toString())
 
@@ -63,16 +63,16 @@ class NotificationSettingsActivity : AppCompatActivity() {
             application.editor.putInt("minutes", minutesValue)
             application.editor.commit()
 
-            var pendingAlarmIntent = android.app.PendingIntent.getBroadcast(applicationContext, 1, Intent(applicationContext, NotificationsReceiver::class.java), 0)
+            val pendingAlarmIntent = android.app.PendingIntent.getBroadcast(applicationContext, 1, Intent(applicationContext, NotificationsReceiver::class.java), 0)
 
             application.alarmManager.cancel(pendingAlarmIntent)
 
             val calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, hourValue!!)
-            calendar.set(Calendar.MINUTE, minutesValue!!)
+            calendar.set(Calendar.HOUR_OF_DAY, hourValue)
+            calendar.set(Calendar.MINUTE, minutesValue)
             calendar.set(Calendar.SECOND, 0)
 
-            application.alarmManager!!.setRepeating(
+            application.alarmManager.setRepeating(
                     AlarmManager.RTC_WAKEUP,
                     calendar.timeInMillis,
                     AlarmManager.INTERVAL_DAY,

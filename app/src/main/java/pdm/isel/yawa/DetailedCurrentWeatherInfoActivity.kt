@@ -81,18 +81,18 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
     }
 
     private fun setViews() {
-        city!!.setText(currentWeather!!.cityName)
-        country!!.setText(currentWeather!!.country)
-        date!!.setText(currentWeather!!.currentInfo._date)
-        lat!!.setText(currentWeather!!.lat.toString())
-        lon!!.setText(currentWeather!!.lon.toString())
-        desc!!.setText(currentWeather!!.currentInfo.description)
-        hum!!.setText(currentWeather!!.currentInfo.humidity)
-        wind!!.setText(currentWeather!!.currentInfo.windSpeed)
-        sunrise!!.setText(currentWeather!!.currentInfo.sunrise)
-        sunset!!.setText(currentWeather!!.currentInfo.sunset)
-        temp!!.setText(currentWeather!!.currentInfo.temp)
-        press!!.setText(currentWeather!!.currentInfo._pressure)
+        city!!.text = currentWeather!!.cityName
+        country!!.text = currentWeather!!.country
+        date!!.text = currentWeather!!.currentInfo._date
+        lat!!.text = currentWeather!!.lat
+        lon!!.text = currentWeather!!.lon
+        desc!!.text = currentWeather!!.currentInfo.description
+        hum!!.text = currentWeather!!.currentInfo.humidity
+        wind!!.text = currentWeather!!.currentInfo.windSpeed
+        sunrise!!.text = currentWeather!!.currentInfo.sunrise
+        sunset!!.text = currentWeather!!.currentInfo.sunset
+        temp!!.text = currentWeather!!.currentInfo.temp
+        press!!.text = currentWeather!!.currentInfo._pressure
         image!!.setImageBitmap(currentWeather!!.currentInfo.image)
 
     }

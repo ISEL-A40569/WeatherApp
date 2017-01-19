@@ -20,14 +20,14 @@ class DbOpenHelper(context: Context?) : SQLiteOpenHelper(context, DbSchema.DB_NA
     private fun createDb(db: SQLiteDatabase?) {
         Log.d("YAWA_TAG", "DbOpenHelper - createDb method")
         db!!.execSQL(DbSchema.City.DDL_CREATE_TABLE)
-        db!!.execSQL(DbSchema.FutureWeatherInfo.DDL_CREATE_TABLE)
-        db!!.execSQL(DbSchema.CurrentWeatherInfo.DDL_CREATE_TABLE)
+        db.execSQL(DbSchema.FutureWeatherInfo.DDL_CREATE_TABLE)
+        db.execSQL(DbSchema.CurrentWeatherInfo.DDL_CREATE_TABLE)
     }
 
     private fun deleteDb(db: SQLiteDatabase?) {
         Log.d("YAWA_TAG", "DbOpenHelper - deleteDb method")
         db!!.execSQL(DbSchema.FutureWeatherInfo.DDL_DROP_TABLE)
-        db!!.execSQL(DbSchema.CurrentWeatherInfo.DDL_DROP_TABLE)
-        db!!.execSQL(DbSchema.City.DDL_DROP_TABLE)
+        db.execSQL(DbSchema.CurrentWeatherInfo.DDL_DROP_TABLE)
+        db.execSQL(DbSchema.City.DDL_DROP_TABLE)
     }
 }

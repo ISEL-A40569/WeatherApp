@@ -13,13 +13,13 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_battery_level_settings)
 
-        var view = findViewById(R.id.BatteryLevelTextView) as TextView
+        val view = findViewById(R.id.BatteryLevelTextView) as TextView
 
-        var startLevel = application.prefs.getInt("minimumBatteryLevel", 25)
+        val startLevel = application.prefs.getInt("minimumBatteryLevel", 25)
 
         view.text =  startLevel.toString() + "%"
 
-        var bar = findViewById(R.id.BatteryLevelBar) as SeekBar
+        val bar = findViewById(R.id.BatteryLevelBar) as SeekBar
         bar.progress = startLevel
 
         bar.setOnSeekBarChangeListener(
@@ -38,7 +38,7 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
         )
 
 
-        var button = findViewById(R.id.BatteryLevelButton) as Button
+        val button = findViewById(R.id.BatteryLevelButton) as Button
 
         button.setOnClickListener {
             minimumBatteryLevel = bar.progress

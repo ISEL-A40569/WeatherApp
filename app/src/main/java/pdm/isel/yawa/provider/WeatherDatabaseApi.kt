@@ -51,7 +51,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     }
 
     fun getCurrent(location: String, language: String, country: String): Current {
-        var cursor = contentResolver.query(
+        val cursor = contentResolver.query(
                 WeatherContract.City.CONTENT_URI,
                 null,
                 "name = '$location' and country = '$country' and language = '$language'",
@@ -59,7 +59,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
                 null
         )
 
-        Log.d("GetCurrent", location + " " + language + " " + country)
+        Log.d("GetCurrent", "$location $language $country")
 
         cursor.moveToNext()
 
@@ -72,7 +72,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     }
 
     fun getForecast(location: String, language: String, country: String): Forecast {
-        var cursor = contentResolver.query(
+        val cursor = contentResolver.query(
                 WeatherContract.City.CONTENT_URI,
                 null,
                 "name = '$location' and country = '$country' and language = '$language'",

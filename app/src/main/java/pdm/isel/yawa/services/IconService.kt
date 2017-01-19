@@ -25,7 +25,7 @@ class IconService : IntentService("IconService"){
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnIconService", "onHandleIntent start")
         val receiver: ResultReceiver = intent!!.getParcelableExtra("iconReceiver")
-        val icon = intent!!.getStringExtra("icon")
+        val icon = intent.getStringExtra("icon")
         Log.d("OnIconService", "icon is " + icon)
 
         makeIconRequest(icon, receiver)
@@ -51,7 +51,7 @@ class IconService : IntentService("IconService"){
                 sendInfo(receiver, "icon", icon)
             }
         }
-        Log.d("OnIconService", "getIconRequestCallback end")
+//        Log.d("OnIconService", "getIconRequestCallback end") unreachable
     }
 
     private fun sendInfo(receiver: ResultReceiver, key: String, image: Bitmap) {

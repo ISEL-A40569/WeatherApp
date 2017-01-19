@@ -6,8 +6,7 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import java.io.File
 import java.io.FileOutputStream
-import java.io.OutputStream
-import java.util.*
+
 
 /**
  * Icon Bitmaps cache.
@@ -15,7 +14,7 @@ import java.util.*
 class IconCache(ctx: Context) {
 
     //private val iconMap = HashMap<String, Bitmap>()
-    private val context: Context;
+    private val context: Context
     init {
         context = ctx
     }
@@ -29,12 +28,7 @@ class IconCache(ctx: Context) {
         val file = File(context.filesDir, key+".bmp")
         Log.d("OnCache", "file exists " + file.exists().toString())
         if(file.exists()){
-            val icon = BitmapFactory.decodeFile(file.path)
-
-            if(icon != null){
-                Log.d("OnCache", "icon exists " + (icon != null).toString())
-                return icon
-            }
+            return BitmapFactory.decodeFile(file.path)
         }
 
         return null
@@ -47,7 +41,7 @@ class IconCache(ctx: Context) {
 //        }
 
         Log.d("OnCache", "files dir  "+ context.filesDir)
-        Log.d("OnCache", "file name  "+ key+".bmp")
+        Log.d("OnCache", "file name  $key.bmp")
 
         val file = File(context.filesDir, key+".bmp")
 
