@@ -7,7 +7,6 @@ import android.os.ResultReceiver
 import android.util.Log
 import org.json.JSONObject
 import pdm.isel.yawa.*
-import pdm.isel.yawa.model.CityInfo
 import pdm.isel.yawa.model.Current
 import pdm.isel.yawa.model.Forecast
 import pdm.isel.yawa.requests.Callback
@@ -25,17 +24,17 @@ class WeatherService() : IntentService("WeatherService") {
 
     var language: String? = null
     var location: String? = null
+
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnService", "onHandleIntent start")
-
         val type = intent!!.getStringExtra("type")
+        val receiver: ResultReceiver = intent.getParcelableExtra("receiver")
+
         language = intent.getStringExtra("language")
         location = intent.getStringExtra("location")
-        val receiver: ResultReceiver = intent.getParcelableExtra("receiver")
 
         Log.d("OnService", location)
         Log.d("OnService", language)
-
 
         if (type == "current" || type == "both")
             makeCurrentRequest(location!!, language!!, receiver)
@@ -48,23 +47,22 @@ class WeatherService() : IntentService("WeatherService") {
 
     private fun makeCurrentRequest(loc: String, lang: String, receiver: ResultReceiver) {
         Log.d("OnService", "makeCurrentRequest start")
-
-        application.requestQueue.add(DataRequest(
+        makeDataRequest(DataRequest(
                 RequestUriFactory().getNowWeather(loc, lang),
                 getCurrentResponseCallback(receiver)))
         Log.d("OnService", "makeCurrentRequest end")
-
     }
-
 
     private fun makeForecastRequest(loc: String, lang: String, receiver: ResultReceiver) {
         Log.d("OnService", "makeForecastRequest start")
-
-        application.requestQueue.add(DataRequest(
+        makeDataRequest(DataRequest(
                 RequestUriFactory().getFutureWeather(loc, lang, NUMBER_OF_FORECAST_DAYS),
                 getForecastResponseCallback(receiver)))
         Log.d("OnService", "makeForecastRequest end")
+    }
 
+    private fun makeDataRequest(request: DataRequest){
+        application.requestQueue.add(request)
     }
 
     private fun getCurrentResponseCallback(receiver: ResultReceiver): Callback<JSONObject> {
@@ -76,41 +74,47 @@ class WeatherService() : IntentService("WeatherService") {
                             JSON_MAPPER.mapWeatherInfoJson(response.toString()))
                     current!!.language = language
                     Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)
-                    sendInfo(receiver, "current", current!!)
+                    sendInfo(receiver, current!!)
                     application.DbApi.insert(current!!)
             }
         }
-
-//        Log.d("OnService", "getCurrentResponseCallback end") unreachable
-
     }
-
-    private fun sendInfo(receiver: ResultReceiver, key: String, info: CityInfo) {
-        Log.d("OnService", key + " sendInfo start")
-
-        val bundle = Bundle()
-        bundle.putParcelable(key, info)
-        receiver.send(200, bundle)
-        Log.d("OnService", key + "sendInfo end")
-
-    }
-
 
     private fun getForecastResponseCallback(receiver: ResultReceiver): Callback<JSONObject> {
+        Log.d("OnService", "getForecastResponseCallback start")
         return object : Callback<JSONObject> {
             override fun onSuccess(response: JSONObject) {
-                    forecast = DTO_MAPPER.mapForecastDto(
-                            JSON_MAPPER.mapForecastJson(response.toString()))
-                    forecast!!.language = language
-                    
-                    Log.d("OnService", "JUST GOT FORECAST FOR: " + forecast!!.name)
+                forecast = DTO_MAPPER.mapForecastDto(
+                        JSON_MAPPER.mapForecastJson(response.toString()))
+                forecast!!.language = language
 
-                    sendInfo(receiver, "forecast", forecast!!)
+                Log.d("OnService", "JUST GOT FORECAST FOR: " + forecast!!.name)
 
-                    application.DbApi.insert(forecast!!)
+                sendInfo(receiver, forecast!!)
+
+                application.DbApi.insert(forecast!!)
             }
         }
     }
 
+    private fun sendInfo(receiver: ResultReceiver, info: Current) {
+        Log.d("OnService", "sendInfo start")
+        val bundle = Bundle()
+        //bundle.putParcelable(key, info)
+        sendBundle(receiver, bundle)
+        Log.d("OnService", "sendInfo end")
+    }
+
+    private fun sendInfo(receiver: ResultReceiver, info: Forecast) {
+        Log.d("OnService", " sendInfo start")
+        val bundle = Bundle()
+        //bundle.putParcelable(key, info)
+        sendBundle(receiver, bundle)
+        Log.d("OnService", "sendInfo end")
+    }
+
+    private fun sendBundle(receiver: ResultReceiver, bundle: Bundle){
+        receiver.send(200, bundle)
+    }
 
 }

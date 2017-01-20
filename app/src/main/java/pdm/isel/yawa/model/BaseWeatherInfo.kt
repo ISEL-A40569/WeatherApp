@@ -8,7 +8,7 @@ abstract class BaseWeatherInfo(val date: String,
                                val pressure: String,
                                val humidity: String,
                                val icon: String
-                               ) : MyParcelable(Parcel.obtain()) {
+                               ) {
     var image: Bitmap? = null
 
 }
