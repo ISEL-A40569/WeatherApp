@@ -14,7 +14,6 @@ class SelectionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_selection)
 
         val selectButton = findViewById(R.id.SelectButton) as Button
-
         val editText = findViewById(R.id.CitySelectionBox) as EditText
 
         selectButton.setOnClickListener {

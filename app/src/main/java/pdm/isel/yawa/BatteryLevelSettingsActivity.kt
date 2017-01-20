@@ -18,9 +18,7 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_battery_level_settings)
 
-        view = findViewById(R.id.BatteryLevelTextView) as TextView
-        bar = findViewById(R.id.BatteryLevelBar) as SeekBar
-        button = findViewById(R.id.BatteryLevelButton) as Button
+        initViews()
 
         bar!!.setOnSeekBarChangeListener(
                 object : SeekBar.OnSeekBarChangeListener{
@@ -49,6 +47,12 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
 
         findViewById(android.R.id.content)
                 .background = ResourcesCompat.getDrawable(resources, R.drawable.battery, null)
+    }
+
+    private fun initViews() {
+        view = findViewById(R.id.BatteryLevelTextView) as TextView
+        bar = findViewById(R.id.BatteryLevelBar) as SeekBar
+        button = findViewById(R.id.BatteryLevelButton) as Button
     }
 
 

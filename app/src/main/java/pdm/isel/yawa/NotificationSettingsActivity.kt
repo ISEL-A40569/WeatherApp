@@ -26,11 +26,7 @@ class NotificationSettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification_settings)
 
-        text = findViewById(R.id.NotificationsTextView) as TextView
-        text!!.setTextColor(Color.GREEN)
-        button = findViewById(R.id.DefineTimeButton) as Button
-        timePicker = findViewById(R.id.NotificationsTimePicker) as TimePicker
-        checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
+        initViews()
 
         checkBox!!.setOnClickListener {
             Log.d("OnSettingNotifications", checkBox!!.isChecked.toString())
@@ -83,16 +79,27 @@ class NotificationSettingsActivity : AppCompatActivity() {
                 .background = ResourcesCompat.getDrawable(resources, R.drawable.menu, null)
     }
 
+    private fun initViews() {
+        text = findViewById(R.id.NotificationsTextView) as TextView
+        text!!.setTextColor(Color.GREEN)
+        button = findViewById(R.id.DefineTimeButton) as Button
+        timePicker = findViewById(R.id.NotificationsTimePicker) as TimePicker
+        checkBox = findViewById(R.id.NotificationsCheckBox) as CheckBox
+    }
+
     override fun onStart() {
         super.onStart()
-
-        timePicker!!.hour = application.prefs.getInt("hour", 8)
-        timePicker!!.minute = application.prefs.getInt("minutes", 0)
-        areNotificationsOn = application.prefs.getBoolean("areNotificationsOn", false)
+        getPrefs()
 
         checkBox!!.isChecked = areNotificationsOn
         Log.d("OnSettingNotifications", checkBox!!.isChecked.toString())
 
+    }
+
+    private fun getPrefs() {
+        timePicker!!.hour = application.prefs.getInt("hour", 8)
+        timePicker!!.minute = application.prefs.getInt("minutes", 0)
+        areNotificationsOn = application.prefs.getBoolean("areNotificationsOn", false)
     }
 
 }

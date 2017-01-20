@@ -27,12 +27,8 @@ class UpdateSettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_interval_setting)
-        editText = findViewById(R.id.UptdateTimeText) as EditText
 
-        text = findViewById(R.id.UpdateTextView) as TextView
-        text!!.setTextColor(Color.GREEN)
-        checkBox = findViewById(R.id.WifiCheckBox) as CheckBox
-        checkBox!!.setBackgroundColor(Color.WHITE)
+        initViews()
 
         checkBox!!.setOnClickListener {
 
@@ -50,6 +46,14 @@ class UpdateSettingsActivity : AppCompatActivity() {
 
         findViewById(android.R.id.content)
                 .background = ResourcesCompat.getDrawable(resources, R.drawable.menu, null)
+    }
+
+    private fun initViews() {
+        editText = findViewById(R.id.UptdateTimeText) as EditText
+        text = findViewById(R.id.UpdateTextView) as TextView
+        text!!.setTextColor(Color.GREEN)
+        checkBox = findViewById(R.id.WifiCheckBox) as CheckBox
+        checkBox!!.setBackgroundColor(Color.WHITE)
     }
 
     override fun onStart() {

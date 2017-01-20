@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import pdm.isel.yawa.model.FutureWeatherInfo
 
-
 class BasicWeatherInfoActivity : AppCompatActivity() {
     var date: TextView? = null
     var tmin: TextView? = null
@@ -65,7 +64,6 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
     }
 
     private fun setBackGroundImage(str: String) {
-
         when (str) {
 
             "01d" -> {

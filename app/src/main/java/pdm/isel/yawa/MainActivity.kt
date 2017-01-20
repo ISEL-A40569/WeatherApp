@@ -43,12 +43,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.d("YAWA_TAG", "MAIN_onCreate")
 
+        initViews()
+    }
+
+    private fun initViews() {
         cityName = findViewById(R.id.main_city) as TextView
         country = findViewById(R.id.main_country) as TextView
         temp = findViewById(R.id.main_temp) as TextView
         description = findViewById(R.id.main_description) as TextView
         image = findViewById(R.id.main_view) as ImageView
-
     }
 
 
@@ -57,8 +60,7 @@ class MainActivity : AppCompatActivity() {
         language = Locale.getDefault().displayLanguage
         application.editor.putString("language", language)
 
-        location = application.prefs.getString("city", "Lisbon")
-        wifiOnly = application.prefs.getBoolean("wifiOnly", false)
+        getPrefs()
 
         if (isServiceAccessAllowed()) {
             Log.d("OnStart", "Network Available")
@@ -72,6 +74,11 @@ class MainActivity : AppCompatActivity() {
             currentWeather = application.DbApi.getCurrent(location!!, language!!, "PT")
             getIcon(currentWeather!!.currentInfo.icon)
         }
+    }
+
+    private fun getPrefs() {
+        location = application.prefs.getString("city", "Lisbon")
+        wifiOnly = application.prefs.getBoolean("wifiOnly", false)
     }
 
 

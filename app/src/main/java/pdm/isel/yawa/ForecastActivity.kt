@@ -34,9 +34,7 @@ class ForecastActivity : ListActivity() {
     override fun onStart() {
         super.onStart()
 
-        location = application.prefs.getString("city", "Lisbon")
-        language = application.prefs.getString("language", "português")
-        wifiOnly = application.prefs.getBoolean("wifiOnly", false)
+        getPrefs()
 
         if (isServiceAccessAllowed()) {
             Log.d("RESPONSE", "LOAD FORECAST FROM REQUEST")
@@ -50,6 +48,12 @@ class ForecastActivity : ListActivity() {
 
             startServiceForIconsRequest(0, forecast!!.list)
         }
+    }
+
+    private fun getPrefs() {
+        location = application.prefs.getString("city", "Lisbon")
+        language = application.prefs.getString("language", "português")
+        wifiOnly = application.prefs.getBoolean("wifiOnly", false)
     }
 
     private fun startServiceForDataRequest() {
