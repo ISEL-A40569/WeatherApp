@@ -204,28 +204,11 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onDetails(view: View) {
-
         Log.d("YAWA_TAG", "onDetails")
         val intent = Intent(this, DetailedCurrentWeatherInfoActivity::class.java)
-        intent.putExtra("name", currentWeather!!.name)
-        intent.putExtra("country", currentWeather!!.country)
-        intent.putExtra("lat", currentWeather!!.lat)
-        intent.putExtra("long", currentWeather!!.lon)
-        intent.putExtra("date", currentWeather!!.currentInfo.date)
-        intent.putExtra("desc", currentWeather!!.currentInfo.description)
-        intent.putExtra("hum", currentWeather!!.currentInfo.humidity)
-        intent.putExtra("press", currentWeather!!.currentInfo.pressure)
-        intent.putExtra("temp", currentWeather!!.currentInfo.temp)
-        intent.putExtra("sunr", currentWeather!!.currentInfo.sunrise)
-        intent.putExtra("suns", currentWeather!!.currentInfo.sunset)
-        intent.putExtra("ws", currentWeather!!.currentInfo.windSpeed)
-        intent.putExtra("image", currentWeather!!.currentInfo.image)
-        intent.putExtra("icon", currentWeather!!.currentInfo.icon)
-
+        intent.putExtra("currentinfo", currentWeather!!)
         startActivity(intent)
-
     }
-
 
     fun onNext(view: View) {
 

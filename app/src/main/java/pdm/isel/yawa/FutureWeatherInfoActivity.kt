@@ -1,5 +1,6 @@
 package pdm.isel.yawa
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
@@ -7,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import pdm.isel.yawa.model.FutureWeatherInfo
 
-class BasicWeatherInfoActivity : AppCompatActivity() {
+class FutureWeatherInfoActivity : AppCompatActivity() {
     var date: TextView? = null
     var tmin: TextView? = null
     var tmax: TextView? = null
@@ -37,22 +38,17 @@ class BasicWeatherInfoActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        futureWeatherInfo = FutureWeatherInfo(
-                intent.getStringExtra("date"),
-                intent.getStringExtra("press"),
-                intent.getStringExtra("hum"),
-                intent.getStringExtra("desc"),
-                intent.getStringExtra("icon"),
-                intent.getStringExtra("tmin"),
-                intent.getStringExtra("tmax")
-        )
-
-        futureWeatherInfo!!.image = intent.getParcelableExtra("image")
+        futureWeatherInfo = intent.getParcelableExtra("futureinfo")
 
         setViews()
     }
 
-    private fun setViews() {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+    }
+
+
+        private fun setViews() {
         date!!.text = futureWeatherInfo!!._date
         tmin!!.text = futureWeatherInfo!!.tempMin
         tmax!!.text = futureWeatherInfo!!.tempMax

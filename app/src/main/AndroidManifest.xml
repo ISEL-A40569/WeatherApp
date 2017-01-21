@@ -25,7 +25,7 @@
         <activity android:name=".CityListActivity" />
         <activity android:name=".DetailedCurrentWeatherInfoActivity" />
         <activity android:name=".ForecastActivity" />
-        <activity android:name=".BasicWeatherInfoActivity" />
+        <activity android:name=".FutureWeatherInfoActivity" />
         <activity android:name=".CreditsActivity" />
 
         <provider

@@ -7,6 +7,7 @@ import android.os.ResultReceiver
 import android.util.Log
 import org.json.JSONObject
 import pdm.isel.yawa.*
+import pdm.isel.yawa.model.CityInfo
 import pdm.isel.yawa.model.Current
 import pdm.isel.yawa.model.Forecast
 import pdm.isel.yawa.requests.Callback
@@ -69,12 +70,12 @@ class WeatherService() : IntentService("WeatherService") {
         Log.d("OnService", "getCurrentResponseCallback start")
         return object : Callback<JSONObject> {
             override fun onSuccess(response: JSONObject) {
-
                 current = DTO_MAPPER.mapCurrentDto(
                             JSON_MAPPER.mapWeatherInfoJson(response.toString()))
                     current!!.language = language
                     Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)
-                    sendInfo(receiver, current!!)
+
+                    sendInfo(receiver, "current",current!!)
                     application.DbApi.insert(current!!)
             }
         }
@@ -87,34 +88,22 @@ class WeatherService() : IntentService("WeatherService") {
                 forecast = DTO_MAPPER.mapForecastDto(
                         JSON_MAPPER.mapForecastJson(response.toString()))
                 forecast!!.language = language
-
                 Log.d("OnService", "JUST GOT FORECAST FOR: " + forecast!!.name)
 
-                sendInfo(receiver, forecast!!)
-
+                sendInfo(receiver, "forecast", forecast!!)
                 application.DbApi.insert(forecast!!)
             }
         }
     }
 
-    private fun sendInfo(receiver: ResultReceiver, info: Current) {
+    private fun sendInfo(receiver: ResultReceiver, key: String, info: CityInfo) {
         Log.d("OnService", "sendInfo start")
-        val bundle = Bundle()
-        //bundle.putParcelable(key, info)
-        sendBundle(receiver, bundle)
-        Log.d("OnService", "sendInfo end")
-    }
 
-    private fun sendInfo(receiver: ResultReceiver, info: Forecast) {
-        Log.d("OnService", " sendInfo start")
         val bundle = Bundle()
-        //bundle.putParcelable(key, info)
-        sendBundle(receiver, bundle)
-        Log.d("OnService", "sendInfo end")
-    }
-
-    private fun sendBundle(receiver: ResultReceiver, bundle: Bundle){
+        bundle.putParcelable(key, info)
         receiver.send(200, bundle)
+
+        Log.d("OnService", "sendInfo end")
     }
 
 }

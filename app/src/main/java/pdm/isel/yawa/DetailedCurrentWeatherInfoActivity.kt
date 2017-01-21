@@ -1,5 +1,6 @@
 package pdm.isel.yawa
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
@@ -53,31 +54,13 @@ class DetailedCurrentWeatherInfoActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        currentWeather = Current(
-                intent.getStringExtra("name"),
-                intent.getStringExtra("country"),
-                intent.getStringExtra("long"),
-                intent.getStringExtra("lat"),
-                CurrentWeatherInfo(
-                        intent.getStringExtra("date"),
-                        intent.getStringExtra("press"),
-                        intent.getStringExtra("hum"),
-                        intent.getStringExtra("desc"),
-                        intent.getStringExtra("icon"),
-                        intent.getStringExtra("temp"),
-                        intent.getStringExtra("sunr"),
-                        intent.getStringExtra("suns"),
-                        intent.getStringExtra("ws")
-                )
-        )
-
-        currentWeather!!.currentInfo.image = intent.getParcelableExtra("image")
+        Log.d("RESPONSE", "onStart")
+        currentWeather = intent.getParcelableExtra("currentinfo")
 
         Log.d("RESPONSE", "WEATHER INFO FOR: " + currentWeather!!.name)
 
         setViews()
         setBackGroundImage(currentWeather!!.currentInfo.icon)
-
     }
 
     private fun setViews() {

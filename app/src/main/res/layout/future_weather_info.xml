@@ -5,7 +5,7 @@
     android:id="@+id/activity_basic_weather_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pdm.isel.yawa.BasicWeatherInfoActivity">
+    tools:context="pdm.isel.yawa.FutureWeatherInfoActivity">
 
     <LinearLayout
         android:orientation="vertical"

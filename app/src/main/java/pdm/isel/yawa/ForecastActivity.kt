@@ -117,16 +117,9 @@ class ForecastActivity : ListActivity() {
 
         val futureWeatherInfo = forecast!!.list[position]
 
-        val intent = Intent(this, BasicWeatherInfoActivity::class.java)
+        val intent = Intent(this, FutureWeatherInfoActivity::class.java)
 
-        intent.putExtra("date", futureWeatherInfo.date)
-        intent.putExtra("press", futureWeatherInfo.pressure)
-        intent.putExtra("hum", futureWeatherInfo.humidity)
-        intent.putExtra("desc", futureWeatherInfo.description)
-        intent.putExtra("icon", futureWeatherInfo.icon)
-        intent.putExtra("tmin", futureWeatherInfo.tempMin)
-        intent.putExtra("tmax", futureWeatherInfo.tempMax)
-        intent.putExtra("image", futureWeatherInfo.image)
+        intent.putExtra("futureinfo", futureWeatherInfo)
 
         startActivity(intent)
     }
