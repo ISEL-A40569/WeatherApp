@@ -23,19 +23,30 @@
         android:layout_toRightOf="@id/UpdateTextView"
         android:id="@+id/WifiCheckBox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
-    <EditText
-        android:layout_below="@+id/WifiCheckBox"
-        android:id="@+id/UptdateTimeText"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+
+    <TextView
+        android:id="@+id/UpdateLevelTextView"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
         android:shadowColor="@color/colorPrimary"
         android:textColor="@android:color/white"
-        android:textSize="30dp"/>
+        android:textSize="50dp"
+        android:layout_below="@id/UpdateTextView"
+        />
+
+    <SeekBar
+        android:id="@+id/UpdateLevelBar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/UpdateLevelTextView"
+        android:max="360"
+        />
 
     <Button
-        android:layout_below="@+id/UptdateTimeText"
+        android:layout_below="@+id/UpdateLevelBar"
         android:id="@+id/UptdateTimeTextButton"
         android:layout_width="100dp"
         android:layout_height="50dp"

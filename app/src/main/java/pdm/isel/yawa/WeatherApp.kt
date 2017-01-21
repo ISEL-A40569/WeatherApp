@@ -128,7 +128,7 @@ class WeatherApp : Application() {
 
             alarmManager!!.setRepeating(
                     AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() + updateInterval,
+                    SystemClock.elapsedRealtime() + updateInterval * 60000L,
                     updateInterval * 60000L,
                     pendingAlarmIntent
             )
