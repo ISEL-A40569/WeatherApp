@@ -9,7 +9,7 @@ import java.io.FileOutputStream
 
 
 /**
- * Icon Bitmaps cache.
+ * Icon Bitmap files cache.
  */
 class IconCache(ctx: Context) {
 

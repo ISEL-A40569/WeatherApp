@@ -43,7 +43,7 @@ class ForecastActivity : ListActivity() {
             startServiceForDataRequest()
         } else {
             Log.d("RESPONSE", "LOAD FORECAST FROM DATABASE")
-            forecast = application.DbApi.getForecast(location!!, language!!, "PT")//TODO: USE COUNTRY OR NOT?
+            forecast = application.DbApi.getForecast(location!!, language!!)
             Log.d("RESPONSE", "FWI COUNT: " + forecast!!.list.size)
 
             startServiceForIconsRequest(0, forecast!!.list)

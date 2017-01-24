@@ -18,7 +18,6 @@ import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 import pdm.isel.yawa.icons.IconCache
 import pdm.isel.yawa.json.JsonToDtoMapper
 import pdm.isel.yawa.model.DtoToDomainMapper
-import pdm.isel.yawa.provider.WeatherCrudFunctions
 import pdm.isel.yawa.provider.WeatherDatabaseApi
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
@@ -29,7 +28,9 @@ val DTO_MAPPER = DtoToDomainMapper()
 val JSON_MAPPER = JsonToDtoMapper()
 
 val NUMBER_OF_FORECAST_DAYS = 16
-
+/*
+* Main application class.
+* */
 class WeatherApp : Application() {
     val MY_PREFS_NAME = "Prefs"
     val requestQueue: RequestQueue by lazy { Volley.newRequestQueue(this) }

@@ -16,7 +16,7 @@ import pdm.isel.yawa.services.WeatherService
  * Current and Forecast weather info for the location and language
  * stored in shared preferences.
  */
-class WeatherBroadcastReceiver : WakefulBroadcastReceiver() {
+class WeatherBroadcastReceiver : BroadcastReceiver() {
     var connectivityManager: ConnectivityManager? = null
     var cnxt: Context? = null
     var prefs: SharedPreferences? = null

@@ -11,7 +11,7 @@ import pdm.isel.yawa.R
 import pdm.isel.yawa.model.FutureWeatherInfo
 
 /**
- * Created by Dani on 26-10-2016.
+ * Class used as an ArrayAdapter for FutureWeatherInfo instances.
  */
 class FutureWeatherInfoArrayAdapter(context: Context, val futureWeatherInfos: Array<FutureWeatherInfo>) : ArrayAdapter<FutureWeatherInfo>(context, 0, futureWeatherInfos) {
 

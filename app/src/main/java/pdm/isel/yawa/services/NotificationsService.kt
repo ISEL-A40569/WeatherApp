@@ -4,6 +4,7 @@ import android.app.IntentService
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.support.v4.content.WakefulBroadcastReceiver.completeWakefulIntent
 import android.support.v7.app.NotificationCompat
 import android.util.Log
 import pdm.isel.yawa.R
@@ -21,7 +22,8 @@ class NotificationsService : IntentService("NotificationService"){
         areNotificationsOn = application.prefs.getBoolean("areNotificationsOn", false)
 
         if(areNotificationsOn)
-        generateNotification()
+            generateNotification()
+        completeWakefulIntent(intent)
     }
 
     fun generateNotification() {

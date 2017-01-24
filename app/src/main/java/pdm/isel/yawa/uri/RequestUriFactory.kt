@@ -2,7 +2,7 @@ package pdm.isel.yawa.uri
 import java.util.*
 
 /**
- * Created by Dani on 20-10-2016.
+ * Class used to build openweathermap API uri's for the requested data.
  */
 class RequestUriFactory() {
 

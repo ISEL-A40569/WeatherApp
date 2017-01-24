@@ -12,7 +12,7 @@ class NotificationsReceiver : WakefulBroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
 
         if (Intent.ACTION_BOOT_COMPLETED != intent?.action) {
-            context!!.startService(Intent(context, NotificationsService::class.java))
+            startWakefulService(context, Intent(context, NotificationsService::class.java))
         }
     }
 }

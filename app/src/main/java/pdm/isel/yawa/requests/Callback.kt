@@ -1,7 +1,7 @@
 package pdm.isel.yawa.requests
 
 /**
- * Created by Dani on 16-12-2016.
+ * Interface whose implementations are used to obtain HTTP requests responses.
  */
 interface Callback<T> {
     fun onSuccess(response:T)

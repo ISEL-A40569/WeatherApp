@@ -6,7 +6,7 @@ import pdm.isel.yawa.model.CurrentWeatherInfoDto
 import pdm.isel.yawa.model.ForecastDto
 
 /**
- * Created by Dani on 21-10-2016.
+ * Class used to map json response strings into DTO objects.
  */
 class JsonToDtoMapper {
     val gson = Gson()

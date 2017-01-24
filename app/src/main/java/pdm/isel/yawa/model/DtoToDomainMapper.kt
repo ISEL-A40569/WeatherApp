@@ -9,7 +9,6 @@ import java.util.*
 class DtoToDomainMapper(){
 
     fun mapCurrentDto(currentInfo: CurrentWeatherInfoDto): Current{
-        Log.d("TEMPTEST", currentInfo.main.temp.toString())
         return Current(currentInfo.name,
                 currentInfo.sys.country,
                 currentInfo.coord.lon.toString(),
@@ -29,6 +28,8 @@ class DtoToDomainMapper(){
 
     fun mapForecastDto(forecastDto: ForecastDto): Forecast{
         var infoElements = arrayOfNulls<FutureWeatherInfo>(forecastDto.list.size) as Array<FutureWeatherInfo>
+
+        Log.d("OnService", "mapping forecast, list size = " + forecastDto.list.size)
 
         for(i in forecastDto.list.indices){
             infoElements[i] = mapFutureWeatherInfoDto(forecastDto.list[i])

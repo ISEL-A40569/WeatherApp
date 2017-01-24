@@ -54,11 +54,11 @@ class MainActivity : AppCompatActivity() {
         image = findViewById(R.id.main_view) as ImageView
     }
 
-
     override fun onStart() {
         super.onStart()
         language = Locale.getDefault().displayLanguage
         application.editor.putString("language", language)
+        application.editor.commit()
 
         getPrefs()
 
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
             Log.d("RESPONSE", "LOAD CURRENT FROM DATABASE")
 
-            currentWeather = application.DbApi.getCurrent(location!!, language!!, "PT")
+            currentWeather = application.DbApi.getCurrent(location!!, language!!)
             getIcon(currentWeather!!.currentInfo.icon)
         }
     }
