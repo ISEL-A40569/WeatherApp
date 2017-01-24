@@ -36,8 +36,8 @@ class DtoToDomainMapper(){
         }
         return Forecast(forecastDto.city.name,
                 forecastDto.city.country,
-                forecastDto.city.coord.lon.toString(),
-                forecastDto.city.coord.lat.toString(),
+                forecastDto.city.lon.toString(),
+                forecastDto.city.lat.toString(),
                 infoElements
                 )
     }
