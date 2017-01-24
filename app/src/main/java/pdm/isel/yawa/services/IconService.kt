@@ -36,7 +36,7 @@ class IconService : IntentService("IconService"){
         Log.d("OnIconService", "makeIconRequest start")
 
         application.requestQueue.add(IconRequest(
-                URI_FACTORY.getIcon(iconCode),
+                application.URI_FACTORY.getIcon(iconCode),
                 getIconRequestCallback(iconCode, receiver)
                 ))
         Log.d("OnIconService", "makeIconRequest end")

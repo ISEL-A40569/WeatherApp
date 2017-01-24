@@ -10,31 +10,26 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.SystemClock
 import android.util.Log
-import android.widget.Toast
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import pdm.isel.yawa.broadcast_receivers.NotificationsReceiver
 import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 import pdm.isel.yawa.icons.IconCache
-import pdm.isel.yawa.json.JsonToDtoMapper
-import pdm.isel.yawa.model.DtoToDomainMapper
 import pdm.isel.yawa.provider.WeatherDatabaseApi
 import pdm.isel.yawa.uri.RequestUriFactory
 import java.util.*
 
 
-val URI_FACTORY = RequestUriFactory()
-val DTO_MAPPER = DtoToDomainMapper()
-val JSON_MAPPER = JsonToDtoMapper()
-
 val NUMBER_OF_FORECAST_DAYS = 16
 /*
 * Main application class.
+*
 * */
 class WeatherApp : Application() {
     val MY_PREFS_NAME = "Prefs"
     val requestQueue: RequestQueue by lazy { Volley.newRequestQueue(this) }
     val iconCache = IconCache(this)
+    val URI_FACTORY = RequestUriFactory()
 
     var DbApi: WeatherDatabaseApi? = null
     var prefs: SharedPreferences? = null
@@ -158,3 +153,6 @@ val Application.iconCache: IconCache
 
 val Application.DbApi: WeatherDatabaseApi
     get() = (this as WeatherApp).DbApi!!
+
+val Application.URI_FACTORY: RequestUriFactory
+    get() = (this as WeatherApp).URI_FACTORY

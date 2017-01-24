@@ -6,19 +6,25 @@ import android.os.Bundle
 import android.os.ResultReceiver
 import android.util.Log
 import org.json.JSONObject
-import pdm.isel.yawa.*
+import pdm.isel.yawa.DbApi
+import pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS
+import pdm.isel.yawa.URI_FACTORY
+import pdm.isel.yawa.json.JsonToDtoMapper
 import pdm.isel.yawa.model.CityInfo
 import pdm.isel.yawa.model.Current
+import pdm.isel.yawa.model.DtoToDomainMapper
 import pdm.isel.yawa.model.Forecast
+import pdm.isel.yawa.requestQueue
 import pdm.isel.yawa.requests.Callback
 import pdm.isel.yawa.requests.DataRequest
-import pdm.isel.yawa.uri.RequestUriFactory
 
 
 /**
  * Class used to execute a data request.
  */
 class WeatherService() : IntentService("WeatherService") {
+    val DTO_MAPPER = DtoToDomainMapper()
+    val JSON_MAPPER = JsonToDtoMapper()
 
     var current: Current? = null
     var forecast: Forecast? = null
@@ -49,7 +55,7 @@ class WeatherService() : IntentService("WeatherService") {
     private fun makeCurrentRequest(loc: String, lang: String, receiver: ResultReceiver) {
         Log.d("OnService", "makeCurrentRequest start")
         makeDataRequest(DataRequest(
-                RequestUriFactory().getNowWeather(loc, lang),
+                application.URI_FACTORY.getNowWeather(loc, lang),
                 getCurrentResponseCallback(receiver)))
         Log.d("OnService", "makeCurrentRequest end")
     }
@@ -57,7 +63,7 @@ class WeatherService() : IntentService("WeatherService") {
     private fun makeForecastRequest(loc: String, lang: String, receiver: ResultReceiver) {
         Log.d("OnService", "makeForecastRequest start")
         makeDataRequest(DataRequest(
-                RequestUriFactory().getFutureWeather(loc, lang, NUMBER_OF_FORECAST_DAYS),
+                application.URI_FACTORY.getFutureWeather(loc, lang, NUMBER_OF_FORECAST_DAYS),
                 getForecastResponseCallback(receiver)))
         Log.d("OnService", "makeForecastRequest end")
     }

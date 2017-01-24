@@ -2,7 +2,6 @@ package pdm.isel.yawa.provider
 
 import android.content.ContentResolver
 import android.content.ContentValues
-import android.database.Cursor
 import android.provider.BaseColumns
 import android.util.Log
 import pdm.isel.yawa.NUMBER_OF_FORECAST_DAYS

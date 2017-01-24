@@ -9,8 +9,10 @@ import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.widget.*
-import org.w3c.dom.Text
+import android.widget.CheckBox
+import android.widget.SeekBar
+import android.widget.TextView
+import android.widget.Toast
 import pdm.isel.yawa.broadcast_receivers.WeatherBroadcastReceiver
 
 

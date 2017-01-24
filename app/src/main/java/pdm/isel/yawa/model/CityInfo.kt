@@ -1,6 +1,5 @@
 package pdm.isel.yawa.model
 
-import android.os.Parcel
 import android.os.Parcelable
 
 /**

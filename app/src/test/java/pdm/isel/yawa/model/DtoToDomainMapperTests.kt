@@ -43,7 +43,7 @@ class DtoToDomainMapperTests {
     @Test
     fun mapForecastDtoTest() {
         val forecastDto = ForecastDto(
-                City("Lisbon", "PT", Coord(100F, 200F)),
+                City("Lisbon", "PT", 100F, 200F),
                 arrayOf(FutureWeatherInfoDto(10000000L, Temp(10F, 20F), 10F, 20F, arrayOf(
                         Weather("test", "icon1")
                 ))

@@ -6,9 +6,7 @@ import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.ResultReceiver
-import android.support.v4.content.WakefulBroadcastReceiver
 import android.util.Log
-import pdm.isel.yawa.*
 import pdm.isel.yawa.services.WeatherService
 
 /**
