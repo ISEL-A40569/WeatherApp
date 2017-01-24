@@ -9,12 +9,14 @@ import pdm.isel.yawa.model.*
 import java.util.*
 
 /**
- * Created by Dani on 29-12-2016.
+ * Class used to provide public access to DataBase.
  */
 class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
 
     fun insert(current: Current) {
         val cid = verifyIfExists(current)
+
+        Log.d("WeatherDatabaseApi", "current exists = " + cid)
 
         if (cid < 0) {
             val contentValues = ContentValues()
@@ -25,7 +27,6 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
             contentValues.put("language", current.language)
 
             contentResolver.insert(WeatherContract.City.CONTENT_URI, contentValues)
-
         }
 
         insert(current.currentInfo, cid)
@@ -33,6 +34,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
 
     fun insert(forecast: Forecast) {
         val id = verifyIfExists(forecast)
+        Log.d("WeatherDatabaseApi", "forecast exists = " + id)
 
         if (id < 0) {
             val contentValues = ContentValues()
@@ -112,6 +114,8 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
         contentValues.put("currentid", cid)
 
         val id = verifyIfExists(cwi, cid)
+
+        Log.d("WeatherDatabaseApi", "currentWI exists = " + id)
 
         if (id < 0) {
             contentResolver.insert(WeatherContract.CurrentWeatherInfo.CONTENT_URI, contentValues)
@@ -200,7 +204,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     private fun verifyIfExists(cityInfo: CityInfo): Int {
         val cursor = contentResolver.query(WeatherContract.City.CONTENT_URI,
                 null,
-                "name = '" + cityInfo.cityName +"'", // "' and country = '" + cityInfo.cityCountry + "' and language = '" + cityInfo.language + "'",
+                "name = '" + cityInfo.cityName + "'",
                 null,
                 null)
 
@@ -219,7 +223,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     private fun verifyIfExists(cwi: CurrentWeatherInfo, cid: Int): Int {
         val cursor = contentResolver.query(WeatherContract.CurrentWeatherInfo.CONTENT_URI,
                 null,
-                "date = '" + cwi.date + "' and currentid = " + cid.toString(),
+                "date = '${cwi.date}' and currentid = $cid",
                 null,
                 null)
 
@@ -256,7 +260,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     private fun updateCurrentInfo(contentValues: ContentValues, id: Int, cid: Int) {
         contentResolver.update(WeatherContract.CurrentWeatherInfo.CONTENT_URI,
                 contentValues,
-                BaseColumns._ID + " = ? and currentid = ?",
+                "${BaseColumns._ID} = ? and currentid = ?",
                 arrayOf(id.toString(), cid.toString())
         )
     }
@@ -264,7 +268,7 @@ class WeatherDatabaseApi(private val contentResolver: ContentResolver) {
     private fun updateFutureInfo(contentValues: ContentValues, id: Int, fid: Int) {
         contentResolver.update(WeatherContract.FutureWeatherInfo.CONTENT_URI,
                 contentValues,
-                BaseColumns._ID + " = ? and forecastId = ?",
+                "${BaseColumns._ID} = ? and forecastId = ?",
                 arrayOf(id.toString(), fid.toString())
         )
     }

@@ -144,7 +144,7 @@ class ForecastActivity : ListActivity() {
     }
 
     private fun isPowerLow(): Boolean {
-        if(isCharging()) return false
+        if (isCharging()) return false
 
         return getBatteryLevel() < application.prefs.getInt("minimumBatteryLevel", 25)
     }

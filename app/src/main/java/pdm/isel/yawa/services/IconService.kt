@@ -15,7 +15,7 @@ import pdm.isel.yawa.requests.IconRequest
 /**
  * Class used to execute a icon request.
  */
-class IconService : IntentService("IconService"){
+class IconService : IntentService("IconService") {
     val s = "Inside Icon Service"
     override fun onCreate() {
         super.onCreate()
@@ -32,13 +32,13 @@ class IconService : IntentService("IconService"){
         Log.d("OnIconService", "onHandleIntent end")
     }
 
-    private fun makeIconRequest(iconCode:String,  receiver: ResultReceiver) {
+    private fun makeIconRequest(iconCode: String, receiver: ResultReceiver) {
         Log.d("OnIconService", "makeIconRequest start")
 
         application.requestQueue.add(IconRequest(
                 application.URI_FACTORY.getIcon(iconCode),
                 getIconRequestCallback(iconCode, receiver)
-                ))
+        ))
         Log.d("OnIconService", "makeIconRequest end")
     }
 

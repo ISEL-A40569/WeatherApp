@@ -12,12 +12,12 @@ class RequestUriFactoryTests {
     private val EXPECTED_FUTURE_WEATHER: String = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Madrid&lang=pt&cnt=16&units=metric&appid=3653dafe6dfbcaec795a87592caa3cb6"
 
     @Test
-    fun shouldObtainCorrectUriForNowWeather(){
+    fun shouldObtainCorrectUriForNowWeather() {
         Assert.assertEquals(EXPECTED_NOW_WEATHER, uriFactory.getNowWeather("Lisbon", "English"))
     }
 
     @Test
-    fun shouldObtainCorrectUriForFutureWeather(){
+    fun shouldObtainCorrectUriForFutureWeather() {
         Assert.assertEquals(EXPECTED_FUTURE_WEATHER, uriFactory.getFutureWeather("Madrid", "português", 16))
     }
 }

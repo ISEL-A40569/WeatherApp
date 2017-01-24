@@ -23,16 +23,18 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
         initViews()
 
         bar!!.setOnSeekBarChangeListener(
-                object : SeekBar.OnSeekBarChangeListener{
+                object : SeekBar.OnSeekBarChangeListener {
                     override fun onStartTrackingTouch(seekBar: SeekBar?) {
                         setTextView(bar!!, view!!)
                     }
 
                     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                        setTextView(bar!!, view!!)                    }
+                        setTextView(bar!!, view!!)
+                    }
 
                     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                        setTextView(bar!!, view!!)                    }
+                        setTextView(bar!!, view!!)
+                    }
 
                 }
         )
@@ -63,7 +65,7 @@ class BatteryLevelSettingsActivity : AppCompatActivity() {
 
         minimumBatteryLevel = application.prefs.getInt("minimumBatteryLevel", 25)
 
-        view!!.text =  minimumBatteryLevel.toString() + "%"
+        view!!.text = minimumBatteryLevel.toString() + "%"
 
         bar!!.progress = minimumBatteryLevel
     }

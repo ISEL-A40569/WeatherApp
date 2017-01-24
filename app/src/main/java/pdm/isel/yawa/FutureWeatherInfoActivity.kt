@@ -48,7 +48,7 @@ class FutureWeatherInfoActivity : AppCompatActivity() {
     }
 
 
-        private fun setViews() {
+    private fun setViews() {
         date!!.text = futureWeatherInfo!!._date
         tmin!!.text = futureWeatherInfo!!.tempMin
         tmax!!.text = futureWeatherInfo!!.tempMax
@@ -120,7 +120,8 @@ class FutureWeatherInfoActivity : AppCompatActivity() {
             }
             "08d" -> {
                 findViewById(android.R.id.content)
-                        .background = ResourcesCompat.getDrawable(resources, R.drawable.i08d, null)            }
+                        .background = ResourcesCompat.getDrawable(resources, R.drawable.i08d, null)
+            }
             "08n" -> {
                 findViewById(android.R.id.content)
                         .background = ResourcesCompat.getDrawable(resources, R.drawable.i08n, null)
@@ -131,7 +132,8 @@ class FutureWeatherInfoActivity : AppCompatActivity() {
             }
             "09n" -> {
                 findViewById(android.R.id.content)
-                        .background = ResourcesCompat.getDrawable(resources, R.drawable.i09n, null)            }
+                        .background = ResourcesCompat.getDrawable(resources, R.drawable.i09n, null)
+            }
         }
     }
 

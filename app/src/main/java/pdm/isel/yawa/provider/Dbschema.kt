@@ -3,7 +3,6 @@ package pdm.isel.yawa.provider
 import android.provider.BaseColumns
 
 
-
 object DbSchema {
 
     val DB_NAME = "yawa.db"
@@ -30,9 +29,8 @@ object DbSchema {
                         "CONSTRAINT un UNIQUE (name, country, language) " +
                         ");"
 
-        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME +";"
+        val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME + ";"
     }
-
 
 
     object FutureWeatherInfo {
@@ -49,18 +47,18 @@ object DbSchema {
 
         val DDL_CREATE_TABLE =
                 "CREATE TABLE " + TBL_NAME + " ( " +
-                            COL_ID + " INTEGER, " +
-                            COL_CITY_ID + " INTEGER , " +
-                            COL_DATE + " TEXT, " +
-                            COL_PRESSURE + " TEXT, " +
-                            COL_HUM + " TEXT, " +
-                            COL_DESC + " TEXT, " +
-                            COL_ICON + " TEXT, " +
-                            COL_TEMP_MIN + " TEXT, " +
-                            COL_TEMP_MAX + " TEXT, " +
-                            "PRIMARY KEY ("+COL_ID+", "+ COL_CITY_ID+"), " +
-                            "FOREIGN KEY ("+COL_CITY_ID+") REFERENCES city("+ COL_ID +" ) " +
-                            " );"
+                        COL_ID + " INTEGER, " +
+                        COL_CITY_ID + " INTEGER , " +
+                        COL_DATE + " TEXT, " +
+                        COL_PRESSURE + " TEXT, " +
+                        COL_HUM + " TEXT, " +
+                        COL_DESC + " TEXT, " +
+                        COL_ICON + " TEXT, " +
+                        COL_TEMP_MIN + " TEXT, " +
+                        COL_TEMP_MAX + " TEXT, " +
+                        "PRIMARY KEY (" + COL_ID + ", " + COL_CITY_ID + "), " +
+                        "FOREIGN KEY (" + COL_CITY_ID + ") REFERENCES city(" + COL_ID + " ) " +
+                        " );"
         val DDL_DROP_TABLE = "DROP TABLE IF EXISTS $TBL_NAME;"
     }
 
@@ -92,8 +90,8 @@ object DbSchema {
                         COL_SUNRISE + " TEXT, " +
                         COL_SUNSET + " TEXT, " +
                         COL_WINDSPEED + " TEXT, " +
-                        "PRIMARY KEY ("+COL_ID+","+ COL_CITY_ID+"), " +
-                        "FOREIGN KEY ("+ COL_CITY_ID+") REFERENCES city("+ COL_ID+") " +
+                        "PRIMARY KEY (" + COL_ID + "," + COL_CITY_ID + "), " +
+                        "FOREIGN KEY (" + COL_CITY_ID + ") REFERENCES city(" + COL_ID + ") " +
                         ");"
         val DDL_DROP_TABLE = "DROP TABLE IF EXISTS " + TBL_NAME + ";"
     }

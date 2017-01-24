@@ -9,7 +9,6 @@ import android.widget.ListView
 import android.widget.Toast
 
 
-
 class CityListActivity : ListActivity() {
 
     var cities: Array<Any>? = null

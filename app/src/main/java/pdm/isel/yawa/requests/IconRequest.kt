@@ -20,7 +20,6 @@ class IconRequest(uri: String, callback: Callback<Bitmap>) : ImageRequest(
         null,
         Response.ErrorListener { error ->
             Log.d("ERROR: ", error.toString())
-            //TODO: throw some null response exception
         }
-){
+) {
 }

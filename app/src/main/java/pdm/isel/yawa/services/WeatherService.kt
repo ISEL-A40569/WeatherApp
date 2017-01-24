@@ -68,7 +68,7 @@ class WeatherService() : IntentService("WeatherService") {
         Log.d("OnService", "makeForecastRequest end")
     }
 
-    private fun makeDataRequest(request: DataRequest){
+    private fun makeDataRequest(request: DataRequest) {
         application.requestQueue.add(request)
     }
 
@@ -77,12 +77,12 @@ class WeatherService() : IntentService("WeatherService") {
         return object : Callback<JSONObject> {
             override fun onSuccess(response: JSONObject) {
                 current = DTO_MAPPER.mapCurrentDto(
-                            JSON_MAPPER.mapWeatherInfoJson(response.toString()))
-                    current!!.language = language
-                    Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)
+                        JSON_MAPPER.mapWeatherInfoJson(response.toString()))
+                current!!.language = language
+                Log.d("OnService", "JUST GOT CURRENT FOR: " + current!!.name)
 
-                    sendInfo(receiver, "current",current!!)
-                    application.DbApi.insert(current!!)
+                sendInfo(receiver, "current", current!!)
+                application.DbApi.insert(current!!)
             }
         }
     }

@@ -65,7 +65,7 @@ class WeatherProvider : ContentProvider() {
         Log.d("YAWA_TAG", "WeatherProvider - getType")
         when (URI_MATCHER.match(uri)) {
 
-            CITY_LST  -> return WeatherContract.City.CONTENT_TYPE
+            CITY_LST -> return WeatherContract.City.CONTENT_TYPE
             CITY_OBJ -> return WeatherContract.City.CONTENT_ITEM_TYPE
             CURRENT_WI_LST -> return WeatherContract.CurrentWeatherInfo.CONTENT_TYPE
             CURRENT_WI_OBJ -> return WeatherContract.CurrentWeatherInfo.CONTENT_ITEM_TYPE
@@ -86,7 +86,7 @@ class WeatherProvider : ContentProvider() {
         val qbuilder = SQLiteQueryBuilder()
         when (URI_MATCHER.match(uri)) {
 
-            //CITY
+        //CITY
             CITY_LST -> {
                 qbuilder.tables = DbSchema.City.TBL_NAME
                 if (TextUtils.isEmpty(sortOrder)) {
@@ -98,7 +98,7 @@ class WeatherProvider : ContentProvider() {
                 qbuilder.appendWhere(DbSchema.COL_ID + "=" + uri!!.lastPathSegment)
             }
 
-            //CURRENT WEATHER INFO
+        //CURRENT WEATHER INFO
             CURRENT_WI_LST -> {
                 qbuilder.tables = DbSchema.CurrentWeatherInfo.TBL_NAME
                 if (TextUtils.isEmpty(sortOrder)) {
@@ -110,7 +110,7 @@ class WeatherProvider : ContentProvider() {
                 qbuilder.appendWhere(DbSchema.COL_ID + "=" + uri!!.lastPathSegment)
             }
 
-            //FUTURE WEATHER INFO
+        //FUTURE WEATHER INFO
             FUTURE_WI_LST -> {
                 qbuilder.tables = DbSchema.FutureWeatherInfo.TBL_NAME
                 if (TextUtils.isEmpty(sortOrder)) {
@@ -139,16 +139,16 @@ class WeatherProvider : ContentProvider() {
 
         Log.d("YAWA_TAG", "WeatherProvider - update")
         val table: String
-       // if (selection != null) throw IllegalArgumentException("selection not supported")
+        // if (selection != null) throw IllegalArgumentException("selection not supported")
         when (URI_MATCHER.match(uri)) {
             CITY_LST -> table = DbSchema.City.TBL_NAME
             CURRENT_WI_LST -> table = DbSchema.CurrentWeatherInfo.TBL_NAME
-            FUTURE_WI_LST ->table = DbSchema.FutureWeatherInfo.TBL_NAME
+            FUTURE_WI_LST -> table = DbSchema.FutureWeatherInfo.TBL_NAME
             else -> throw badUri(uri!!)
         }
 
         val db = dbHelper!!.writableDatabase
-        val count = db.update(table, values, selection,selectionArgs)
+        val count = db.update(table, values, selection, selectionArgs)
 
         context.contentResolver.notifyChange(uri, null)
         return count
@@ -191,7 +191,7 @@ class WeatherProvider : ContentProvider() {
         when (URI_MATCHER.match(uri)) {
             CITY_LST -> table = DbSchema.City.TBL_NAME
             CURRENT_WI_LST -> table = DbSchema.CurrentWeatherInfo.TBL_NAME
-            FUTURE_WI_LST ->table = DbSchema.FutureWeatherInfo.TBL_NAME
+            FUTURE_WI_LST -> table = DbSchema.FutureWeatherInfo.TBL_NAME
             else -> throw badUri(uri!!)
         }
 

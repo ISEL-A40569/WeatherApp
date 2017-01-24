@@ -8,7 +8,7 @@ abstract class BaseWeatherInfo(val date: String,
                                val pressure: String,
                                val humidity: String,
                                val icon: String
-                               ) : Parcelable {
+) : Parcelable {
     var image: Bitmap? = null
 
 }

@@ -27,24 +27,24 @@ class WeatherBroadcastReceiver : BroadcastReceiver() {
         wifiOnly = prefs!!.getBoolean("wifiOnly", false)
 
         if (isServiceAccessAllowed())
-        if (Intent.ACTION_BOOT_COMPLETED != intent?.action) {
-            val intent = Intent(context, WeatherService::class.java)
+            if (Intent.ACTION_BOOT_COMPLETED != intent?.action) {
+                val intent = Intent(context, WeatherService::class.java)
 
-            val receiver = object : ResultReceiver(Handler()) {
-                override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
-                    super.onReceiveResult(resultCode, resultData)
+                val receiver = object : ResultReceiver(Handler()) {
+                    override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+                        super.onReceiveResult(resultCode, resultData)
 
-                    context.stopService(intent)
+                        context.stopService(intent)
+                    }
                 }
-            }
-            intent.putExtra("receiver", receiver)
-            intent.putExtra("type", "both")
-            intent.putExtra("location", prefs!!.getString("city", "Lisboa"))
-            intent.putExtra("language", prefs!!.getString("language", "português"))
+                intent.putExtra("receiver", receiver)
+                intent.putExtra("type", "both")
+                intent.putExtra("location", prefs!!.getString("city", "Lisboa"))
+                intent.putExtra("language", prefs!!.getString("language", "português"))
 
-            Log.d("WEATHER RECEIVER", "STARTING SERVICE")
-            context.startService(intent)
-        }
+                Log.d("WEATHER RECEIVER", "STARTING SERVICE")
+                context.startService(intent)
+            }
     }
 
 
@@ -67,7 +67,7 @@ class WeatherBroadcastReceiver : BroadcastReceiver() {
     }
 
     private fun isPowerLow(): Boolean {
-        if(isCharging()) return false
+        if (isCharging()) return false
 
         return getBatteryLevel() < prefs!!.getInt("minimumBatteryLevel", 25)
     }

@@ -16,15 +16,13 @@
         android:id="@+id/UpdateTextView"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="Wifi Only"
-        />
+        android:text="Wifi Only" />
 
     <CheckBox
         android:layout_toRightOf="@id/UpdateTextView"
         android:id="@+id/WifiCheckBox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
 
     <TextView
@@ -34,16 +32,14 @@
         android:shadowColor="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:textSize="50dp"
-        android:layout_below="@id/UpdateTextView"
-        />
+        android:layout_below="@id/UpdateTextView" />
 
     <SeekBar
         android:id="@+id/UpdateLevelBar"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@id/UpdateLevelTextView"
-        android:max="360"
-        />
+        android:max="360" />
 
     <Button
         android:layout_below="@+id/UpdateLevelBar"

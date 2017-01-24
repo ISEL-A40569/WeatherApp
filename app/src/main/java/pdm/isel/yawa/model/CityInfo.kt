@@ -7,10 +7,10 @@ import android.os.Parcelable
  */
 abstract class CityInfo(
         val cityName: String,
-                         val cityCountry: String,
-                         val ln: String,
-                         val lt: String
-                         ) : Parcelable{
+        val cityCountry: String,
+        val ln: String,
+        val lt: String
+) : Parcelable {
     var language: String? = null
 
 }

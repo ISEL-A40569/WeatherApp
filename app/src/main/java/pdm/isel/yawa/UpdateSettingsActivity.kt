@@ -31,16 +31,18 @@ class UpdateSettingsActivity : AppCompatActivity() {
         initViews()
 
         bar!!.setOnSeekBarChangeListener(
-                object : SeekBar.OnSeekBarChangeListener{
+                object : SeekBar.OnSeekBarChangeListener {
                     override fun onStartTrackingTouch(seekBar: SeekBar?) {
                         setTextView(bar!!, view!!)
                     }
 
                     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                        setTextView(bar!!, view!!)                    }
+                        setTextView(bar!!, view!!)
+                    }
 
                     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                        setTextView(bar!!, view!!)                    }
+                        setTextView(bar!!, view!!)
+                    }
 
                 }
         )
@@ -80,7 +82,7 @@ class UpdateSettingsActivity : AppCompatActivity() {
 
         updateInterval = application.prefs.getInt("updateInterval", 1)
 
-        view!!.text =  updateInterval.toString() + "min"
+        view!!.text = updateInterval.toString() + "min"
 
         bar!!.progress = updateInterval
     }

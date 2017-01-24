@@ -15,6 +15,7 @@ class IconCache(ctx: Context) {
 
     //private val iconMap = HashMap<String, Bitmap>()
     private val context: Context
+
     init {
         context = ctx
     }
@@ -25,9 +26,9 @@ class IconCache(ctx: Context) {
 //        if(iconMap.containsKey(key))
 //        return iconMap[key]
 
-        val file = File(context.filesDir, key+".bmp")
+        val file = File(context.filesDir, key + ".bmp")
         Log.d("OnCache", "file exists " + file.exists().toString())
-        if(file.exists()){
+        if (file.exists()) {
             return BitmapFactory.decodeFile(file.path)
         }
 
@@ -40,12 +41,12 @@ class IconCache(ctx: Context) {
 //            iconMap.put(key, icon)
 //        }
 
-        Log.d("OnCache", "files dir  "+ context.filesDir)
+        Log.d("OnCache", "files dir  " + context.filesDir)
         Log.d("OnCache", "file name  $key.bmp")
 
-        val file = File(context.filesDir, key+".bmp")
+        val file = File(context.filesDir, key + ".bmp")
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             val outputStream = FileOutputStream(file)
             icon.compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
             outputStream.flush()

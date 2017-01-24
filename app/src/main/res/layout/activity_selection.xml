@@ -18,7 +18,7 @@
         android:layout_height="50dp"
         android:shadowColor="@color/colorPrimary"
         android:textSize="30dp"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white" />
 
     <Button
         android:layout_below="@+id/CitySelectionBox"

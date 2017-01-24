@@ -6,15 +6,15 @@ import java.util.*
 /**
  * Created by Dani on 01-11-2016.
  */
-class DtoToDomainMapper(){
+class DtoToDomainMapper() {
 
-    fun mapCurrentDto(currentInfo: CurrentWeatherInfoDto): Current{
+    fun mapCurrentDto(currentInfo: CurrentWeatherInfoDto): Current {
         return Current(currentInfo.name,
                 currentInfo.sys.country,
                 currentInfo.coord.lon.toString(),
                 currentInfo.coord.lat.toString(),
                 CurrentWeatherInfo(
-                getDate(currentInfo.dt),
+                        getDate(currentInfo.dt),
                         currentInfo.main.pressure.toString() + " hPA",
                         currentInfo.main.humidity.toString() + " %",
                         currentInfo.weather[0].description,
@@ -26,12 +26,12 @@ class DtoToDomainMapper(){
                 ))
     }
 
-    fun mapForecastDto(forecastDto: ForecastDto): Forecast{
+    fun mapForecastDto(forecastDto: ForecastDto): Forecast {
         var infoElements = arrayOfNulls<FutureWeatherInfo>(forecastDto.list.size) as Array<FutureWeatherInfo>
 
         Log.d("OnService", "mapping forecast, list size = " + forecastDto.list.size)
 
-        for(i in forecastDto.list.indices){
+        for (i in forecastDto.list.indices) {
             infoElements[i] = mapFutureWeatherInfoDto(forecastDto.list[i])
         }
         return Forecast(forecastDto.city.name,
@@ -39,7 +39,7 @@ class DtoToDomainMapper(){
                 forecastDto.city.lon.toString(),
                 forecastDto.city.lat.toString(),
                 infoElements
-                )
+        )
     }
 
     private fun mapFutureWeatherInfoDto(futureWeatherInfoDto: FutureWeatherInfoDto): FutureWeatherInfo {
@@ -50,25 +50,25 @@ class DtoToDomainMapper(){
                 futureWeatherInfoDto.weather[0].icon,
                 getRoundTempString(futureWeatherInfoDto.temp.min),
                 getRoundTempString(futureWeatherInfoDto.temp.max)
-                )
+        )
     }
 
-    private fun formatDateValue (dateValue: Long) : String {
+    private fun formatDateValue(dateValue: Long): String {
         return Date(dateValue * 1000).toString()
     }
 
-    private fun getDate(dateValue: Long):String{
+    private fun getDate(dateValue: Long): String {
         val d = formatDateValue(dateValue).split(" ")
-        return d[2] + " " + d[1] + " "+ d[5]
+        return d[2] + " " + d[1] + " " + d[5]
     }
 
-    private fun getSunriseOrSunsetString(riseOrSetDateValue: Long): String{
-        val date:String = formatDateValue(riseOrSetDateValue)
+    private fun getSunriseOrSunsetString(riseOrSetDateValue: Long): String {
+        val date: String = formatDateValue(riseOrSetDateValue)
         val d = date.split(" ")
         return d[3]
     }
 
     private fun getRoundTempString(value: Float): String {
-        return Math.round(value).toString()  + "ºC"
+        return Math.round(value).toString() + "ºC"
     }
 }

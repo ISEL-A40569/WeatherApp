@@ -14,14 +14,14 @@ import pdm.isel.yawa.prefs
 /**
  * Class used to send a notification message.
  */
-class NotificationsService : IntentService("NotificationService"){
+class NotificationsService : IntentService("NotificationService") {
     var areNotificationsOn: Boolean = false
 
     override fun onHandleIntent(intent: Intent?) {
         Log.d("OnNotificationsService", "OnNotificationsService")
         areNotificationsOn = application.prefs.getBoolean("areNotificationsOn", false)
 
-        if(areNotificationsOn)
+        if (areNotificationsOn)
             generateNotification()
         completeWakefulIntent(intent)
     }
@@ -32,13 +32,12 @@ class NotificationsService : IntentService("NotificationService"){
 
         var notifyID = 1;
 
-        var mNotifyBuilder =  NotificationCompat.Builder(this)
+        var mNotifyBuilder = NotificationCompat.Builder(this)
                 .setContentTitle(application.prefs.getString("city", "") +
-                " " + application.prefs.getString("temp", ""))
+                        " " + application.prefs.getString("temp", ""))
                 .setContentText(application.prefs.getString("description", ""))
                 .setSmallIcon(R.drawable.notification_template_icon_bg)
                 .setVibrate(longArrayOf(1000, 1000))
-                //TODO: launch app?
         mNotificationManager.notify(
                 notifyID,
                 mNotifyBuilder.build());

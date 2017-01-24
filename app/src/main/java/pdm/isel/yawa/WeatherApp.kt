@@ -21,6 +21,7 @@ import java.util.*
 
 
 val NUMBER_OF_FORECAST_DAYS = 16
+
 /*
 * Main application class.
 *

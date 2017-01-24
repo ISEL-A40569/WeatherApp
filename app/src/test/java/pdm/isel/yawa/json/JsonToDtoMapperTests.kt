@@ -12,12 +12,12 @@ class JsonToDtoMapperTests {
     private val FORECAST_JSON = ""
 
     @Test
-    fun mapWeatherInfoJsonTest(){
-        Assert.assertEquals(0,1)
+    fun mapWeatherInfoJsonTest() {
+        Assert.assertEquals(0, 1)
     }
 
     @Test
-    fun mapForecastJsonTest(){
-        Assert.assertEquals(0,1)
+    fun mapForecastJsonTest() {
+        Assert.assertEquals(0, 1)
     }
 }

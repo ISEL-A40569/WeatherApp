@@ -5,7 +5,7 @@ import android.net.Uri
 import android.provider.BaseColumns
 
 
-object WeatherContract{
+object WeatherContract {
 
 
     val AUTHORITY = "pdm.isel.yawa.provider"
@@ -14,7 +14,7 @@ object WeatherContract{
 
     val MEDIA_BASE_SUBTYPE = "/vnd.weather."
 
-    object City : BaseColumns{
+    object City : BaseColumns {
         val RESOURCE = "city"
 
         val CONTENT_URI = Uri.withAppendedPath(WeatherContract.CONTENT_URI, RESOURCE)
@@ -32,7 +32,7 @@ object WeatherContract{
         val SELECT_TEST = arrayOf(BaseColumns._ID, "name", "language")
     }
 
-    object FutureWeatherInfo : BaseColumns{
+    object FutureWeatherInfo : BaseColumns {
         val RESOURCE = "futureweatherinfo"
 
         val CONTENT_URI = Uri.withAppendedPath(WeatherContract.CONTENT_URI, RESOURCE)
@@ -52,7 +52,7 @@ object WeatherContract{
         val DEFAULT_SORT_ORDER = BaseColumns._ID + " ASC"
     }
 
-    object CurrentWeatherInfo : BaseColumns{
+    object CurrentWeatherInfo : BaseColumns {
         val RESOURCE = "currentweatherinfo"
         val CONTENT_URI = Uri.withAppendedPath(WeatherContract.CONTENT_URI, RESOURCE)
         val CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + MEDIA_BASE_SUBTYPE + RESOURCE       //para listas

@@ -17,16 +17,15 @@
         android:layout_height="100dp"
         android:shadowColor="@color/colorPrimary"
         android:textColor="@android:color/white"
-        android:textSize="25dp"/>
-        android:textSize="80dp"/>
+        android:textSize="25dp" />
+    android:textSize="80dp"/>
 
     <SeekBar
         android:id="@+id/BatteryLevelBar"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@id/BatteryLevelTextView"
-        android:max="100"
-        />
+        android:max="100" />
 
     <Button
         android:layout_below="@+id/BatteryLevelBar"

@@ -1,4 +1,5 @@
 package pdm.isel.yawa.uri
+
 import java.util.*
 
 /**
@@ -10,17 +11,17 @@ class RequestUriFactory() {
     private val ICON_REQUEST_BASE_URL = "http://openweathermap.org/img/w/%s.png"
     private val LANGUAGES: HashMap<String, String> = HashMap()
 
-    private fun fillLanguages(){
+    private fun fillLanguages() {
         LANGUAGES.put("English", "")
         LANGUAGES.put("português", "&lang=pt")
     }
 
-    fun getNowWeather(locationName: String, language: String): String{
-       return String.format(WEATHERINFO_REQUEST_BASE_URL, "weather", prepareLocationName(locationName) + LANGUAGES[language])
+    fun getNowWeather(locationName: String, language: String): String {
+        return String.format(WEATHERINFO_REQUEST_BASE_URL, "weather", prepareLocationName(locationName) + LANGUAGES[language])
     }
 
-    fun getFutureWeather(locationName: String, language: String, count: Int): String{
-        return String.format(WEATHERINFO_REQUEST_BASE_URL, "forecast/daily", prepareLocationName(locationName) + LANGUAGES[language] + "&cnt=" + count )
+    fun getFutureWeather(locationName: String, language: String, count: Int): String {
+        return String.format(WEATHERINFO_REQUEST_BASE_URL, "forecast/daily", prepareLocationName(locationName) + LANGUAGES[language] + "&cnt=" + count)
     }
 
     private fun prepareLocationName(locationName: String): String {

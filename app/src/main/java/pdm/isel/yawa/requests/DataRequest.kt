@@ -17,7 +17,6 @@ class DataRequest(url: String, callback: Callback<JSONObject>) : JsonObjectReque
         },
         Response.ErrorListener { error ->
             Log.d("ERROR: ", error.toString())
-            //TODO: throw some null response exception
         })
 
 
